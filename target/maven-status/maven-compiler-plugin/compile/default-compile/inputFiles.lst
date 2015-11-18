@@ -1,0 +1,10 @@
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/service/AnswerService.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/config/QuestionsApplication.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/service/impl/AnswerServiceImpl.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/service/impl/QuestionServiceImpl.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/service/QuestionService.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/config/Database.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/domain/Question.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/controller/QuestionController.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/domain/Answer.java
+/Users/oherrera/wdonet/nsquestions/src/main/java/com/nearsoft/questions/domain/Tag.java
