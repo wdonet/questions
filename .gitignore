@@ -1,0 +1,21 @@
+# IDEA files in folder #
+.idea/*
+.idea/encodings.xml
+.idea/compiler.xml
+.idea/codeStyleSettings.xml
+.idea/inspectionProfiles/
+.idea/vcs.xml
+.idea/workspace.xml
+
+# IDEA files #
+*.iml
+*.ipr
+*.iws
+*.ids
+
+# Java files #
+target
+target/*
+*/target
+*.class
+
