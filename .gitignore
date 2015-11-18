@@ -20,5 +20,8 @@ target/*
 *.class
 .build
 
-# emacs temp files
+# emacs temp files #
 *~
+
+# log files #
+*.log
