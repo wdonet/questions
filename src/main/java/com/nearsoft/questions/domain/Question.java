@@ -3,12 +3,14 @@ package com.nearsoft.questions.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Question {
+public class
+    Question {
 
     private long _id;
     private String _title;
     private String _description;
     private List<Tag> _tags = new ArrayList<>();
+    private int _totalAnswers;
     private List<Answer> _answers = new ArrayList<>();
 
     public Question withTitle(String title) {
@@ -46,6 +48,18 @@ public class Question {
 
     public void setTags(List<Tag> tags) {
         _tags = tags;
+    }
+
+    public void addTag(Tag tag) {
+        _tags.add(tag);
+    }
+
+    public int getTotalAnswers() {
+        return _totalAnswers;
+    }
+
+    public void setTotalAnswers(int totalAnswers) {
+        _totalAnswers = totalAnswers;
     }
 
     public List<Answer> getAnswers() {

@@ -3,6 +3,7 @@ package com.nearsoft.questions.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.service.QuestionService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question get(long id) {
         //todo wdonet :
-        return null;
+        Question question = new Question().withTitle("What time<br/> is it\n now?");
+        question.setDescription("Don't know my time nor my TZ, help!");
+        question.setTags(Arrays.asList(new Tag("Finance")));
+        return question;
     }
 
     @Override
