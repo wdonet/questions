@@ -24,7 +24,7 @@ public class HomeController {
     public String search(Model model) {
         _log.info("-- search view --");
         Question question = new Question().withTitle("Suggestion 1");
-        question.setId(87);
+        question.setId(87L);
         question.setTotalAnswers(5);
         question.addTag(new Tag("finance"));
         question.addTag(new Tag("important"));

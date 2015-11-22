@@ -1,16 +1,29 @@
 package com.nearsoft.questions.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class
-    Question {
-
-    private long _id;
+@Entity
+public class Question implements Serializable {
+    @Id
+    @GeneratedValue
+    private Long _id;
+    @Column(nullable = false)
     private String _title;
+    @Column(nullable = false)
     private String _description;
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Tag> _tags = new ArrayList<>();
-    private int _totalAnswers;
+    @Column(nullable = false)
+    private Integer _totalAnswers = 0;
+    @OneToMany(mappedBy = "_question")
     private List<Answer> _answers = new ArrayList<>();
 
     public Question withTitle(String title) {
@@ -18,11 +31,11 @@ public class
         return this;
     }
 
-    public long getId() {
+    public Long getId() {
         return _id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         _id = id;
     }
 
@@ -51,14 +64,17 @@ public class
     }
 
     public void addTag(Tag tag) {
+        if (_tags == null) {
+            _tags = new ArrayList<>();
+        }
         _tags.add(tag);
     }
 
-    public int getTotalAnswers() {
+    public Integer getTotalAnswers() {
         return _totalAnswers;
     }
 
-    public void setTotalAnswers(int totalAnswers) {
+    public void setTotalAnswers(Integer totalAnswers) {
         _totalAnswers = totalAnswers;
     }
 

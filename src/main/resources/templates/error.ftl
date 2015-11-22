@@ -5,7 +5,7 @@
 <html lang="en">
 
     <body>
-        Something went wrong: ${(data.status)!defaultStatus} ${(data.message)!defaultMessage}
+        Something went wrong: ${(status)!defaultStatus} : ${(message)!defaultMessage}
         <br/><a href="/home">Go Home</a>
     </body>
 

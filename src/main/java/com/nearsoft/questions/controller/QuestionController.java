@@ -1,6 +1,5 @@
 package com.nearsoft.questions.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.service.QuestionService;
