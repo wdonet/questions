@@ -23,8 +23,8 @@ public class HomeController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String search(Model model) {
         _log.info("-- search view --");
-        Question question = new Question().withTitle("Suggestion 1");
-        question.setId(87L);
+        Question question = new Question().withTitle("SuggestionÅ 1");
+        question.setId(1L);
         question.setTotalAnswers(5);
         question.addTag(new Tag("finance"));
         question.addTag(new Tag("important"));
