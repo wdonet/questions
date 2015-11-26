@@ -6,7 +6,7 @@
  - Cesar Terrazas (cterrazas@nearsoft.com)
  - Javier Rosas (jrosas@nearsoft.com)
  - Israel Gomez (igomez@nearsoft.com)
-
+Please contact any of us if you want to help.
 
 ## Why ?
 It’s not easy to find answers to internal and technical questions inside a team project, as well as questions regarding internal process of the company.
