@@ -3,10 +3,18 @@
 <#assign defaultMessage="Unkown error">
 
 <html lang="en">
-
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+    </head>
     <body>
-        Something went wrong: ${(status)!defaultStatus} : ${(message)!defaultMessage}
-        <br/><a href="/home">Go Home</a>
+        <#include "header.ftl">
+        <div>
+            <p>Something went wrong: </p>
+            <p>${(status)!defaultStatus} : ${(message)!defaultMessage}</p>
+            <p>${(stackTrace)!''}</p>
+        </div>
+        <br/><a href="/search">Go Home</a>
     </body>
 
 </html>

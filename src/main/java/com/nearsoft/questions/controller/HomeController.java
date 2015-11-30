@@ -20,10 +20,15 @@ public class HomeController {
     @Autowired
     private QuestionService _questionService;
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+//    @RequestMapping(value = "/*", method = RequestMethod.GET)
+//    public String home() {
+//        return "redirect:/search";
+//    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(Model model) {
         _log.info("-- search view --");
-        Question question = new Question().withTitle("SuggestionÅ 1");
+        Question question = new Question().withTitle("Suggestion 1");
         question.setId(1L);
         question.setTotalAnswers(5);
         question.addTag(new Tag("finance"));
