@@ -14,6 +14,8 @@ public class Tag implements Serializable {
     @Column(nullable = false)
     private String _name;
 
+    public Tag() { }
+
     public Tag(String name) {
         _name = name;
     }
@@ -32,5 +34,23 @@ public class Tag implements Serializable {
 
     public void setName(String name) {
         this._name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Tag tag = (Tag) o;
+        return _name.equals(tag._name);
+    }
+
+    @Override
+    public int hashCode() {
+        return _name.hashCode();
     }
 }

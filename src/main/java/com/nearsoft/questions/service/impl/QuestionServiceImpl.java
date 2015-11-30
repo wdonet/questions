@@ -1,6 +1,5 @@
 package com.nearsoft.questions.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.repository.QuestionRepository;
@@ -16,21 +15,16 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void save(Question question) {
-        //todo
+        _questionRepository.save(question);
     }
 
     @Override
     public Question get(long id) {
-        //todo wdonet :
-//        Question question = new Question().withTitle("What time<br/> is it\n now?");
-//        question.setDescription("Don't know my time nor my TZ, help!");
-//        question.setTags(Arrays.asList(new Tag("Finance")));
         return _questionRepository.findOne(id);
     }
 
     @Override
     public List<Question> search(String query) {
-        //todo wdonet :
-        return Arrays.asList(new Question().withTitle("What time<br/> is it\n now?"));
+        return _questionRepository.findByTitleILike(query);
     }
 }

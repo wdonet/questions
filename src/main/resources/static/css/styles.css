@@ -1,0 +1,248 @@
+html {
+	height: 100%;
+}
+body {
+	background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;
+    background-size: cover;
+	height: 100%;
+	padding:0;
+	margin: 0;
+	font-family: 'PT Sans', sans-serif;
+    ;
+}
+
+header {
+    padding: 0 calc(51% - 625px);
+    height: 90px;
+}
+
+.menu {
+    float: right;
+    padding-top: 50px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin-right: 10px;
+    color: #fff;
+    display: inline-block;
+}
+
+.crear-pregunta {
+    background-color: #F25D00;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+section {
+    padding: 0px calc(51% - 625px);
+}
+
+.form-cont h1 {
+    text-align: center;
+    color: #fff;
+    font-weight: 400;
+    font-size: 40px;
+    margin-top: 70px;
+}
+
+.logo {
+    background-image: url(/img/logo.png) no-repeat center;
+    padding-top: 40px;
+}
+
+.form-search-question{
+    text-align: center;
+}
+
+.input-search-question {
+    width: 70%;
+    border:0;
+    height: 40px;
+    border-radius: 3px;
+    padding: 5px 15px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #606060;
+}
+input.search-submit {
+    background: url(/img/search-icon.png) no-repeat center;
+    background-color: #008EFF;
+    border: 0;
+    color: #fff;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 0px 3px 3px 0px;
+    margin-left: -8px;
+    cursor: pointer;
+}
+
+.how-it-works {
+    margin-top: 150px;
+    padding: 0px calc(58% - 625px);
+}
+
+.how-it-works h1 {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.how-cont {
+    width: 30%;
+    display: inline-block;
+    margin-left: 24px;
+    color: #fff;
+}
+
+.how-cont p {
+    font-size: 17px;
+}
+
+.how-cont img {
+    width: 75px;
+    margin: 0 auto;
+    display: block;
+}
+
+
+.suggestions-cont {
+    position: absolute;
+    background-color: #fff;
+}
+
+span.tags {
+    color: #476C8F;
+    background-color: #CAE1FA;
+    border-radius: 25px;
+    padding: 5px 15px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.tags-cont {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    margin-top: 15px;
+}
+
+a.respuesta-titulo {
+    font-size: 20px;
+    color: #65758C;
+}
+
+.suggestion-wrapper {
+    width: 933px;
+    display: block;
+    margin: 10px auto;
+}
+
+ul.suggestions-cont {
+    width: 865px;
+    border-radius: 3px;
+    padding: 35px;
+}
+
+ul.suggestions-cont li {
+    width: 100%;
+    text-align: left;
+    margin-top: 22px;
+    border-top: 1px solid #F0F0F0;
+    padding-top: 15px;
+}
+
+ul.suggestions-cont li:first-child {
+    margin-top: 0;
+    border-top-width: 0;
+    padding-top: 0;
+
+}
+
+.respuestas-total {
+    display: inline-block;
+    color: #B1B1B1;
+    font-size: 19px;
+    margin-left: 20px;
+}
+
+.tag-icon {
+    display: inline-block;
+    color: #476C8F;
+    margin-right: 10px;
+}
+
+.tag-icon img {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+    margin-top: -3px;
+}
+
+section.form-cont-ask form {
+    width: 933px;
+    background-color: #fff;
+    margin: 80px auto 0;
+    border-radius: 3px;
+    padding: 30px 50px;
+}
+
+section.form-cont-ask h1 {
+    color: #65758C;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+section.form-cont-ask input,
+section.form-cont-ask textarea {
+    width: 96%;
+    height: 45px;
+    border-radius: 3px;
+    border: 1px solid #e4e4e4;
+}
+
+section.form-cont-ask textarea  {
+    margin-top: 20px;
+    height: 100px;
+        padding: 15px 15px;
+    font-size: 15px;
+}
+
+h1.tags-title-form {
+    margin-top: 20px !important;
+}
+
+input.cancel-ask,
+input.submit-ask {
+    display: inline-block;
+    width: 124px !important;
+    background-color: #B5B5B5;
+    border: 0 !important;
+    color: #fff;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-right: 10px;
+cursor: pointer;
+}
+
+.submit-ask {
+background-color: #4285F4 !important;
+}
+
+input[type="text"],
+input[type="textarea"]  {
+    padding: 5px 15px;
+    font-size: 15px;
+}

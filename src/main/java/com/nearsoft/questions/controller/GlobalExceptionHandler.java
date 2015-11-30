@@ -1,6 +1,7 @@
 package com.nearsoft.questions.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,6 +28,9 @@ public class GlobalExceptionHandler {
         ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
         mav.addObject("status", "GNL");
         mav.addObject("message", exception.getMessage());
+        if (_log.isDebugEnabled()) {
+            mav.addObject("stackTrace", Arrays.toString(exception.getStackTrace()));
+        }
         return mav;
     }
 }

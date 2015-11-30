@@ -1,5 +1,6 @@
 package com.nearsoft.questions.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,10 @@ import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import com.nearsoft.questions.controller.form.QuestionForm;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Entity
 public class Question implements Serializable {
@@ -19,12 +24,37 @@ public class Question implements Serializable {
     private String _title;
     @Column(nullable = false)
     private String _description;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tag> _tags = new ArrayList<>();
     @Column(nullable = false)
     private Integer _totalAnswers = 0;
-    @OneToMany(mappedBy = "_question")
+    @OneToMany(mappedBy = "_question", cascade = CascadeType.ALL)
     private List<Answer> _answers = new ArrayList<>();
+
+    public Question() {}
+
+    public Question(QuestionForm dto, List<Tag> persistedTags) {
+        this._title = dto.getTitle();
+        this._description = dto.getTitle();
+        List<String> requestedTagNames = dto.getNormalizedTagList();
+
+        if (CollectionUtils.isNotEmpty(persistedTags)) {
+            this._tags.addAll(persistedTags);
+            requestedTagNames.removeIf(new Predicate<String>() {
+                @Override
+                public boolean test(String tagName) {
+                    if (tagName != null) {
+                        String requestedTagName = StringUtils.trimWhitespace(tagName);
+                        return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
+                    }
+                    return false;
+                }
+            });
+        }
+        for (String requestedTagName : requestedTagNames) {
+            this._tags.add(new Tag(requestedTagName));
+        }
+    }
 
     public Question withTitle(String title) {
         setTitle(title);
