@@ -1,4 +1,4 @@
-package com.nearsoft.questions.service.impl;
+package com.nearsoft.questions.service.impl.auth;
 
 import com.nearsoft.questions.domain.auth.SocialMediaService;
 import com.nearsoft.questions.domain.auth.User;

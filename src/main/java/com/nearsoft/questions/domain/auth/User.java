@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "email", length = 100, nullable = false, unique = true)
@@ -26,6 +26,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "sign_in_provider", length = 20)
     private SocialMediaService signInProvider;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Profile profile;
 
     public Long getId() {
         return id;
@@ -49,6 +52,18 @@ public class User {
 
     public SocialMediaService getSignInProvider() {
         return signInProvider;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public static class Builder {
@@ -81,6 +96,7 @@ public class User {
         }
 
         public User build() {
+            user.profile = new Profile(user);
             return user;
         }
     }
