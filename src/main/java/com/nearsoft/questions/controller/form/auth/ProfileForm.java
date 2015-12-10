@@ -1,12 +1,15 @@
 package com.nearsoft.questions.controller.form.auth;
 
 import com.nearsoft.questions.domain.auth.User;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ProfileForm {
 
     private String firstName;
     private String lastName;
     private String location;
+    private MultipartFile photo;
+
 
     public String getFirstName() {
         return firstName;
@@ -30,6 +33,14 @@ public class ProfileForm {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public MultipartFile getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(MultipartFile photo) {
+        this.photo = photo;
     }
 
     public ProfileForm() {
