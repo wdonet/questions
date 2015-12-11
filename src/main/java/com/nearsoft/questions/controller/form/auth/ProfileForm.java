@@ -1,5 +1,6 @@
 package com.nearsoft.questions.controller.form.auth;
 
+import com.nearsoft.questions.domain.auth.Profile;
 import com.nearsoft.questions.domain.auth.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,6 +51,15 @@ public class ProfileForm {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.location = user.getProfile().getLocation();
+    }
+
+    public void merge(ProfileForm form, Profile profile) {
+
+        User user = profile.getUser();
+
+        user.setFirstName(form.getFirstName());
+        user.setLastName(form.getLastName());
+        profile.setLocation(form.getLocation());
     }
 
 

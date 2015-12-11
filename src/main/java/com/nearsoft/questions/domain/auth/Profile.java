@@ -56,4 +56,8 @@ public class Profile {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public void setPhotoUri(String photoUri) {
+        this.photoUri = photoUri;
+    }
 }

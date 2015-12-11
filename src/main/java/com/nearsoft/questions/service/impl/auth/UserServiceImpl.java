@@ -34,12 +34,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(userDetails.getUsername());
     }
 
-    @Override
-    public void mergeForm(ProfileForm form, User user) {
-        user.setFirstName(form.getFirstName());
-        user.setLastName(form.getLastName());
-        user.getProfile().setLocation(form.getLocation());
-    }
-
-
 }

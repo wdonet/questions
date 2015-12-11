@@ -1,9 +1,12 @@
 package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.form.auth.ProfileForm;
+import com.nearsoft.questions.domain.auth.Profile;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.service.Storage;
 import com.nearsoft.questions.service.UserService;
+import com.nearsoft.questions.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ProfileController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
+
     private final UserService userService;
+    private final Storage storage;
 
     @Autowired
-    public ProfileController(UserService userService) {
+    public ProfileController(UserService userService, Storage storage) {
         this.userService = userService;
+        this.storage = storage;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -46,8 +52,22 @@ public class ProfileController {
 
         User user = userService.userFromDetails(
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Profile profile = user.getProfile();
 
-        userService.mergeForm(form, user);
+        form.merge(form, profile);
+
+        if (form.getPhoto() != null) {
+
+            if (profile.getPhotoUri() != null) {
+                profile.setPhotoUri(storage.replace(FileUtils.multipartToFile(
+                        form.getPhoto()), profile.getPhotoUri(), form.getPhoto().getOriginalFilename()));
+            } else {
+                profile.setPhotoUri(storage.save(FileUtils.multipartToFile(
+                        form.getPhoto()), form.getPhoto().getOriginalFilename()));
+            }
+
+        }
+
         userService.save(user);
 
         return "auth/profile";
