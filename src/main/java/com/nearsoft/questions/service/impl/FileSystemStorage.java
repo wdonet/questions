@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Random;
 
@@ -61,9 +60,10 @@ public class FileSystemStorage implements Storage {
             byte[] bytes = IOUtils.toByteArray(inputStream);
 
             //TODO @imarban: Write by block
-            String name = Files.write(path, bytes).toString();
+            Files.write(path, bytes);
+
             log.info("The file has been saved to " + path.toString());
-            return name;
+            return path.toString();
         } catch (IOException e) {
             log.error("An error has occurred trying to save the file");
             return null;
@@ -77,9 +77,15 @@ public class FileSystemStorage implements Storage {
         delete(toReplace);
         String name = save(inputStream, newFileName);
 
-        log.info(MessageFormat.format("The file {} has been replaced", toReplace));
+        log.info("The file has been replaced");
         return name;
 
+    }
+
+    @Override
+    public boolean exists(String name) {
+        Path path = Paths.get(environment.getProperty("media.location") + name);
+        return path.toFile().exists();
     }
 
     @Override
@@ -92,6 +98,12 @@ public class FileSystemStorage implements Storage {
     @Override
     public void delete(String name) {
         Objects.requireNonNull(name, "fileName can not be null");
+        Path path = Paths.get(environment.getProperty("media.location") + name);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            log.error("An IO error has occurred trying to delete the file " + name);
+        }
 
     }
 }

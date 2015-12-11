@@ -18,4 +18,6 @@ public interface Storage {
 
     String replace(InputStream stream, String newFileName, String toRemoveFileName);
 
+    boolean exists(String name);
+
 }

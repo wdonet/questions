@@ -59,10 +59,10 @@ public class ProfileController {
         if (form.getPhoto() != null) {
 
             if (profile.getPhotoUri() != null) {
-                profile.setPhotoUri(storage.replace(FileUtils.multipartToFile(
+                profile.setPhotoUri(storage.replace(FileUtils.getStreamFromMultipart(
                         form.getPhoto()), profile.getPhotoUri(), form.getPhoto().getOriginalFilename()));
             } else {
-                profile.setPhotoUri(storage.save(FileUtils.multipartToFile(
+                profile.setPhotoUri(storage.save(FileUtils.getStreamFromMultipart(
                         form.getPhoto()), form.getPhoto().getOriginalFilename()));
             }
 

@@ -12,7 +12,7 @@ public class FileUtils {
 
     private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
 
-    public static InputStream multipartToFile(MultipartFile multipart) {
+    public static InputStream getStreamFromMultipart(MultipartFile multipart) {
         try {
             return multipart.getInputStream();
         } catch (IOException e) {
