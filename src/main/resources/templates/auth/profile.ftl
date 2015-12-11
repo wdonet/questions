@@ -17,7 +17,7 @@
     <@spring.message "auth.profile.lastname"/>: <input type="text" name="lastName" value="${form.lastName}"/><br/><br/>
     <@spring.message "auth.profile.location"/>: <input type="text" name="location"
                                                        value="${form.location!""}"/><br/><br/>
-        Photo: <input type="file" name="photo"/><br/><br/>
+    <@spring.message "auth.profile.photo"/>: <input type="file" name="photo"/><br/><br/>
         <input class="submit-ask" type="submit" value="<@spring.message "update"/>">
 
     </form>
