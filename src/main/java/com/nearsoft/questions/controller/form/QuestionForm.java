@@ -56,7 +56,7 @@ public class QuestionForm {
 
     @Override
     public String toString() {
-        return "QuestionDTO {" +
+        return "QuestionForm {" +
             "_title='" + _title + '\'' +
             ", _description='" + _description + '\'' +
             ", _tags='" + _tags + '\'' +
