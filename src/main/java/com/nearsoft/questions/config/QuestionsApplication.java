@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories({"com.nearsoft.questions.repository"})
 @EntityScan("com.nearsoft.questions.domain")
 @EnableTransactionManagement
-@Import(value = {WebSecurityConfig.class, SocialConfig.class})
+@Import(value = {WebSecurityConfig.class, SocialConfig.class, WebMvcConfig.class})
 public class QuestionsApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -26,4 +26,5 @@ public class QuestionsApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(QuestionsApplication.class);
     }
+
 }
