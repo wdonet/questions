@@ -6,10 +6,19 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang3.StringUtils;
 
 public class QuestionForm {
+    private String _username;
     private String _title;
     private String _description;
     private String _tags;
     private List<String> _normalizedTagList;
+
+    public String getUsername() {
+        return _username;
+    }
+
+    public void setUsername(String username) {
+        _username = username;
+    }
 
     public String getTitle() {
         return _title;
@@ -57,7 +66,8 @@ public class QuestionForm {
     @Override
     public String toString() {
         return "QuestionForm {" +
-            "_title='" + _title + '\'' +
+            "_username='" + _username + '\'' +
+            ", _title='" + _title + '\'' +
             ", _description='" + _description + '\'' +
             ", _tags='" + _tags + '\'' +
             '}';

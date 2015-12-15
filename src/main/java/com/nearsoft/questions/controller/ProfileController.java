@@ -38,8 +38,8 @@ public class ProfileController {
     public String seeMyProfile(Model model) {
         log.info("Rendering My Profile view");
 
-        model.addAttribute("form", new ProfileForm(userService.userFromDetails(
-                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+        model.addAttribute("form", new ProfileForm(userService.getUserFromDetails(
+            (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
         ));
 
         return "auth/profile";
@@ -50,8 +50,7 @@ public class ProfileController {
     public String updateMyProfile(@ModelAttribute("form") ProfileForm form) {
         log.info("Updating the profile for the user logged in");
 
-        User user = userService.userFromDetails(
-                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        User user = userService.getUserFromDetails((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Profile profile = user.getProfile();
 
         form.merge(form, profile);

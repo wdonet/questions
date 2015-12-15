@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, Long> {
+
+    int countBy_question__id(long questionId);
+
 }

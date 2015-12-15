@@ -7,6 +7,8 @@ public interface QuestionService {
 
     void save(Question question);
 
+    void updateTotalAnswers(Question question);
+
     Question get(long id);
 
     List<Question> search(String query);

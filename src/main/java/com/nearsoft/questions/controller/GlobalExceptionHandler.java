@@ -15,6 +15,12 @@ public class GlobalExceptionHandler {
 
     private final Logger _log = LoggerFactory.getLogger(getClass());
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ModelAndView handleIllegalStateException(HttpServletRequest req, Exception exception) {
+        _log.error("Error : " + exception.getMessage());
+        return buildModelAndView(DEFAULT_ERROR_VIEW, "Session", exception.getMessage(), exception.getStackTrace());
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleDefaultException(HttpServletRequest req, Exception exception) {
         _log.error("Error : " + exception.getMessage());
@@ -25,11 +31,15 @@ public class GlobalExceptionHandler {
 //        }
 //        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
 //            throw e;
-        ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
-        mav.addObject("status", "GNL");
-        mav.addObject("message", exception.getMessage());
+        return buildModelAndView(DEFAULT_ERROR_VIEW, "General", exception.getMessage(), exception.getStackTrace());
+    }
+
+    private ModelAndView buildModelAndView(String viewName, String status, String message, StackTraceElement... stackTrace) {
+        ModelAndView mav = new ModelAndView(viewName);
+        mav.addObject("status", status);
+        mav.addObject("message", message);
         if (_log.isDebugEnabled()) {
-            mav.addObject("stackTrace", Arrays.toString(exception.getStackTrace()));
+            mav.addObject("stackTrace", Arrays.toString(stackTrace));
         }
         return mav;
     }

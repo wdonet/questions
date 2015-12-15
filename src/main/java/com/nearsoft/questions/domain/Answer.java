@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import com.nearsoft.questions.domain.auth.User;
 
 @Entity
 public class Answer implements Serializable {
@@ -16,6 +17,8 @@ public class Answer implements Serializable {
     private Question _question;
     @Column(nullable = false)
     private String _description;
+    @ManyToOne(optional = false)
+    private User _user;
 
     public Long getId() {
         return _id;
@@ -39,5 +42,13 @@ public class Answer implements Serializable {
 
     public void setDescription(String description) {
         this._description = description;
+    }
+
+    public User getUser() {
+        return _user;
+    }
+
+    public void setUser(User user) {
+        this._user = user;
     }
 }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<#assign username="nsq@nearsoft.com">
 
 <html lang="en">
     <head>
@@ -26,6 +27,7 @@
             <h3>Add an answer</h3>
             <textarea name="description" type="textarea" placeholder="Add a detailed answer"></textarea>
             <input name="questionId" type="hidden" value="${question.id}">
+            <input type="hidden" name="username" value="${(user.name)!username}"/>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="submit" value="Add">
         </form>

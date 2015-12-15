@@ -1,8 +1,17 @@
 package com.nearsoft.questions.controller.form;
 
 public class AnswerForm {
+    private String _username;
     private String _description;
     private Long _questionId;
+
+    public String getUsername() {
+        return _username;
+    }
+
+    public void setUsername(String username) {
+        _username = username;
+    }
 
     public String getDescription() {
         return _description;
@@ -23,7 +32,8 @@ public class AnswerForm {
     @Override
     public String toString() {
         return "AnswerForm {" +
-            "_description='" + _description + '\'' +
+            "_username='" + _username + '\'' +
+            ", _description='" + _description + '\'' +
             ", _questionId=" + _questionId +
             '}';
     }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<#assign username="nsq@nearsoft.com">
 
 <html lang="en">
 <head>
@@ -15,6 +16,7 @@
 
         <h1 class="tags-title-form">Tags:</h1>
         <input name="tags" type="text" placeholder="Write a related tag">
+        <input type="hidden" name="username" value="${(user.name)!username}"/>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input class="cancel-ask" type="button" value="Cancel" onclick="location.href='/search'">
         <input class="submit-ask" type="submit" value="Submit">
