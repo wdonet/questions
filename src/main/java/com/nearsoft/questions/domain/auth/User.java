@@ -27,7 +27,7 @@ public class User {
     @Column(name = "sign_in_provider", length = 20)
     private SocialMediaService signInProvider;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Profile profile;
 
     public Long getId() {

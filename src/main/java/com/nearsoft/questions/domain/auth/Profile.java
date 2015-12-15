@@ -15,7 +15,8 @@ public class Profile {
     @GeneratedValue(generator = "generator")
     private Long id;
 
-    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private User user;
 
     @Column(name = "photo_uri")
