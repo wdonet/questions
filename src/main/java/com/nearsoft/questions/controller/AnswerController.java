@@ -3,12 +3,15 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.AnswerForm;
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.error.QuestionNotFoundException;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
+import com.nearsoft.questions.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +30,16 @@ public class AnswerController {
     @Autowired
     QuestionService _questionService;
 
+    @Autowired
+    UserService _userService;
+
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes) throws QuestionNotFoundException {
         if (form != null && form.getQuestionId() != null) {
             _log.debug("Trying to add " + form);
-            Question question = _questionService.get(form.getQuestionId());
-            if (question == null) {
-                throw new QuestionNotFoundException(form.getQuestionId());
-            }
+            Question question = getQuestion(form);
             Answer answer = new Answer();
+            answer.setUser(getUser(form));
             answer.setDescription(form.getDescription());
             answer.setQuestion(question);
             _answerService.save(answer);
@@ -45,5 +49,23 @@ public class AnswerController {
             return "redirect:/question/{id}";
         }
         return "redirect:/search";
+    }
+
+    private Question getQuestion(AnswerForm form) throws QuestionNotFoundException {
+        Long questionId = form.getQuestionId();
+        Question question = _questionService.get(questionId);
+        if (question == null) {
+            throw new QuestionNotFoundException(questionId);
+        }
+        return question;
+    }
+
+    private User getUser(AnswerForm form) {
+        String email = form.getUsername();
+        User user = _userService.getUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid user: " + email);
+        }
+        return user;
     }
 }

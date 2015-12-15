@@ -6,12 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import com.nearsoft.questions.controller.form.QuestionForm;
+import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -30,13 +32,16 @@ public class Question implements Serializable {
     private Integer _totalAnswers = 0;
     @OneToMany(mappedBy = "_question", cascade = CascadeType.ALL)
     private List<Answer> _answers = new ArrayList<>();
+    @ManyToOne(optional = false)
+    private User _user;
 
     public Question() {}
 
-    public Question(QuestionForm dto, List<Tag> persistedTags) {
-        this._title = dto.getTitle();
-        this._description = dto.getTitle();
-        List<String> requestedTagNames = dto.getNormalizedTagList();
+    public Question(QuestionForm form, List<Tag> persistedTags, User user) {
+        this._title = form.getTitle();
+        this._description = form.getDescription();
+        this._user = user;
+        List<String> requestedTagNames = form.getNormalizedTagList();
 
         if (CollectionUtils.isNotEmpty(persistedTags)) {
             this._tags.addAll(persistedTags);
@@ -114,5 +119,13 @@ public class Question implements Serializable {
 
     public void setAnswers(List<Answer> answers) {
         _answers = answers;
+    }
+
+    public User getUser() {
+        return _user;
+    }
+
+    public void setUser(User user) {
+        this._user = user;
     }
 }

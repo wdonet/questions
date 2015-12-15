@@ -7,6 +7,8 @@ public interface UserService {
 
     void save(User user);
 
-    User userFromDetails(UserDetails userDetails);
+    User getUserFromDetails(UserDetails userDetails);
+
+    User getUserByEmail(String email);
 
 }

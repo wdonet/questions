@@ -3,11 +3,14 @@ package com.nearsoft.questions.controller;
 import java.util.List;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
+import com.nearsoft.questions.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,16 +33,28 @@ public class QuestionController {
     @Autowired
     TagService _tagService;
 
+    @Autowired
+    UserService _userService;
+
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes) {
         if (form != null) {
             _log.debug("Trying to add " + form);
-            Question question = new Question(form, _tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()));
+            Question question = new Question(form, _tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(form));
             _questionService.save(question);
             redirectAttributes.addAttribute("id", question.getId());
             return "redirect:/question/{id}";
         }
         return "redirect:/ask";
+    }
+
+    private User getUser(QuestionForm form) {
+        String email = form.getUsername();
+        User user = _userService.getUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid user: " + email);
+        }
+        return user;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
