@@ -39,6 +39,8 @@ public class AnswerController {
             answer.setDescription(form.getDescription());
             answer.setQuestion(question);
             _answerService.save(answer);
+            _questionService.updateTotalAnswers(question);
+
             redirectAttributes.addAttribute("id", form.getQuestionId());
             return "redirect:/question/{id}";
         }
