@@ -3,15 +3,18 @@ package com.nearsoft.questions.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import com.nearsoft.questions.domain.auth.User;
 
 @Entity
 public class Answer implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_seq")
+    @SequenceGenerator(name = "answer_seq", sequenceName = "answer_seq")
     private Long _id;
     @ManyToOne(optional = false)
     private Question _question;

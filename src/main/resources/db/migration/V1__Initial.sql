@@ -28,7 +28,7 @@ ON userconnection
 USING BTREE
 (userid COLLATE pg_catalog."default", providerid COLLATE pg_catalog."default", rank);
 
-CREATE TABLE users
+CREATE TABLE public.user
 (
   id               BIGINT                 NOT NULL,
   email            CHARACTER VARYING(100) NOT NULL,
@@ -36,9 +36,16 @@ CREATE TABLE users
   last_name        CHARACTER VARYING(100) NOT NULL,
   role             CHARACTER VARYING(20)  NOT NULL,
   sign_in_provider CHARACTER VARYING(20),
-  CONSTRAINT users_pkey PRIMARY KEY (id),
-  CONSTRAINT users_email_ukey UNIQUE (email)
+  CONSTRAINT user_pkey PRIMARY KEY (id),
+  CONSTRAINT user_email_ukey UNIQUE (email)
 );
+
+CREATE SEQUENCE user_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 2
+  CACHE 1;
 
 CREATE TABLE question
 (
@@ -48,9 +55,15 @@ CREATE TABLE question
   _total_answers INTEGER                 NOT NULL,
   _user_id       INT8                    NOT NULL,
   CONSTRAINT question_pkey PRIMARY KEY (_id),
-  CONSTRAINT FK_os8bn3xr2x2owjn69es4hcxgs FOREIGN KEY (_user_id) REFERENCES users
-
+  CONSTRAINT FK_os8bn3xr2x2owjn69es4hcxgs FOREIGN KEY (_user_id) REFERENCES public.user
 );
+
+CREATE SEQUENCE question_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 6
+  CACHE 1;
 
 CREATE TABLE answer
 (
@@ -59,11 +72,18 @@ CREATE TABLE answer
   _question__id BIGINT                  NOT NULL,
   _user_id      INT8                    NOT NULL,
   CONSTRAINT answer_pkey PRIMARY KEY (_id),
-  CONSTRAINT FK_ilrlwe1trc8dyqaius89vprop FOREIGN KEY (_user_id) REFERENCES users,
+  CONSTRAINT FK_ilrlwe1trc8dyqaius89vprop FOREIGN KEY (_user_id) REFERENCES public.user,
   CONSTRAINT answer__question_question_fk FOREIGN KEY (_question__id)
   REFERENCES question (_id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+CREATE SEQUENCE answer_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 5
+  CACHE 1;
 
 CREATE TABLE tag
 (
@@ -72,6 +92,13 @@ CREATE TABLE tag
   CONSTRAINT tag_pkey PRIMARY KEY (_id)
 );
 
+CREATE SEQUENCE tag_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 7
+  CACHE 1;
+  
 CREATE TABLE question__tags
 (
   question__id BIGINT NOT NULL,

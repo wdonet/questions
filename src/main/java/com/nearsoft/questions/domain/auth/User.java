@@ -3,11 +3,12 @@ package com.nearsoft.questions.domain.auth;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user", schema = "public")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq")
     private Long id;
 
     @Column(name = "email", length = 100, nullable = false, unique = true)

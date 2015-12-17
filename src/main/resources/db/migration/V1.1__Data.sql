@@ -1,6 +1,6 @@
--- Users
+-- public.user
 
-INSERT INTO users (id, email, first_name, last_name, role)
+INSERT INTO public.user (id, email, first_name, last_name, role)
 VALUES (1, 'nsq@nearsoft.com', 'system', 'default', 'ROLE_USER');
 
 -- Questions
