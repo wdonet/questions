@@ -1,6 +1,5 @@
 package com.nearsoft.questions.controller;
 
-import java.util.Arrays;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.service.QuestionService;
@@ -12,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Arrays;
+
 @Controller
 public class HomeController {
 
@@ -20,10 +21,10 @@ public class HomeController {
     @Autowired
     private QuestionService _questionService;
 
-//    @RequestMapping(value = "/*", method = RequestMethod.GET)
-//    public String home() {
-//        return "redirect:/search";
-//    }
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String home() {
+        return "home";
+    }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(Model model) {
