@@ -1,25 +1,23 @@
 package com.nearsoft.questions.controller;
 
-import java.util.List;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.User;
+import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
 import com.nearsoft.questions.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/question")
@@ -37,7 +35,12 @@ public class QuestionController {
     UserService _userService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String add(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes) {
+    public String add(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
+
+        if (details != null) {
+            _log.info("The user " + details.getUsername() + " is asking");
+        }
+
         if (form != null) {
             _log.debug("Trying to add " + form);
             Question question = new Question(form, _tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(form));
