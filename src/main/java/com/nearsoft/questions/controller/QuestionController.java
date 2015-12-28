@@ -2,16 +2,13 @@ package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.Question;
-import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
-import com.nearsoft.questions.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/question")
-public class QuestionController {
+public class QuestionController extends BaseController {
 
     private final Logger _log = LoggerFactory.getLogger(getClass());
 
@@ -31,33 +28,17 @@ public class QuestionController {
     @Autowired
     TagService _tagService;
 
-    @Autowired
-    UserService _userService;
-
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
-
-        if (details != null) {
-            _log.info("The user " + details.getUsername() + " is asking");
-        }
-
+        _log.debug("Who's operating ? " + details);
         if (form != null) {
             _log.debug("Trying to add " + form);
-            Question question = new Question(form, _tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(form));
+            Question question = new Question(form, _tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
             _questionService.save(question);
             redirectAttributes.addAttribute("id", question.getId());
             return "redirect:/question/{id}";
         }
         return "redirect:/ask";
-    }
-
-    private User getUser(QuestionForm form) {
-        String email = form.getUsername();
-        User user = _userService.getUserByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid user: " + email);
-        }
-        return user;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

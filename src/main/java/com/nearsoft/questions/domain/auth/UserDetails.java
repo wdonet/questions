@@ -111,4 +111,13 @@ public class UserDetails extends SocialUser {
             return user;
         }
     }
+
+    @Override
+    public String toString() {
+        return "UserDetails {" +
+            "Name ='" + firstName + ' ' + lastName + '\'' +
+            ", email='" + getUsername() + '\'' +
+            ", role=" + role +
+            '}';
+    }
 }
