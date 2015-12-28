@@ -10,6 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import com.nearsoft.questions.controller.form.QuestionForm;
+import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +26,27 @@ import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.StringUtils;
+import java.util.function.Predicate;
 
 @Entity
+@Indexed
 public class Question implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
     @SequenceGenerator(name = "question_seq", sequenceName = "question_seq")
     private Long _id;
     @Column(nullable = false)
+    @Field
     private String _title;
     @Column(nullable = false)
+    @Field
     private String _description;
+    @IndexedEmbedded
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tag> _tags = new ArrayList<>();
     @Column(nullable = false)
     private Integer _totalAnswers = 0;
+    @IndexedEmbedded
     @OneToMany(mappedBy = "_question", cascade = CascadeType.ALL)
     private List<Answer> _answers = new ArrayList<>();
     @ManyToOne(optional = false)

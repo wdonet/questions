@@ -1,5 +1,8 @@
 package com.nearsoft.questions.domain;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +12,14 @@ import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 
 @Entity
+@Indexed
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
     @SequenceGenerator(name = "tag_seq", sequenceName = "tag_seq")
     private Long _id;
     @Column(nullable = false)
+    @Field
     private String _name;
 
     public Tag() { }
