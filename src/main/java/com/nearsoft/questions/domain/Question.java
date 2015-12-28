@@ -1,16 +1,8 @@
 package com.nearsoft.questions.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
+import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -21,11 +13,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import com.nearsoft.questions.controller.form.QuestionForm;
-import com.nearsoft.questions.domain.auth.User;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.util.StringUtils;
 import java.util.function.Predicate;
 
 @Entity
@@ -52,7 +39,8 @@ public class Question implements Serializable {
     @ManyToOne(optional = false)
     private User _user;
 
-    public Question() {}
+    public Question() {
+    }
 
     public Question(QuestionForm form, List<Tag> persistedTags, User user) {
         this._title = form.getTitle();
@@ -130,6 +118,7 @@ public class Question implements Serializable {
         _totalAnswers = totalAnswers;
     }
 
+    @JsonIgnore
     public List<Answer> getAnswers() {
         return _answers;
     }
