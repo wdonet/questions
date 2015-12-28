@@ -25,3 +25,7 @@ target/*
 
 # log files #
 *.log
+
+#hibernate search
+
+/var/*

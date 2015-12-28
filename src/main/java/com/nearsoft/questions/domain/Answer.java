@@ -1,16 +1,14 @@
 package com.nearsoft.questions.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import java.io.Serializable;
 import com.nearsoft.questions.domain.auth.User;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
+@Indexed
 public class Answer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_seq")
@@ -19,6 +17,7 @@ public class Answer implements Serializable {
     @ManyToOne(optional = false)
     private Question _question;
     @Column(nullable = false)
+    @Field
     private String _description;
     @ManyToOne(optional = false)
     private User _user;
