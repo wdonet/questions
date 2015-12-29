@@ -9,9 +9,11 @@ import com.nearsoft.questions.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -47,6 +49,33 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question get(long id) {
         return _questionRepository.findOne(id);
+    }
+
+    @Override
+    public Page<Question> getUnanswered(int UIPageNumber, int pageSize) {
+        int validPageSize = getValidPageSize(pageSize);
+        long totalRows = _questionRepository.countBy_answersIsNull();
+        int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        return _questionRepository.findBy_answersIsNull(pageable);
+    }
+
+    @Override
+    public Page<Question> getNewest(int UIPageNumber, int pageSize) {
+        int validPageSize = getValidPageSize(pageSize);
+        long totalRows = _questionRepository.count();
+        int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        return _questionRepository.findAll(pageable);
+    }
+
+    private int getValidPageSize(int pageSize) {
+        return pageSize <= 0 ? PAGE_SIZE : pageSize;
+    }
+
+    private int getValidPageNumber(int UIPageNumber, int pageSize, long totalRows) {
+        long totalPages = new Double(Math.ceil((double)totalRows/pageSize)).intValue();
+        return UIPageNumber < 1 || UIPageNumber > totalPages  ? 0 : UIPageNumber - 1;
     }
 
     @Override

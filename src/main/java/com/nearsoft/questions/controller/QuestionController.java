@@ -41,6 +41,22 @@ public class QuestionController extends BaseController {
         return "redirect:/ask";
     }
 
+    @RequestMapping(value = "/order/unanswered", method = RequestMethod.GET)
+    public String getUnanswered(Model model,
+        @RequestParam(required = false, defaultValue = "1") Integer page,
+        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute(_questionService.getUnanswered(page, pageSize).getContent());
+        return "showQuestions";
+    }
+
+    @RequestMapping(value = "/order/newest", method = RequestMethod.GET)
+    public String getNewest(Model model,
+        @RequestParam(required = false, defaultValue = "1") Integer page,
+        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute(_questionService.getNewest(page, pageSize).getContent());
+        return "showQuestions";
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String get(@PathVariable long id, Model model) {
         _log.info("question with id " + id);

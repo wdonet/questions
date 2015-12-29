@@ -2,13 +2,20 @@ package com.nearsoft.questions.repository;
 
 import java.util.List;
 import com.nearsoft.questions.domain.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface QuestionRepository extends CrudRepository<Question, Long> {
+public interface QuestionRepository extends PagingAndSortingRepository<Question, Long> {
 
-    @Query(value = "SELECT * FROM question WHERE _title ILIKE '%?1%' limit 10", nativeQuery = true)
+    @Query(nativeQuery = true, value =
+        "SELECT * FROM question WHERE _title ILIKE '%?1%' limit 10")
     List<Question> findByTitleILike(String query);
+
+    Page<Question> findBy_answersIsNull(Pageable pageable);
+
+    long countBy_answersIsNull();
 }
