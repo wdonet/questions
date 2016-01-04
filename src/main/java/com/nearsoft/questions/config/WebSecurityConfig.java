@@ -19,20 +19,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
+                .loginPage("/")
                 .and()
                 .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
                 .permitAll().and()
                 .apply(getSpringSocialConfigurer());
     }
 
     private SpringSocialConfigurer getSpringSocialConfigurer() throws Exception {
         SpringSocialConfigurer configurer = new SpringSocialConfigurer();
-        configurer.signupUrl("/login");
+        configurer.signupUrl("/");
         configurer.postLoginUrl("/question/order/unanswered");
         return configurer;
     }
