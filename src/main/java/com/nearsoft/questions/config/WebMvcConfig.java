@@ -48,5 +48,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(userInterceptor);
     }
 
-
 }

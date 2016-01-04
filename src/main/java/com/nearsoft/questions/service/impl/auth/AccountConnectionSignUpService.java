@@ -29,7 +29,6 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
         UserProfile profile = connection.fetchUserProfile();
 
         String domain = profile.getEmail().split("@")[1];
-
         if (domain != null && !checkDomain(domain)) {
             return null;
         }

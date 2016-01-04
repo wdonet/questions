@@ -33,7 +33,7 @@ public class UserInterceptor implements HandlerInterceptor {
                         try {
                             UserDetails details = (UserDetails) principal;
                             modelAndView.addObject("user", details);
-                            log.info("The user details for user " + details.getUsername() + "has been added to the spring model");
+                            log.info("The user details for user " + details.getUsername() + " has been added to the spring model");
                         } catch (ClassCastException cce) {
                             log.info("There is no user logged in. The user object will not be added to spring model");
                         }

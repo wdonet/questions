@@ -27,7 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll().and()
-                .apply(new SpringSocialConfigurer());
+                .apply(getSpringSocialConfigurer());
+    }
+
+    private SpringSocialConfigurer getSpringSocialConfigurer() throws Exception {
+        SpringSocialConfigurer configurer = new SpringSocialConfigurer();
+        configurer.signupUrl("/login");
+        configurer.postLoginUrl("/question/order/unanswered");
+        return configurer;
     }
 
 }

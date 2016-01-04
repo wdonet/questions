@@ -11,11 +11,9 @@ public class LoginController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         log.info("Rendering login view");
-
         return "login";
     }
 }
