@@ -7,11 +7,11 @@ VALUES (1, 'nsq@nearsoft.com', 'system', 'default', 'ROLE_USER');
 
 INSERT INTO question (_id, _description, _title, _total_answers, _user_id)
 VALUES (1, 'Where can I find the credentials for courses and other resources for training',
-        'Where are the credentials for online trainning?', 0, 1);
+        'Where are the credentials for online trainning?', 1, 1);
 
 INSERT INTO question (_id, _description, _title, _total_answers, _user_id)
 VALUES (2, 'Who is the person I should contact in case I require insurance health information',
-        'What is the insurance health contact?', 1, 1);
+        'What is the insurance health contact?', 0, 1);
 
 INSERT INTO question (_id, _description, _title, _total_answers, _user_id)
 VALUES (3, 'How can I watch the Friday Talk streaming', 'What is the info to connect to friday talks?', 1, 1);
@@ -38,7 +38,7 @@ VALUES (8, 'DF office sponsored an event. We paid for pizzas and soda. What do I
 
 INSERT INTO question (_id, _description, _title, _total_answers, _user_id)
 VALUES (9, 'In my previous job I did need to do tax declaration. Why I need to do it here?',
-        'Why do I need to do tax declaration?', 1, 1);
+        'Why do I need to do tax declaration?', 0, 1);
 
 INSERT INTO question (_id, _description, _title, _total_answers, _user_id)
 VALUES (10, 'I want to do my tax declaration online but I need my SAT password. How can I get it?',
