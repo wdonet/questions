@@ -27,7 +27,7 @@
         <div class="suggestion-wrapper">
             <ul class="suggestions-cont">
                 <#include "header.ftl">
-                <#list questions as question>
+                <#list questionList as question>
                     <li>
                         <a class="respuesta-titulo" href="/question/${question.id}">${question.title}</a>
                         <div class="respuestas-total">- ${question.totalAnswers} Answers</div>
