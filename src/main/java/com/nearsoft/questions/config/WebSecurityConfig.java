@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/img/**").permitAll()
-                .antMatchers("/**").fullyAuthenticated()
+                .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/")
@@ -32,7 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .permitAll()
                 .and()
-                .apply(getSpringSocialConfigurer());
+                .apply(getSpringSocialConfigurer())
+                .and().csrf().disable();
     }
 
     private SpringSocialConfigurer getSpringSocialConfigurer() throws Exception {
