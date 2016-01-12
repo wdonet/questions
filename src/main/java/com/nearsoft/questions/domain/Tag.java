@@ -3,6 +3,7 @@ package com.nearsoft.questions.domain;
 import com.nearsoft.questions.domain.auth.User;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Tag implements Serializable {
     private String name;
 
     @ManyToOne(optional = false)
+    @RestResource(exported = false)
     private User user;
 
     public Tag() {
