@@ -13,44 +13,47 @@ public class Answer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_seq")
     @SequenceGenerator(name = "answer_seq", sequenceName = "answer_seq")
-    private Long _id;
+    private Long id;
+
     @ManyToOne(optional = false)
-    private Question _question;
+    private Question question;
+
     @Column(nullable = false)
     @Field
-    private String _description;
+    private String description;
+
     @ManyToOne(optional = false)
-    private User _user;
+    private User user;
 
     public Long getId() {
-        return _id;
+        return id;
     }
 
     public void setId(Long id) {
-        _id = id;
+        this.id = id;
     }
 
     public Question getQuestion() {
-        return _question;
+        return question;
     }
 
     public void setQuestion(Question question) {
-        _question = question;
+        this.question = question;
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     public void setDescription(String description) {
-        this._description = description;
+        this.description = description;
     }
 
     public User getUser() {
-        return _user;
+        return user;
     }
 
     public void setUser(User user) {
-        this._user = user;
+        this.user = user;
     }
 }
