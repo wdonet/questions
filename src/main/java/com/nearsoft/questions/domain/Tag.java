@@ -1,14 +1,10 @@
 package com.nearsoft.questions.domain;
 
+import com.nearsoft.questions.domain.auth.User;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -23,7 +19,11 @@ public class Tag implements Serializable {
     @Field
     private String name;
 
-    public Tag() { }
+    @ManyToOne(optional = false)
+    private User user;
+
+    public Tag() {
+    }
 
     public Tag(String name) {
         this.name = name;
@@ -43,6 +43,14 @@ public class Tag implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
