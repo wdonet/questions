@@ -2,7 +2,8 @@ html {
 	height: 100%;
 }
 body {
-	background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;
+	/*background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;*/
+    background-color: #e4e4e4;
     background-size: cover;
 	height: 100%;
 	padding:0;
@@ -11,9 +12,17 @@ body {
     ;
 }
 
+.body-home {
+    background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;
+    background-size: cover;
+}
+
 header {
-    padding: 0 calc(51% - 625px);
-    height: 90px;
+    /*padding: 0 calc(61% - 625px);*/
+    width: 865px;
+    margin: 0 auto;
+    height: 115px;
+    background-color: #595B67;
 }
 
 .menu {
@@ -36,6 +45,11 @@ li {
     background-color: #F25D00;
     border-radius: 3px;
     padding: 5px 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.category {
     color: #fff;
     text-decoration: none;
 }
@@ -136,14 +150,19 @@ span.tags {
 }
 
 a.respuesta-titulo {
-    font-size: 20px;
+    font-size: 23px;
     color: #65758C;
+    text-decoration: none;
+}
+
+a.respuesta-titulo:hover {
+    text-decoration: underline;
 }
 
 .suggestion-wrapper {
     width: 933px;
     display: block;
-    margin: 10px auto;
+    margin: 60px auto 0 auto;
 }
 
 ul.suggestions-cont {
