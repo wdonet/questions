@@ -165,6 +165,10 @@ ul.suggestions-cont,
     background-color: #fff;
 }
 
+.question-cont {
+    background-color: #fff;
+}
+
 ul.suggestions-cont li {
     width: 100%;
     text-align: left;
