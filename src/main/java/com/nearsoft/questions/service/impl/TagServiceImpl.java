@@ -15,6 +15,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> getPersistedTagsFromTagNameList(List<String> tagNameList) {
-        return _tagRepository.findBy_nameIn(tagNameList);
+        return _tagRepository.findByNameIn(tagNameList);
     }
 }
