@@ -56,7 +56,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = _questionRepository.countByAnswersIsNull();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
         return _questionRepository.findByAnswersIsNull(pageable);
     }
 
@@ -65,7 +65,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = _questionRepository.count();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
         return _questionRepository.findAll(pageable);
     }
 
