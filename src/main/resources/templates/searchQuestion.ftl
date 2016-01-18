@@ -8,6 +8,7 @@
     <body>
         <#include "header.ftl">
         <section class="form-cont">
+            <!--hola-->
             <h1>looking for ?</h1>
             <form method="get" action="/question/search" class="form-search-question">
                 <input class="input-search-question" name="query" type="text" placeholder="Add your question here">
