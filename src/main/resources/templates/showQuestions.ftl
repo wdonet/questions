@@ -25,6 +25,7 @@
 
 
         <div class="suggestion-wrapper">
+            <h1 class="unanswered-questions-title"><img src="/img/question-icon.png" class="question-icon"> Unanswered Questions</h1>
             <ul class="suggestions-cont">
                 <#include "header.ftl">
                 <#list questionList as question>
