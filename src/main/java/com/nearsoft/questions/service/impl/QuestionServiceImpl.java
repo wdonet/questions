@@ -1,6 +1,5 @@
 package com.nearsoft.questions.service.impl;
 
-import java.util.List;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
@@ -14,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -56,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = _questionRepository.countByAnswersIsNull();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
         return _questionRepository.findByAnswersIsNull(pageable);
     }
 
@@ -65,7 +66,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = _questionRepository.count();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
         return _questionRepository.findAll(pageable);
     }
 

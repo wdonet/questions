@@ -33,7 +33,7 @@
             <h3 class="answers-title">Add an answer</h3>
             <textarea class="add-answer-input" name="description" type="textarea" placeholder="Add a detailed answer"></textarea>
             <input name="questionId" type="hidden" value="${question.id}">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
             <input class="add-button" type="submit" value="Add">
         </form>
         </div>
