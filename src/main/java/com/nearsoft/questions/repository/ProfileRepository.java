@@ -1,12 +1,11 @@
 package com.nearsoft.questions.repository;
 
-import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.auth.Profile;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AnswerRepository extends CrudRepository<Answer, Long> {
+public interface ProfileRepository extends CrudRepository<Profile, Long> {
 
-    int countByQuestionId(long questionId);
 
 }

@@ -49,13 +49,13 @@ CREATE SEQUENCE user_seq
 
 CREATE TABLE question
 (
-  _id            BIGINT                  NOT NULL,
-  _description   CHARACTER VARYING(2048) NOT NULL,
-  _title         CHARACTER VARYING(255)  NOT NULL,
-  _total_answers INTEGER                 NOT NULL,
-  _user_id       INT8                    NOT NULL,
-  CONSTRAINT question_pkey PRIMARY KEY (_id),
-  CONSTRAINT FK_os8bn3xr2x2owjn69es4hcxgs FOREIGN KEY (_user_id) REFERENCES public.user
+  id            BIGINT                  NOT NULL,
+  description   CHARACTER VARYING(2048) NOT NULL,
+  title         CHARACTER VARYING(255)  NOT NULL,
+  total_answers INTEGER                 NOT NULL,
+  user_id       INT8                    NOT NULL,
+  CONSTRAINT question_pkey PRIMARY KEY (id),
+  CONSTRAINT FK_os8bn3xr2x2owjn69es4hcxgs FOREIGN KEY (user_id) REFERENCES public.user
 );
 
 CREATE SEQUENCE question_seq
@@ -67,14 +67,14 @@ CREATE SEQUENCE question_seq
 
 CREATE TABLE answer
 (
-  _id           BIGINT                  NOT NULL,
-  _description  CHARACTER VARYING(2048) NOT NULL,
-  _question__id BIGINT                  NOT NULL,
-  _user_id      INT8                    NOT NULL,
-  CONSTRAINT answer_pkey PRIMARY KEY (_id),
-  CONSTRAINT FK_ilrlwe1trc8dyqaius89vprop FOREIGN KEY (_user_id) REFERENCES public.user,
-  CONSTRAINT answer__question_question_fk FOREIGN KEY (_question__id)
-  REFERENCES question (_id) MATCH SIMPLE
+  id           BIGINT                  NOT NULL,
+  description  CHARACTER VARYING(2048) NOT NULL,
+  question_id BIGINT                  NOT NULL,
+  user_id      INT8                    NOT NULL,
+  CONSTRAINT answer_pkey PRIMARY KEY (id),
+  CONSTRAINT FK_ilrlwe1trc8dyqaius89vprop FOREIGN KEY (user_id) REFERENCES public.user,
+  CONSTRAINT answer__question_question_fk FOREIGN KEY (question_id)
+  REFERENCES question (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -87,9 +87,9 @@ CREATE SEQUENCE answer_seq
 
 CREATE TABLE tag
 (
-  _id   BIGINT                 NOT NULL,
-  _name CHARACTER VARYING(255) NOT NULL,
-  CONSTRAINT tag_pkey PRIMARY KEY (_id)
+  id   BIGINT                 NOT NULL,
+  name CHARACTER VARYING(255) NOT NULL,
+  CONSTRAINT tag_pkey PRIMARY KEY (id)
 );
 
 CREATE SEQUENCE tag_seq
@@ -99,15 +99,15 @@ CREATE SEQUENCE tag_seq
   START 7
   CACHE 1;
   
-CREATE TABLE question__tags
+CREATE TABLE question_tags
 (
-  question__id BIGINT NOT NULL,
-  _tags__id    BIGINT NOT NULL,
-  CONSTRAINT question__tags_tag_fk FOREIGN KEY (_tags__id)
-  REFERENCES tag (_id) MATCH SIMPLE
+  question_id BIGINT NOT NULL,
+  tags_id    BIGINT NOT NULL,
+  CONSTRAINT question_tags_tag_fk FOREIGN KEY (tags_id)
+  REFERENCES tag (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT question__tags_question_fk FOREIGN KEY (question__id)
-  REFERENCES question (_id) MATCH SIMPLE
+  CONSTRAINT question_tags_question_fk FOREIGN KEY (question_id)
+  REFERENCES question (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT question__tags_uk UNIQUE (question__id, _tags__id)
+  CONSTRAINT question_tags_uk UNIQUE (question_id, tags_id)
 );

@@ -21,35 +21,41 @@ public class Question implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
     @SequenceGenerator(name = "question_seq", sequenceName = "question_seq")
-    private Long _id;
+    private Long id;
+
     @Column(nullable = false)
     @Field
-    private String _title;
+    private String title;
+
     @Column(nullable = false)
     @Field
-    private String _description;
+    private String description;
+
     @IndexedEmbedded
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Tag> _tags = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
+
     @Column(nullable = false)
-    private Integer _totalAnswers = 0;
+    private Integer totalAnswers = 0;
+
     @IndexedEmbedded
-    @OneToMany(mappedBy = "_question", cascade = CascadeType.ALL)
-    private List<Answer> _answers = new ArrayList<>();
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Answer> answers = new ArrayList<>();
+
     @ManyToOne(optional = false)
-    private User _user;
+    private User user;
 
     public Question() {
     }
 
     public Question(QuestionForm form, List<Tag> persistedTags, User user) {
-        this._title = form.getTitle();
-        this._description = form.getDescription();
-        this._user = user;
+        this.title = form.getTitle();
+        this.description = form.getDescription();
+        this.user = user;
         List<String> requestedTagNames = form.getNormalizedTagList();
 
         if (CollectionUtils.isNotEmpty(persistedTags)) {
-            this._tags.addAll(persistedTags);
+            this.tags.addAll(persistedTags);
             requestedTagNames.removeIf(new Predicate<String>() {
                 @Override
                 public boolean test(String tagName) {
@@ -62,7 +68,7 @@ public class Question implements Serializable {
             });
         }
         for (String requestedTagName : requestedTagNames) {
-            this._tags.add(new Tag(requestedTagName));
+            this.tags.add(new Tag(requestedTagName));
         }
     }
 
@@ -72,66 +78,66 @@ public class Question implements Serializable {
     }
 
     public Long getId() {
-        return _id;
+        return id;
     }
 
     public void setId(Long id) {
-        _id = id;
+        this.id = id;
     }
 
     public String getTitle() {
-        return _title;
+        return title;
     }
 
     public void setTitle(String title) {
-        _title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     public void setDescription(String description) {
-        _description = description;
+        this.description = description;
     }
 
     public List<Tag> getTags() {
-        return _tags;
+        return tags;
     }
 
     public void setTags(List<Tag> tags) {
-        _tags = tags;
+        this.tags = tags;
     }
 
     public void addTag(Tag tag) {
-        if (_tags == null) {
-            _tags = new ArrayList<>();
+        if (tags == null) {
+            tags = new ArrayList<>();
         }
-        _tags.add(tag);
+        tags.add(tag);
     }
 
     public Integer getTotalAnswers() {
-        return _totalAnswers;
+        return totalAnswers;
     }
 
     public void setTotalAnswers(Integer totalAnswers) {
-        _totalAnswers = totalAnswers;
+        this.totalAnswers = totalAnswers;
     }
 
     @JsonIgnore
     public List<Answer> getAnswers() {
-        return _answers;
+        return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
-        _answers = answers;
+        this.answers = answers;
     }
 
     public User getUser() {
-        return _user;
+        return user;
     }
 
     public void setUser(User user) {
-        this._user = user;
+        this.user = user;
     }
 }
