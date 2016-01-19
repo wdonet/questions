@@ -59,6 +59,10 @@ public class User {
         return profile;
     }
 
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -97,7 +101,6 @@ public class User {
         }
 
         public User build() {
-            user.profile = new Profile(user);
             return user;
         }
     }
