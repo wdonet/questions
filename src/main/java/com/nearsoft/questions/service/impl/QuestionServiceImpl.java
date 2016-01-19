@@ -38,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public synchronized void updateTotalAnswers(Question question) {
-        int total = _answerRepository.countBy_question__id(question.getId());
+        int total = _answerRepository.countByQuestionId(question.getId());
         if (_log.isDebugEnabled()) {
             _log.debug(String.format("Updating question %d with total answers: %d", question.getId(), total));
         }
@@ -54,10 +54,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Page<Question> getUnanswered(int UIPageNumber, int pageSize) {
         int validPageSize = getValidPageSize(pageSize);
-        long totalRows = _questionRepository.countBy_answersIsNull();
+        long totalRows = _questionRepository.countByAnswersIsNull();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
-        return _questionRepository.findBy_answersIsNull(pageable);
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
+        return _questionRepository.findByAnswersIsNull(pageable);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = _questionRepository.count();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "_id");
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
         return _questionRepository.findAll(pageable);
     }
 

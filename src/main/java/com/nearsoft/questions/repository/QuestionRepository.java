@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepository extends PagingAndSortingRepository<Question, Long> {
 
     @Query(nativeQuery = true, value =
-        "SELECT * FROM question WHERE _title ILIKE '%?1%' limit 10")
+        "SELECT * FROM question WHERE title ILIKE '%?1%' limit 10")
     List<Question> findByTitleILike(String query);
 
-    Page<Question> findBy_answersIsNull(Pageable pageable);
+    Page<Question> findByAnswersIsNull(Pageable pageable);
 
-    long countBy_answersIsNull();
+    long countByAnswersIsNull();
 }

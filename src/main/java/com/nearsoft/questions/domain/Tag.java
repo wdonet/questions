@@ -17,31 +17,32 @@ public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
     @SequenceGenerator(name = "tag_seq", sequenceName = "tag_seq")
-    private Long _id;
+    private Long id;
+
     @Column(nullable = false)
     @Field
-    private String _name;
+    private String name;
 
     public Tag() { }
 
     public Tag(String name) {
-        _name = name;
+        this.name = name;
     }
 
     public Long getId() {
-        return _id;
+        return id;
     }
 
     public void setId(Long id) {
-        _id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public void setName(String name) {
-        this._name = name;
+        this.name = name;
     }
 
     @Override
@@ -54,11 +55,11 @@ public class Tag implements Serializable {
         }
 
         Tag tag = (Tag) o;
-        return _name.equals(tag._name);
+        return name.equals(tag.name);
     }
 
     @Override
     public int hashCode() {
-        return _name.hashCode();
+        return name.hashCode();
     }
 }
