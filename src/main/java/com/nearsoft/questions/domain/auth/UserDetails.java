@@ -20,6 +20,8 @@ public class UserDetails extends SocialUser {
 
     private SocialMediaService socialSignInProvider;
 
+    private String imageUrl;
+
     public UserDetails(String username, Collection<? extends GrantedAuthority> authorities) {
         super(username, "", authorities);
     }
@@ -44,6 +46,14 @@ public class UserDetails extends SocialUser {
         return socialSignInProvider;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public static class Builder {
 
         private Long id;
@@ -54,12 +64,13 @@ public class UserDetails extends SocialUser {
 
         private String lastName;
 
-
         private Role role;
 
         private SocialMediaService socialSignInProvider;
 
         private Set<GrantedAuthority> authorities;
+
+        private String imageUrl;
 
         public Builder() {
             this.authorities = new HashSet<>();
@@ -99,6 +110,11 @@ public class UserDetails extends SocialUser {
             return this;
         }
 
+        public Builder imageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+            return this;
+        }
+
         public UserDetails build() {
             UserDetails user = new UserDetails(username, authorities);
 
@@ -107,6 +123,7 @@ public class UserDetails extends SocialUser {
             user.lastName = lastName;
             user.role = role;
             user.socialSignInProvider = socialSignInProvider;
+            user.imageUrl = imageUrl;
 
             return user;
         }
@@ -115,9 +132,9 @@ public class UserDetails extends SocialUser {
     @Override
     public String toString() {
         return "UserDetails {" +
-            "Name ='" + firstName + ' ' + lastName + '\'' +
-            ", email='" + getUsername() + '\'' +
-            ", role=" + role +
-            '}';
+                "Name ='" + firstName + ' ' + lastName + '\'' +
+                ", email='" + getUsername() + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
