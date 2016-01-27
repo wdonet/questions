@@ -77,7 +77,8 @@ const config = {
         loaders: [
           'isomorphic-style-loader',
           'css-loader?' + (DEBUG ? 'sourceMap&' : 'minimize&') +
-          'modules&localIdentName=[name]_[local]_[hash:base64:3]',
+          'modules&localIdentName=[name]_[local]_[hash:base64:3]&' +
+          'camelCase=dashes',
           'postcss-loader',
         ],
       }, {
@@ -88,7 +89,7 @@ const config = {
         loader: 'raw-loader',
       }, {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-        loader: 'url-loader?limit=10000',
+        loader: 'url-loader?limit=' + (DEBUG ? 9999999 : 1000),
       }, {
         test: /\.(eot|ttf|wav|mp3)$/,
         loader: 'file-loader',

@@ -1,57 +1,42 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 @import '../variables.scss';
 
-$brand-color: #61dafb;
-
-.root {
-  background: #373277;
-  color: #fff;
+header {
+    width: 100%;
+    margin: 0 auto;
+    height: 115px;
+    background-color: #595B67;
 }
 
-.container {
-  margin: 0 auto;
-  padding: 20px 0;
-  max-width: $max-content-width;
+.headerWrapper {
+    width: 930px;
+    margin: 0 auto;
 }
 
-.brand {
-  color: color($brand-color lightness(+10%));
-  text-decoration: none;
-  font-size: 1.75em; /* ~28px */
+.logo {
+    background-image: url(./logo.png) no-repeat center;
+    padding-top: 40px;
 }
 
-.brandTxt {
-  margin-left: 10px;
+#go_signin {
+    width: auto;
+    float: right;
+    margin-top: 50px;
 }
 
-.nav {
-  float: right;
-  margin-top: 6px;
+input[type='submit'] {
+    border: 0;
+    background-color: #F25D00;
+    border-radius: 3px;
+    padding: 13px 13px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 15px;
+    margin-top: -13px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
-.banner {
-  text-align: center;
-}
-
-.bannerTitle {
-  margin: 0;
-  padding: 10px;
-  font-weight: normal;
-  font-size: 4em;
-  line-height: 1em;
-}
-
-.bannerDesc {
-  padding: 0;
-  color: rgba(255, 255, 255, .5);
-  font-size: 1.25em;
-  margin: 0;
+input[type='submit']:hover {
+    background-color: #FF6A00;
 }

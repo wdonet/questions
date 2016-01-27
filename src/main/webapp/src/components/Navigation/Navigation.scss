@@ -1,45 +1,38 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
-.root {
-
+.menu {
+    float: right;
+    padding-top: 50px;
 }
 
-.link {
-  display: inline-block;
-  padding: 3px 8px;
-  text-decoration: none;
-  font-size: 1.125em; /* ~18px */
+ul {
+    margin: 0;
+    padding: 0;
 }
 
-.link,
-.link:active,
-.link:visited {
-  color: rgba(255, 255, 255, .6);
+li {
+    margin-right: 10px;
+    color: #fff;
+    display: inline-block;
 }
 
-.link:hover {
-  color: rgba(255, 255, 255, 1);
+.crearPregunta {
+    background-color: #F25D00;
+    border-radius: 3px;
+    padding: 13px 13px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+   /* background-color 0.5s ease; */
 }
 
-.highlight {
-  margin-right: 8px;
-  margin-left: 8px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, .15);
-  color: #fff;
+.crearPregunta:hover {
+    background-color: #FF6A00;
 }
 
-.highlight:hover {
-  background: rgba(0, 0, 0, .3);
+.category {
+    color: #fff;
+    text-decoration: none;
 }
 
-.spacer {
-  color: rgba(255, 255, 255, .3);
+.category:hover {
+    text-decoration: underline;
 }
