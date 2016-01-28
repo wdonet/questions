@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfilesController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -28,7 +28,7 @@ public class ProfileController {
     private final Storage storage;
 
     @Autowired
-    public ProfileController(UserService userService, Storage storage) {
+    public ProfilesController(UserService userService, Storage storage) {
         this.userService = userService;
         this.storage = storage;
     }
