@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@ComponentScan({"com.nearsoft.questions.controller", "com.nearsoft.questions.service", "com.nearsoft.questions.search"})
+@ComponentScan({"com.nearsoft.questions"})
 @EnableJpaRepositories({"com.nearsoft.questions.repository"})
 @EntityScan("com.nearsoft.questions.domain")
 @EnableTransactionManagement

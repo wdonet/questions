@@ -89,6 +89,8 @@ CREATE TABLE tag
 (
   id   BIGINT                 NOT NULL,
   name CHARACTER VARYING(255) NOT NULL,
+  user_id       INT8                    NOT NULL,
+  CONSTRAINT fk_tag_user FOREIGN KEY (user_id) REFERENCES public.user,
   CONSTRAINT tag_pkey PRIMARY KEY (id)
 );
 
@@ -98,7 +100,7 @@ CREATE SEQUENCE tag_seq
   MAXVALUE 9223372036854775807
   START 7
   CACHE 1;
-  
+
 CREATE TABLE question_tags
 (
   question_id BIGINT NOT NULL,
