@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/question")
-public class QuestionController extends BaseController {
+public class QuestionsController extends BaseController {
 
     private final Logger _log = LoggerFactory.getLogger(getClass());
 

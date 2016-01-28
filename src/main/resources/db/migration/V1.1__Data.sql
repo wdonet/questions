@@ -74,12 +74,14 @@ VALUES (5, 'In this document you can look for the answers about the Vacation Pay
         6, 1);
 
 INSERT INTO answer (id, description, question_id, user_id)
-VALUES (6, 'You can check the Travel Expenses Procedure document to know how to proceed with your travel. Good luck. https://goo.gl/p3cm8P',
+VALUES (6,
+        'You can check the Travel Expenses Procedure document to know how to proceed with your travel. Good luck. https://goo.gl/p3cm8P',
         7, 1);
 
 INSERT INTO answer (id, description, question_id, user_id)
-VALUES (7, 'Please check the Expenses Procedure Document. It contains the answer for this question. https://goo.gl/odIuU9',
-        8, 1);
+VALUES
+  (7, 'Please check the Expenses Procedure Document. It contains the answer for this question. https://goo.gl/odIuU9',
+   8, 1);
 
 INSERT INTO answer (id, description, question_id, user_id)
 VALUES (8, 'You can use this link https://goo.gl/aao8IE for that',
@@ -87,12 +89,12 @@ VALUES (8, 'You can use this link https://goo.gl/aao8IE for that',
 
 -- Tags
 
-INSERT INTO tag (id, name) VALUES (1, 'finance');
-INSERT INTO tag (id, name) VALUES (2, 'training');
-INSERT INTO tag (id, name) VALUES (3, 'vacations');
-INSERT INTO tag (id, name) VALUES (4, 'pto');
-INSERT INTO tag (id, name) VALUES (5, 'insurance');
-INSERT INTO tag (id, name) VALUES (6, 'talk');
+INSERT INTO tag (id, name, user_id) VALUES (1, 'finance', 1);
+INSERT INTO tag (id, name, user_id) VALUES (2, 'training', 1);
+INSERT INTO tag (id, name, user_id) VALUES (3, 'vacations', 1);
+INSERT INTO tag (id, name, user_id) VALUES (4, 'pto', 1);
+INSERT INTO tag (id, name, user_id) VALUES (5, 'insurance', 1);
+INSERT INTO tag (id, name, user_id) VALUES (6, 'talk', 1);
 
 -- Question Tags
 
