@@ -1,16 +1,17 @@
 package com.nearsoft.questions.domain;
 
-import com.nearsoft.questions.domain.auth.User;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
-import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Indexed
-public class Tag implements Serializable, Authored {
+@EntityListeners(AuditingEntityListener.class)
+public class Tag extends AbstractAuditableEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
     @SequenceGenerator(name = "tag_seq", sequenceName = "tag_seq")
@@ -19,10 +20,6 @@ public class Tag implements Serializable, Authored {
     @Column(nullable = false)
     @Field
     private String name;
-
-    @ManyToOne(optional = false)
-    @RestResource(exported = false)
-    private User user;
 
     public Tag() {
     }
@@ -47,14 +44,6 @@ public class Tag implements Serializable, Authored {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -71,15 +60,5 @@ public class Tag implements Serializable, Authored {
     @Override
     public int hashCode() {
         return name.hashCode();
-    }
-
-    @Override
-    public User getAuthor() {
-        return getUser();
-    }
-
-    @Override
-    public void setAuthor(User user) {
-        setUser(user);
     }
 }

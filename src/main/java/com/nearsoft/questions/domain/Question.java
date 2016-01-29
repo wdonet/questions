@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 @Entity
 @Indexed
-public class Question implements Serializable, Authored {
+public class Question extends AbstractAuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
     @SequenceGenerator(name = "question_seq", sequenceName = "question_seq")
@@ -41,9 +41,6 @@ public class Question implements Serializable, Authored {
     @IndexedEmbedded
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
-
-    @ManyToOne(optional = false)
-    private User user;
 
     public Question() {
     }
@@ -131,23 +128,5 @@ public class Question implements Serializable, Authored {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public User getAuthor() {
-        return getUser();
-    }
-
-    @Override
-    public void setAuthor(User user) {
-        setUser(user);
     }
 }
