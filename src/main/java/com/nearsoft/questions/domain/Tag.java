@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Indexed
-public class Tag implements Serializable {
+public class Tag implements Serializable, Authored {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
     @SequenceGenerator(name = "tag_seq", sequenceName = "tag_seq")
@@ -71,5 +71,15 @@ public class Tag implements Serializable {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    @Override
+    public User getAuthor() {
+        return getUser();
+    }
+
+    @Override
+    public void setAuthor(User user) {
+        setUser(user);
     }
 }

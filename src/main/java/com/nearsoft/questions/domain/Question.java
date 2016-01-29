@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 @Entity
 @Indexed
-public class Question implements Serializable {
+public class Question implements Serializable, Authored {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
     @SequenceGenerator(name = "question_seq", sequenceName = "question_seq")
@@ -139,5 +139,15 @@ public class Question implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public User getAuthor() {
+        return getUser();
+    }
+
+    @Override
+    public void setAuthor(User user) {
+        setUser(user);
     }
 }
