@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Indexed
-public class Answer implements Serializable {
+public class Answer implements Serializable, Authored {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_seq")
     @SequenceGenerator(name = "answer_seq", sequenceName = "answer_seq")
@@ -55,5 +55,15 @@ public class Answer implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public User getAuthor() {
+        return getUser();
+    }
+
+    @Override
+    public void setAuthor(User user) {
+        setUser(user);
     }
 }
