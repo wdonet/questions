@@ -1,4 +1,4 @@
-package com.nearsoft.questions.config;
+package com.nearsoft.questions.config.security;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
