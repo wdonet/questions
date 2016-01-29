@@ -22,7 +22,7 @@
             <h2 class="answers-title">What people have answered</h2>
 
             <div class="author-cont">
-                <div class="author-name"><img src="${user.imageUrl}">${user.fullName}</div>
+                <div class="author-name"><img src="${answer.user.imageUrl!"#"}">${answer.user.fullName!""}</div>
                 <div class="answer-date">- 1 Hour Ago</div>
             </div>
             <div class="answers">${answer.description}</div>
@@ -35,7 +35,7 @@
             <textarea class="add-answer-input" name="description" type="textarea"
                       placeholder="Add a detailed answer"></textarea>
             <input name="questionId" type="hidden" value="${question.id}">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
             <input class="add-button" type="submit" value="Add">
         </form>
     </div>
