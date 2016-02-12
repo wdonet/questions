@@ -11,7 +11,6 @@
 <section class="form-cont-ask">
 
     <form name="update_profile" id="form_update_profile" action="/profile" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <@spring.message "auth.profile.firstname"/>: <input type="text" name="firstName"
                                                         value="${form.firstName}"><br/><br/>
     <@spring.message "auth.profile.lastname"/>: <input type="text" name="lastName" value="${form.lastName}"/><br/><br/>
