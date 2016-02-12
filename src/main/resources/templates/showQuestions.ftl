@@ -8,7 +8,7 @@
     <body>
     <#include "header.ftl">
         <div class="suggestion-wrapper">
-            <h1 class="unanswered-questions-title"><img src="/img/question-icon.png" class="question-icon"> Unanswered Questions</h1>
+            <h1 class="unanswered-questions-title"><img src="/img/question-icon.png" class="question-icon"> Questions</h1>
             <ul class="suggestions-cont">
                 <#list questionList as question>
                     <li>
@@ -17,7 +17,7 @@
                         <div class="tags-cont">
                             <div class="tag-icon"><img src="/img/tag-icon.png" alt="">Tags:</div>
                             <#list question.tags as tag>
-                                <span class="tags">${tag.name}</span>
+                                <span class="tags"><a href="/question/tag/${tag.id}">${tag.name}</a></span>
                             <#else>
                                 <span class="tags">No tags</span>
                             </#list>

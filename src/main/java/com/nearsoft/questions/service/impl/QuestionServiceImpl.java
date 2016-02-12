@@ -70,6 +70,15 @@ public class QuestionServiceImpl implements QuestionService {
         return _questionRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<Question> getNewestByTag(long tagId, int UIPageNumber, int pageSize) {
+        int validPageSize = getValidPageSize(pageSize);
+        long totalRows = _questionRepository.count();
+        int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
+        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
+        return _questionRepository.findByTagsId(tagId, pageable);
+    }
+
     private int getValidPageSize(int pageSize) {
         return pageSize <= 0 ? PAGE_SIZE : pageSize;
     }

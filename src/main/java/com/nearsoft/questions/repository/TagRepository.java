@@ -10,4 +10,5 @@ import java.util.List;
 public interface TagRepository extends PagingAndSortingRepository<Tag, Long> {
 
     List<Tag> findByNameIn(List<String> commaDelimitedTagNameList);
+
 }
