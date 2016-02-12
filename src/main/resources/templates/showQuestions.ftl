@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring/>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -26,7 +27,7 @@
             </div>
         </li>
     <#else>
-        <div>No</div>
+        <div><@spring.message "questions.empty"/></div>
     </#list>
     </ul>
 </div>
