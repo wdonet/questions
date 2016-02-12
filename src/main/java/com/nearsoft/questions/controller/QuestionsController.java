@@ -43,24 +43,24 @@ public class QuestionsController extends BaseController {
 
     @RequestMapping(value = "/order/unanswered", method = RequestMethod.GET)
     public String getUnanswered(Model model,
-        @RequestParam(required = false, defaultValue = "1") Integer page,
-        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
-        model.addAttribute(_questionService.getUnanswered(page, pageSize).getContent());
+                                @RequestParam(required = false, defaultValue = "1") Integer page,
+                                @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute("questionList", _questionService.getUnanswered(page, pageSize).getContent());
         return "showQuestions";
     }
 
     @RequestMapping(value = "/order/newest", method = RequestMethod.GET)
     public String getNewest(Model model,
-        @RequestParam(required = false, defaultValue = "1") Integer page,
-        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+                            @RequestParam(required = false, defaultValue = "1") Integer page,
+                            @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute(_questionService.getNewest(page, pageSize).getContent());
         return "showQuestions";
     }
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
     public String getNewestByTag(Model model, @PathVariable long id,
-        @RequestParam(required = false, defaultValue = "1") Integer page,
-        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+                                 @RequestParam(required = false, defaultValue = "1") Integer page,
+                                 @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute(_questionService.getNewestByTag(id, page, pageSize).getContent());
         return "showQuestions";
     }
