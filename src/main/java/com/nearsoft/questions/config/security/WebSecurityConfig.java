@@ -1,4 +1,4 @@
-package com.nearsoft.questions.config;
+package com.nearsoft.questions.config.security;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/**").fullyAuthenticated()
                 .and()
                 .formLogin()
                 .loginPage("/")

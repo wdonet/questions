@@ -1,14 +1,14 @@
 package com.nearsoft.questions.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-@ControllerAdvice
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+
+//@ControllerAdvice
 public class GlobalExceptionHandler {
 
     public static final String DEFAULT_ERROR_VIEW = "error";
