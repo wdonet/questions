@@ -57,6 +57,14 @@ public class QuestionsController extends BaseController {
         return "showQuestions";
     }
 
+    @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
+    public String getNewestByTag(Model model, @PathVariable long id,
+        @RequestParam(required = false, defaultValue = "1") Integer page,
+        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute(_questionService.getNewestByTag(id, page, pageSize).getContent());
+        return "showQuestions";
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String get(@PathVariable long id, Model model) {
         _log.info("question with id " + id);

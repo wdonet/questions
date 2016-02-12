@@ -5,5 +5,8 @@ import com.nearsoft.questions.domain.Tag;
 
 public interface TagService {
 
+    List<Tag> getAllSortedByName();
+
     List<Tag> getPersistedTagsFromTagNameList(List<String> tagNameList);
+
 }

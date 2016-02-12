@@ -17,5 +17,7 @@ public interface QuestionRepository extends PagingAndSortingRepository<Question,
 
     Page<Question> findByAnswersIsNull(Pageable pageable);
 
+    Page<Question> findByTagsId(long tagId, Pageable pageable);
+
     long countByAnswersIsNull();
 }

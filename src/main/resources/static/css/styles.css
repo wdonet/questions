@@ -204,6 +204,11 @@ span.tags {
     display: inline-block;
 }
 
+span.tags a {
+    color: #476C8F;
+    text-decoration: none;
+}
+
 .tags-cont {
     display: inline-block;
     width: 100%;
