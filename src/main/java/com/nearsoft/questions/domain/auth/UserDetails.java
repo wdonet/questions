@@ -45,6 +45,11 @@ public class UserDetails extends SocialUser {
     public User getUser() {
         return user;
     }
+    
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
 
     public SocialMediaService getSocialSignInProvider() {
         return socialSignInProvider;

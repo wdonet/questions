@@ -1,6 +1,6 @@
 <header>
     <div class="header-wrapper">
-        <img src="/img/logo.png" class="logo">
+        <a href="/"><img src="/img/logo.png" class="logo"></a>
         <nav class="menu">
             <ul>
                 <li>FAQ</li>
