@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,18 +40,18 @@ public class ProfilesController {
         log.info("Rendering My Profile view");
 
         model.addAttribute("form", new ProfileForm(userService.getUserFromDetails(
-            (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
         ));
 
-        return "auth/profile";
+        return "redirect:auth/profile";
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Secured({"ROLE_USER"})
-    public String updateMyProfile(@ModelAttribute("form") ProfileForm form) {
+    public String updateMyProfile(@ModelAttribute("form") ProfileForm form, @AuthenticationPrincipal UserDetails details) {
         log.info("Updating the profile for the user logged in");
 
-        User user = userService.getUserFromDetails((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        User user = userService.getUserFromDetails(details);
         Profile profile = user.getProfile();
 
         form.merge(form, profile);
@@ -69,7 +70,7 @@ public class ProfilesController {
 
         userService.save(user);
 
-        return "auth/profile";
+        return "redirect:auth/profile";
     }
 
 }
