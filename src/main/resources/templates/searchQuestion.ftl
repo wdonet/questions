@@ -20,7 +20,7 @@
         </div>
         <#--<footer>-->
             <#--<ul>-->
-                <#--<li><a href="/ask" class="crear-pregunta">Ask Question</a></li>-->
+                <#--<li><a href="/ask" class="ask-question">Ask Question</a></li>-->
             <#--</ul>-->
         <#--</footer>-->
     </body>
