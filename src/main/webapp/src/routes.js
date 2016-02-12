@@ -20,13 +20,13 @@ const router = new Router(on => {
   on('/questions', async () => {
     const response = await fetch(`/api/questions`);
     const content = await response.json();
-    return content && <Questions {...content} />;
+    return content && <Questions {...content._embedded} />;
   });
 
   on('/questions/:order', async (state) => {
     const response = await fetch(`/api/questions?order=${state.params.order}`);
     const content = await response.json();
-    return content && <Questions {...content} />;
+    return content && <Questions {...content._embedded} />;
   });
 
   on('/login', async () => <LoginPage />);
