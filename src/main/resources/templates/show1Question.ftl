@@ -16,13 +16,14 @@
     <#else>
         <span>No tags</span>
     </#list>
+        <div class="owner">asked by &nbsp; <span>${(question.user.fullName)!""}</span></div>
         <div class="question-description">${question.description}</div>
     <#list question.answers as answer>
         <div class="answers-cont">
             <h2 class="answers-title">What people have answered</h2>
 
             <div class="author-cont">
-                <div class="author-name"><img src="${answer.user.imageUrl!"#"}">${answer.user.fullName!""}</div>
+                <div class="author-name">answered by &nbsp; <!--img src="${answer.user.imageUrl!"#"}"--> <span>${answer.user.fullName!""}</span></div>
                 <div class="answer-date">- 1 Hour Ago</div>
             </div>
             <div class="answers">${answer.description}</div>

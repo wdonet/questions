@@ -76,7 +76,7 @@ li {
     display: inline-block;
 }
 
-.crear-pregunta {
+.ask-question {
     background-color: #F25D00;
     border-radius: 3px;
     padding: 13px 13px;
@@ -86,8 +86,32 @@ li {
     background-color 0.5s ease;
 }
 
-.crear-pregunta:hover {
+.ask-question:hover {
     background-color: #FF6A00;
+}
+
+.user-info {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 13px 13px;
+    color: #F25D00;
+    text-decoration: none;
+    margin-left: 15px;
+    background-color 0.5s ease;
+}
+
+.user-info:hover {
+    background-color: #fff;
+}
+
+.owner {
+    float: right;
+    color: #476C8F;
+    font-size: x-small;
+}
+
+.owner span {
+    font-size: small;
 }
 
 .category {

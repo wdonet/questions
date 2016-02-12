@@ -21,6 +21,7 @@
                             <#else>
                                 <span class="tags">No tags</span>
                             </#list>
+                            <div class="owner">asked by &nbsp; <span>${(question.user.fullName)!""}</span></div>
                         </div>
                     </li>
                 </#list>
