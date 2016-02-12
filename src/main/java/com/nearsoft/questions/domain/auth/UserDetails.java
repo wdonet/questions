@@ -11,16 +11,12 @@ import java.util.Set;
 public class UserDetails extends SocialUser {
 
     private Long id;
-
     private String firstName;
-
     private String lastName;
-
     private Role role;
-
     private SocialMediaService socialSignInProvider;
-
     private String imageUrl;
+    private User user;
 
     public UserDetails(String username, Collection<? extends GrantedAuthority> authorities) {
         super(username, "", authorities);
@@ -42,34 +38,28 @@ public class UserDetails extends SocialUser {
         return role;
     }
 
-    public SocialMediaService getSocialSignInProvider() {
-        return socialSignInProvider;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public String getFullName() {
-        return firstName + " " + lastName;
+    public User getUser() {
+        return user;
+    }
+
+    public SocialMediaService getSocialSignInProvider() {
+        return socialSignInProvider;
     }
 
     public static class Builder {
 
         private Long id;
-
         private String username;
-
         private String firstName;
-
         private String lastName;
-
         private Role role;
-
+        private User user;
         private SocialMediaService socialSignInProvider;
-
         private Set<GrantedAuthority> authorities;
-
         private String imageUrl;
 
         public Builder() {
@@ -115,17 +105,24 @@ public class UserDetails extends SocialUser {
             return this;
         }
 
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+
         public UserDetails build() {
-            UserDetails user = new UserDetails(username, authorities);
+            UserDetails details = new UserDetails(username, authorities);
 
-            user.id = id;
-            user.firstName = firstName;
-            user.lastName = lastName;
-            user.role = role;
-            user.socialSignInProvider = socialSignInProvider;
-            user.imageUrl = imageUrl;
+            details.id = id;
+            details.firstName = firstName;
+            details.lastName = lastName;
+            details.role = role;
+            details.socialSignInProvider = socialSignInProvider;
+            details.imageUrl = imageUrl;
+            details.user = user;
 
-            return user;
+            return details;
         }
     }
 

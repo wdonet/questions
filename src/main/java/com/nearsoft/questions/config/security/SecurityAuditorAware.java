@@ -24,7 +24,7 @@ public class SecurityAuditorAware implements AuditorAware<User> {
             return null;
         }
 
-        return userService.getUserFromDetails((UserDetails) authentication.getPrincipal());
+        return ((UserDetails) authentication.getPrincipal()).getUser();
 //        return userService.getUserByEmail("nsq@nearsoft.com");
     }
 }
