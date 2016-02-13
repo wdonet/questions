@@ -14,7 +14,7 @@ public interface QuestionService {
 
     Question get(long id);
 
-    List<Question> search(String query);
+    List search(String query);
 
     Page<Question> getUnanswered(int UIPageNumber, int pageSize);
 

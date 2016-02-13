@@ -90,7 +90,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> search(String query) {
-        return _hibernateSearchService.search(Question.class, query, new String[]{"_title", "_description", "_tags._name",
-                "_answers._description"});
+        return _hibernateSearchService.search(Question.class, query, new String[]{"title", "description", "tags.name",
+                "answers.description"});
     }
 }
