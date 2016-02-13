@@ -28,7 +28,10 @@
             <div class="author-cont">
                 <div class="author-name">answered by <span>${answer.user.fullName!""}</span>
                     <img src="${answer.user.profile.photoUri!"#"}"></div>
-                <div class="answer-date">- 1 Hour Ago</div>
+                <#if answer.createdAt??>
+                    <div class="answer-date">- ${answer.createdAt}</div>
+                </#if>
+
             </div>
         </div>
     <#else>
