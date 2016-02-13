@@ -2,6 +2,7 @@ package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.Tag;
+import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,16 @@ public class HomeController {
         Question question = new Question().withTitle("Suggestion 1");
         question.setId(1L);
         question.setTotalAnswers(5);
-        question.addTag(new Tag("finance"));
-        question.addTag(new Tag("important"));
+
+        User user = new User();
+        user.setFirstName("Jane");
+        user.setLastName("Roe");
+        question.setUser(user);
+
+        Tag tag = new Tag("finance");
+        tag.setId(1L);
+        question.addTag(tag);
+
         model.addAttribute("questions", Arrays.asList(question));
         return "searchQuestion";
     }

@@ -4,18 +4,19 @@
     <head>
         <link rel="stylesheet" type="text/css" href="/css/styles.css">
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/js/search.js"></script>
     </head>
     <body>
         <#include "header.ftl">
         <section class="form-cont">
-            <!--hola-->
             <h1>looking for ?</h1>
-            <form method="get" action="/question/search" class="form-search-question">
-                <input class="input-search-question" name="query" type="text" placeholder="Add your question here">
-                <input type="submit" value="" class="search-submit">
-            </form>
+            <input class="input-search-question" name="query" type="text" placeholder="Add your question here">
+            <input type="button" value="" class="search-submit">
+            <#--<form method="get" action="/question/search" class="form-search-question">-->
+            <#--</form>-->
         </section>
-        <div>
+        <div class="suggestion-list">
         <#include "suggestions.ftl">
         </div>
         <#--<footer>-->

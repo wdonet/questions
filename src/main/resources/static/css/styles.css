@@ -104,6 +104,15 @@ li {
     background-color: #fff;
 }
 
+.logout {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 8px 8px;
+    color: #F25D00;
+    text-decoration: none;
+    margin-left: 3px;
+}
+
 .owner {
     float: right;
     color: #476C8F;
