@@ -1,13 +1,9 @@
 package com.nearsoft.questions.domain;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Indexed
 public class Tag extends AbstractAuditableEntity implements Serializable {
 
     @Id
@@ -16,7 +12,6 @@ public class Tag extends AbstractAuditableEntity implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    @Field
     private String name;
 
     public Tag() {

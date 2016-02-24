@@ -3,7 +3,7 @@ package com.nearsoft.questions.service.impl;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
-import com.nearsoft.questions.search.service.HibernateSearchService;
+import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +18,15 @@ import java.util.List;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
-    private final HibernateSearchService _hibernateSearchService;
     private final QuestionRepository _questionRepository;
+    private final QuestionSearchRepository questionSearchRepository;
 
     private final Logger _log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public QuestionServiceImpl(HibernateSearchService hibernateSearchService, QuestionRepository questionRepository) {
-        _hibernateSearchService = hibernateSearchService;
+    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository) {
         _questionRepository = questionRepository;
+        this.questionSearchRepository = questionSearchRepository;
     }
 
     @Autowired
@@ -84,13 +84,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private int getValidPageNumber(int UIPageNumber, int pageSize, long totalRows) {
-        long totalPages = new Double(Math.ceil((double)totalRows/pageSize)).intValue();
-        return UIPageNumber < 1 || UIPageNumber > totalPages  ? 0 : UIPageNumber - 1;
+        long totalPages = new Double(Math.ceil((double) totalRows / pageSize)).intValue();
+        return UIPageNumber < 1 || UIPageNumber > totalPages ? 0 : UIPageNumber - 1;
     }
 
     @Override
     public List<Question> search(String query) {
-        return _hibernateSearchService.search(Question.class, query, new String[]{"title", "description", "tags.name",
-                "answers.description"});
+        List<Question> results = questionSearchRepository.findByTitle(query);
+        return results;
     }
 }
