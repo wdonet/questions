@@ -90,7 +90,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> search(String query) {
-        List<Question> results = questionSearchRepository.findByTitle(query);
+        List<Question> results = questionSearchRepository.findByTitleAndDescription(query);
         return results;
     }
 }
