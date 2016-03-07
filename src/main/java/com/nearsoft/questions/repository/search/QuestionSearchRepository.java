@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface QuestionSearchRepository extends ElasticsearchRepository<Question, Long> {
 
-    List<Question> findByTitleAndDescription(String query);
+    List<Question> findByTitleOrDescription(String title, String description);
+
+    List<Question> findByDescriptionLike(String description);
+
 
 }
