@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Entity
-@Document(indexName = "questions", type = "question")
+@Document(indexName = "nsquestions", type = "question")
 public class Question extends AbstractAuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
