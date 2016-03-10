@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/profile")
@@ -43,34 +44,23 @@ public class ProfilesController {
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
         ));
 
-        return "redirect:auth/profile";
+        return "auth/profile";
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Secured({"ROLE_USER"})
-    public String updateMyProfile(@ModelAttribute("form") ProfileForm form, @AuthenticationPrincipal UserDetails details) {
+    public String updateMyProfile(@ModelAttribute("form") ProfileForm form, @AuthenticationPrincipal UserDetails details, RedirectAttributes attributes) {
         log.info("Updating the profile for the user logged in");
 
         User user = userService.getUserFromDetails(details);
         Profile profile = user.getProfile();
 
-        form.merge(form, profile);
-
-        if (form.getPhoto() != null) {
-
-            if (profile.getPhotoUri() != null) {
-                profile.setPhotoUri(storage.replace(FileUtils.getStreamFromMultipart(
-                        form.getPhoto()), profile.getPhotoUri(), form.getPhoto().getOriginalFilename()));
-            } else {
-                profile.setPhotoUri(storage.save(FileUtils.getStreamFromMultipart(
-                        form.getPhoto()), form.getPhoto().getOriginalFilename()));
-            }
-
-        }
-
+        form.merge(profile);
         userService.save(user);
 
-        return "redirect:auth/profile";
+        attributes.addFlashAttribute("successMessage", "Your profile has been updated");
+
+        return "redirect:profile";
     }
 
 }
