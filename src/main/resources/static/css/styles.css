@@ -139,10 +139,11 @@ section {
 
 .form-cont h1 {
     text-align: center;
-    color: #fff;
+    color: #595B67;
     font-weight: 400;
     font-size: 40px;
-    margin-top: 70px;
+    margin: 30px auto 0;
+
 }
 
 .logo {
@@ -155,7 +156,7 @@ section {
 }
 
 .input-search-question {
-    width: 70%;
+    width: 92%;
     border: 0;
     height: 40px;
     border-radius: 3px;
@@ -171,7 +172,7 @@ input.search-submit {
     border: 0;
     color: #fff;
     height: 50px;
-    width: 50px;
+    width: 5%;
     display: inline-block;
     vertical-align: top;
     border-radius: 0px 3px 3px 0px;
@@ -498,4 +499,12 @@ input[type="textarea"] {
 .notice {
     background: #e3f7fc;
     border: 1px solid #8ed9f6;
+}
+
+.search-container{
+    font-size: 17px;
+    width: 933px;
+    display: block;
+    margin: 30px auto 0;
+    padding: 0 50px;
 }
