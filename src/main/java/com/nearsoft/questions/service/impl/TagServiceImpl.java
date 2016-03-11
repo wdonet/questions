@@ -12,16 +12,16 @@ import org.springframework.stereotype.Service;
 public class TagServiceImpl implements TagService {
 
     @Autowired
-    private TagRepository _tagRepository;
+    private TagRepository tagRepository;
 
     @Override
     public List<Tag> getAllSortedByName() {
         Sort sort = new Sort(Sort.Direction.ASC, "name");
-        return (List<Tag>) _tagRepository.findAll(sort);
+        return (List<Tag>) tagRepository.findAll(sort);
     }
 
     @Override
     public List<Tag> getPersistedTagsFromTagNameList(List<String> tagNameList) {
-        return _tagRepository.findByNameIn(tagNameList);
+        return tagRepository.findByNameIn(tagNameList);
     }
 }

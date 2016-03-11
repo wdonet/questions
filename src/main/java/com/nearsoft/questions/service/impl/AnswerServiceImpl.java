@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class AnswerServiceImpl implements AnswerService {
 
     @Autowired
-    private AnswerRepository _answerRepository;
+    private AnswerRepository answerRepository;
 
     @Override
     public void save(Answer answer) {
-        _answerRepository.save(answer);
+        answerRepository.save(answer);
     }
 
 }
