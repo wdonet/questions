@@ -18,15 +18,15 @@ import java.util.List;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
-    private final HibernateSearchService _hibernateSearchService;
-    private final QuestionRepository _questionRepository;
+    private final HibernateSearchService hibernateSearchService;
+    private final QuestionRepository questionRepository;
 
-    private final Logger _log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public QuestionServiceImpl(HibernateSearchService hibernateSearchService, QuestionRepository questionRepository) {
-        _hibernateSearchService = hibernateSearchService;
-        _questionRepository = questionRepository;
+        this.hibernateSearchService = hibernateSearchService;
+        this.questionRepository = questionRepository;
     }
 
     @Autowired
@@ -34,49 +34,49 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void save(Question question) {
-        _questionRepository.save(question);
+        questionRepository.save(question);
     }
 
     @Override
     public synchronized void updateTotalAnswers(Question question) {
         int total = _answerRepository.countByQuestionId(question.getId());
-        if (_log.isDebugEnabled()) {
-            _log.debug(String.format("Updating question %d with total answers: %d", question.getId(), total));
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("Updating question %d with total answers: %d", question.getId(), total));
         }
         question.setTotalAnswers(total);
-        _questionRepository.save(question);
+        questionRepository.save(question);
     }
 
     @Override
     public Question get(long id) {
-        return _questionRepository.findOne(id);
+        return questionRepository.findOne(id);
     }
 
     @Override
     public Page<Question> getUnanswered(int UIPageNumber, int pageSize) {
         int validPageSize = getValidPageSize(pageSize);
-        long totalRows = _questionRepository.countByAnswersIsNull();
+        long totalRows = questionRepository.countByAnswersIsNull();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
         Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
-        return _questionRepository.findByAnswersIsNull(pageable);
+        return questionRepository.findByAnswersIsNull(pageable);
     }
 
     @Override
     public Page<Question> getNewest(int UIPageNumber, int pageSize) {
         int validPageSize = getValidPageSize(pageSize);
-        long totalRows = _questionRepository.count();
+        long totalRows = questionRepository.count();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
         Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
-        return _questionRepository.findAll(pageable);
+        return questionRepository.findAll(pageable);
     }
 
     @Override
     public Page<Question> getNewestByTag(long tagId, int UIPageNumber, int pageSize) {
         int validPageSize = getValidPageSize(pageSize);
-        long totalRows = _questionRepository.count();
+        long totalRows = questionRepository.count();
         int validPageNumber = getValidPageNumber(UIPageNumber, validPageSize, totalRows);
         Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
-        return _questionRepository.findByTagsId(tagId, pageable);
+        return questionRepository.findByTagsId(tagId, pageable);
     }
 
     private int getValidPageSize(int pageSize) {
@@ -90,7 +90,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> search(String query) {
-        return _hibernateSearchService.search(Question.class, query, new String[]{"title", "description", "tags.name",
+        return hibernateSearchService.search(Question.class, query, new String[]{"title", "description", "tags.name",
                 "answers.description"});
     }
 }

@@ -17,10 +17,7 @@ import java.util.Arrays;
 @Controller
 public class HomeController {
 
-    private final Logger _log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private QuestionService _questionService;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
@@ -28,27 +25,13 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search(Model model) {
-        _log.info("-- search view --");
-        Question question = new Question().withTitle("Suggestion 1");
-        question.setId(1L);
-        question.setTotalAnswers(5);
-
-        User user = new User();
-        user.setFirstName("Jane");
-        user.setLastName("Roe");
-        question.setUser(user);
-
-        Tag tag = new Tag("finance");
-        tag.setId(1L);
-        question.addTag(tag);
-
-        model.addAttribute("questions", Arrays.asList(question));
+    public String search() {
+        log.info("-- search view --");
         return "searchQuestion";
     }
 
     @RequestMapping(value = "/ask", method = RequestMethod.GET)
-    public String ask(Model model) {
+    public String ask() {
         return "askQuestion";
     }
 
