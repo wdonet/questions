@@ -83,8 +83,8 @@ public class QuestionServiceImpl implements QuestionService {
         return pageSize <= 0 ? PAGE_SIZE : pageSize;
     }
 
-    private int getValidPageNumber(int UIPageNumber, int pageSize, long totalRows) {
-        long totalPages = new Double(Math.ceil((double)totalRows/pageSize)).intValue();
+    int getValidPageNumber(int UIPageNumber, int pageSize, long totalRows) {
+        int totalPages = (int) Math.ceil((double)totalRows/pageSize);
         return UIPageNumber < 1 || UIPageNumber > totalPages  ? 0 : UIPageNumber - 1;
     }
 
