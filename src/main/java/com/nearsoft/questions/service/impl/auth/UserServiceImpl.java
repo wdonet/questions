@@ -1,6 +1,5 @@
 package com.nearsoft.questions.service.impl.auth;
 
-import com.nearsoft.questions.controller.form.auth.ProfileForm;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.UserRepository;
