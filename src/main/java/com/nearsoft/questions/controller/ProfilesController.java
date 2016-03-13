@@ -4,9 +4,7 @@ import com.nearsoft.questions.controller.form.auth.ProfileForm;
 import com.nearsoft.questions.domain.auth.Profile;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
-import com.nearsoft.questions.service.Storage;
 import com.nearsoft.questions.service.UserService;
-import com.nearsoft.questions.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +25,10 @@ public class ProfilesController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserService userService;
-    private final Storage storage;
 
     @Autowired
-    public ProfilesController(UserService userService, Storage storage) {
+    public ProfilesController(UserService userService) {
         this.userService = userService;
-        this.storage = storage;
     }
 
     @RequestMapping(method = RequestMethod.GET)
