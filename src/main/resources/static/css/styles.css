@@ -1,21 +1,22 @@
 html {
-	height: 100%;
+    height: 100%;
 }
+
 body {
-	/*background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;*/
+    /*background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;*/
     background-color: #e4e4e4;
     background-size: cover;
-	height: 100%;
-	padding:0;
-	margin: 0;
-	font-family: 'PT Sans', sans-serif;
-    ;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'PT Sans', sans-serif;;
 }
 
 .body-home {
     background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;
     background-size: cover;
 }
+
 .body-home header {
     background-color: transparent;
 }
@@ -25,8 +26,7 @@ body {
 }
 
 header {
-    width: 100%
-    margin: 0 auto;
+    width: 100% margin : 0 auto;
     height: 115px;
     background-color: #595B67;
 }
@@ -41,6 +41,7 @@ form#go_signin {
     float: right;
     margin-top: 50px;
 }
+
 form#go_signin > input {
     border: 0;
     background-color: #F25D00;
@@ -76,7 +77,7 @@ li {
     display: inline-block;
 }
 
-.crear-pregunta {
+.ask-question {
     background-color: #F25D00;
     border-radius: 3px;
     padding: 13px 13px;
@@ -86,8 +87,41 @@ li {
     background-color 0.5s ease;
 }
 
-.crear-pregunta:hover {
+.ask-question:hover {
     background-color: #FF6A00;
+}
+
+.user-info {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 13px 13px;
+    color: #F25D00;
+    text-decoration: none;
+    margin-left: 15px;
+    background-color 0.5s ease;
+}
+
+.user-info:hover {
+    background-color: #fff;
+}
+
+.logout {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 8px 8px;
+    color: #F25D00;
+    text-decoration: none;
+    margin-left: 3px;
+}
+
+.owner {
+    float: right;
+    color: #476C8F;
+    font-size: x-small;
+}
+
+.owner span {
+    font-size: small;
 }
 
 .category {
@@ -105,10 +139,11 @@ section {
 
 .form-cont h1 {
     text-align: center;
-    color: #fff;
+    color: #595B67;
     font-weight: 400;
     font-size: 40px;
-    margin-top: 70px;
+    margin: 30px auto 0;
+
 }
 
 .logo {
@@ -116,13 +151,13 @@ section {
     padding-top: 40px;
 }
 
-.form-search-question{
+.form-search-question {
     text-align: center;
 }
 
 .input-search-question {
-    width: 70%;
-    border:0;
+    width: 92%;
+    border: 0;
     height: 40px;
     border-radius: 3px;
     padding: 5px 15px;
@@ -130,13 +165,14 @@ section {
     font-weight: 300;
     color: #606060;
 }
+
 input.search-submit {
     background: url(/img/search-icon.png) no-repeat center;
     background-color: #008EFF;
     border: 0;
     color: #fff;
     height: 50px;
-    width: 50px;
+    width: 5%;
     display: inline-block;
     vertical-align: top;
     border-radius: 0px 3px 3px 0px;
@@ -189,7 +225,6 @@ input.search-submit {
     display: block;
 }
 
-
 .suggestions-cont {
     position: absolute;
     background-color: #fff;
@@ -202,6 +237,11 @@ span.tags {
     padding: 5px 15px;
     font-size: 14px;
     display: inline-block;
+}
+
+span.tags a {
+    color: #476C8F;
+    text-decoration: none;
 }
 
 .tags-cont {
@@ -294,7 +334,7 @@ ul.suggestions-cont li:first-child {
 section.form-cont-ask form {
     width: 933px;
     background-color: #fff;
-    margin: 80px auto 0;
+    margin: 30px auto 0;
     border-radius: 3px;
     padding: 30px 50px;
     box-shadow: 0 0 5px #CACACA;
@@ -316,10 +356,10 @@ section.form-cont-ask textarea {
     border: 1px solid #e4e4e4;
 }
 
-section.form-cont-ask textarea  {
+section.form-cont-ask textarea {
     margin-top: 20px;
     height: 100px;
-        padding: 15px 15px;
+    padding: 15px 15px;
     font-size: 15px;
 }
 
@@ -337,15 +377,15 @@ input.submit-ask {
     font-size: 16px;
     margin-top: 20px;
     margin-right: 10px;
-cursor: pointer;
+    cursor: pointer;
 }
 
 .submit-ask {
-background-color: #4285F4 !important;
+    background-color: #4285F4 !important;
 }
 
 input[type="text"],
-input[type="textarea"]  {
+input[type="textarea"] {
     padding: 5px 15px;
     font-size: 15px;
 }
@@ -423,4 +463,48 @@ input[type="textarea"]  {
     margin-top: 5px;
     margin-right: 10px;
     cursor: pointer;
+}
+
+.alert-box {
+    font-size: 17px;
+    width: 933px;
+    display: block;
+    background-color: #555;
+    margin: 30px auto 0;
+    border-radius: 3px;
+    padding: 30px 50px;
+    box-shadow: 0 0 5px #CACACA;
+}
+
+.alert-box span {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.error {
+    background: #ffecec;
+    border: 1px solid #f5aca6;
+}
+
+.success {
+    background: #e9ffd9;
+    border: 1px solid #a6ca8a;
+}
+
+.warning {
+    background: #fff8c4;
+    border: 1px solid #f2c779;
+}
+
+.notice {
+    background: #e3f7fc;
+    border: 1px solid #8ed9f6;
+}
+
+.search-container{
+    font-size: 17px;
+    width: 933px;
+    display: block;
+    margin: 30px auto 0;
+    padding: 0 50px;
 }

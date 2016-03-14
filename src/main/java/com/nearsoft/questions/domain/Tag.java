@@ -3,17 +3,13 @@ package com.nearsoft.questions.domain;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Indexed
-public class Tag implements Serializable {
+public class Tag extends AbstractAuditableEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
     @SequenceGenerator(name = "tag_seq", sequenceName = "tag_seq")
@@ -23,7 +19,8 @@ public class Tag implements Serializable {
     @Field
     private String name;
 
-    public Tag() { }
+    public Tag() {
+    }
 
     public Tag(String name) {
         this.name = name;

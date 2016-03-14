@@ -36,14 +36,6 @@ public class ProfileForm {
         this.location = location;
     }
 
-    public MultipartFile getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(MultipartFile photo) {
-        this.photo = photo;
-    }
-
     public ProfileForm() {
     }
 
@@ -53,13 +45,11 @@ public class ProfileForm {
         this.location = user.getProfile().getLocation();
     }
 
-    public void merge(ProfileForm form, Profile profile) {
-
+    public void merge(Profile profile) {
         User user = profile.getUser();
-
-        user.setFirstName(form.getFirstName());
-        user.setLastName(form.getLastName());
-        profile.setLocation(form.getLocation());
+        user.setFirstName(this.getFirstName());
+        user.setLastName(this.getLastName());
+        profile.setLocation(this.getLocation());
     }
 
 

@@ -4,33 +4,31 @@ import com.nearsoft.questions.controller.form.auth.ProfileForm;
 import com.nearsoft.questions.domain.auth.Profile;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
-import com.nearsoft.questions.service.Storage;
 import com.nearsoft.questions.service.UserService;
-import com.nearsoft.questions.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfilesController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserService userService;
-    private final Storage storage;
 
     @Autowired
-    public ProfileController(UserService userService, Storage storage) {
+    public ProfilesController(UserService userService) {
         this.userService = userService;
-        this.storage = storage;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -39,7 +37,7 @@ public class ProfileController {
         log.info("Rendering My Profile view");
 
         model.addAttribute("form", new ProfileForm(userService.getUserFromDetails(
-            (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
         ));
 
         return "auth/profile";
@@ -47,29 +45,18 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.POST)
     @Secured({"ROLE_USER"})
-    public String updateMyProfile(@ModelAttribute("form") ProfileForm form) {
+    public String updateMyProfile(@ModelAttribute("form") ProfileForm form, @AuthenticationPrincipal UserDetails details, RedirectAttributes attributes) {
         log.info("Updating the profile for the user logged in");
 
-        User user = userService.getUserFromDetails((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        User user = userService.getUserFromDetails(details);
         Profile profile = user.getProfile();
 
-        form.merge(form, profile);
-
-        if (form.getPhoto() != null) {
-
-            if (profile.getPhotoUri() != null) {
-                profile.setPhotoUri(storage.replace(FileUtils.getStreamFromMultipart(
-                        form.getPhoto()), profile.getPhotoUri(), form.getPhoto().getOriginalFilename()));
-            } else {
-                profile.setPhotoUri(storage.save(FileUtils.getStreamFromMultipart(
-                        form.getPhoto()), form.getPhoto().getOriginalFilename()));
-            }
-
-        }
-
+        form.merge(profile);
         userService.save(user);
 
-        return "auth/profile";
+        attributes.addFlashAttribute("successMessage", "Your profile has been updated");
+
+        return "redirect:profile";
     }
 
 }

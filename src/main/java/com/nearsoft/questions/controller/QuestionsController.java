@@ -18,23 +18,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/question")
-public class QuestionController extends BaseController {
+public class QuestionsController extends BaseController {
 
-    private final Logger _log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    QuestionService _questionService;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    TagService _tagService;
+    QuestionService questionService;
+
+    @Autowired
+    TagService tagService;
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
-        _log.debug("Who's operating ? " + details);
+        log.debug("Who's operating ? " + details);
         if (form != null) {
-            _log.debug("Trying to add " + form);
-            Question question = new Question(form, _tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
-            _questionService.save(question);
+            log.debug("Trying to add " + form);
+            Question question = new Question(form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
+            questionService.save(question);
             redirectAttributes.addAttribute("id", question.getId());
             return "redirect:/question/{id}";
         }
@@ -43,32 +43,40 @@ public class QuestionController extends BaseController {
 
     @RequestMapping(value = "/order/unanswered", method = RequestMethod.GET)
     public String getUnanswered(Model model,
-        @RequestParam(required = false, defaultValue = "1") Integer page,
-        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
-        model.addAttribute(_questionService.getUnanswered(page, pageSize).getContent());
+                                @RequestParam(required = false, defaultValue = "1") Integer page,
+                                @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute("questionList", questionService.getUnanswered(page, pageSize).getContent());
         return "showQuestions";
     }
 
     @RequestMapping(value = "/order/newest", method = RequestMethod.GET)
     public String getNewest(Model model,
-        @RequestParam(required = false, defaultValue = "1") Integer page,
-        @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
-        model.addAttribute(_questionService.getNewest(page, pageSize).getContent());
+                            @RequestParam(required = false, defaultValue = "1") Integer page,
+                            @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute(questionService.getNewest(page, pageSize).getContent());
+        return "showQuestions";
+    }
+
+    @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
+    public String getNewestByTag(Model model, @PathVariable long id,
+                                 @RequestParam(required = false, defaultValue = "1") Integer page,
+                                 @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        model.addAttribute(questionService.getNewestByTag(id, page, pageSize).getContent());
         return "showQuestions";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String get(@PathVariable long id, Model model) {
-        _log.info("question with id " + id);
-        model.addAttribute(_questionService.get(id));
-        return "show1Question";
+        log.info("question with id " + id);
+        model.addAttribute(questionService.get(id));
+        return "showOneQuestion";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
     public List<Question> search(@RequestParam String query) {
-        _log.debug("Query : " + query);
-        return _questionService.search(query);
+        log.debug("Query : " + query);
+        return questionService.search(query);
     }
 
 }

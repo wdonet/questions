@@ -21,27 +21,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/answer")
 public class AnswerController extends BaseController {
 
-    private final Logger _log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    AnswerService _answerService;
+    AnswerService answerService;
 
     @Autowired
-    QuestionService _questionService;
+    QuestionService questionService;
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details)
         throws QuestionNotFoundException {
-        _log.debug("Who's operating ? " + details);
+        log.debug("Who's operating ? " + details);
         if (form != null && form.getQuestionId() != null) {
-            _log.debug("Trying to add " + form);
+            log.debug("Trying to add " + form);
             Question question = getQuestion(form);
             Answer answer = new Answer();
             answer.setUser(getUser(details));
             answer.setDescription(form.getDescription());
             answer.setQuestion(question);
-            _answerService.save(answer);
-            _questionService.updateTotalAnswers(question);
+            answerService.save(answer);
+            questionService.updateTotalAnswers(question);
 
             redirectAttributes.addAttribute("id", form.getQuestionId());
             return "redirect:/question/{id}";
@@ -51,7 +51,7 @@ public class AnswerController extends BaseController {
 
     private Question getQuestion(AnswerForm form) throws QuestionNotFoundException {
         Long questionId = form.getQuestionId();
-        Question question = _questionService.get(questionId);
+        Question question = questionService.get(questionId);
         if (question == null) {
             throw new QuestionNotFoundException(questionId);
         }
