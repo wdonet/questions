@@ -23,4 +23,4 @@ You can see the [prototype online](https://nsquestions.herokuapp.com)
 
 ## How to contribute
 
-Please check how to contribute in our [Contribution document](https://github.com/Nearsoft/training/blob/master/CONTRIBUTING.md)
+Please check how to contribute in our [Contribution document](https://github.com/Nearsoft/questions/blob/master/CONTRIBUTING.md)
