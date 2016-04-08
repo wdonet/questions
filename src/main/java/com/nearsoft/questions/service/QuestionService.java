@@ -19,4 +19,6 @@ public interface QuestionService {
     Page<Question> getUnanswered(int UIPageNumber, int pageSize);
 
     Page<Question> getNewest(int UIPageNumber, int pageSize);
+
+    Page<Question> getNewestByTag(long tagId, int UIPageNumber, int pageSize);
 }

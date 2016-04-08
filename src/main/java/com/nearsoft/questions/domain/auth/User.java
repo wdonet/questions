@@ -1,9 +1,11 @@
 package com.nearsoft.questions.domain.auth;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user", schema = "public")
+@Cacheable
 public class User {
 
     @Id
@@ -29,6 +31,7 @@ public class User {
     private SocialMediaService signInProvider;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private Profile profile;
 
     public Long getId() {
@@ -45,6 +48,10 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public Role getRole() {

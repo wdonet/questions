@@ -10,14 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public abstract class BaseController {
 
     @Autowired
-    UserService _userService;
+    UserService userService;
 
     protected User getUser(UserDetails details) {
         if (details == null || StringUtils.isBlank(details.getUsername())) {
             throw new UsernameNotFoundException("Invalid details: " + details);
         }
         String email = details.getUsername();
-        User user = _userService.getUserByEmail(email);
+        User user = userService.getUserByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid user: " + email);
         }

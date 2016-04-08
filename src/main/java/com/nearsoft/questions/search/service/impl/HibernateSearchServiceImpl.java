@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class HibernateSearchServiceImpl implements HibernateSearchService {
     @PersistenceContext
-    private EntityManager _entityManager;
+    private EntityManager entityManager;
 
     @Transactional
     public <E> List search(Class<E> e, String query, String[] fields) {
-        FullTextEntityManager _fullTextEntityManager = Search.getFullTextEntityManager(_entityManager);
+        FullTextEntityManager _fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         org.hibernate.search.query.dsl.QueryBuilder qb = _fullTextEntityManager.getSearchFactory().buildQueryBuilder().
                 forEntity(e).get();
         org.apache.lucene.search.Query luceneQuery = qb

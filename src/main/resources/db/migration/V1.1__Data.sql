@@ -1,7 +1,11 @@
 -- public.user
 
 INSERT INTO public.user (id, email, first_name, last_name, role)
-VALUES (1, 'nsq@nearsoft.com', 'system', 'default', 'ROLE_USER');
+VALUES (1, 'nsq@nearsoft.com', 'John', 'Doe', 'ROLE_USER');
+
+INSERT INTO profiles (id, location, photo_uri, reputation)
+VALUES (1, 'Hermosillo', 'http://www.twoorist.com/resources/images/uploads/images/97714346f8b6a5c10d716643eee28a8e.jpg',
+        '0');
 
 -- Questions
 
