@@ -17,15 +17,22 @@
         <span>No tags</span>
     </#list>
         <div class="question-description">${question.description}</div>
+        <div class="author-name">asked by <span>${(question.user.fullName)!""}</span> <img
+                src="${question.user.profile.photoUri!"#"}"></div>
+        <h2 class="answers-title">What people have answered</h2>
     <#list question.answers as answer>
         <div class="answers-cont">
-            <h2 class="answers-title">What people have answered</h2>
+
+            <div class="answers">${answer.description}</div>
 
             <div class="author-cont">
-                <div class="author-name"><img src="${answer.user.imageUrl!"#"}">${answer.user.fullName!""}</div>
-                <div class="answer-date">- 1 Hour Ago</div>
+                <div class="author-name">answered by <span>${answer.user.fullName!""}</span>
+                    <img src="${answer.user.profile.photoUri!"#"}"></div>
+                <#if answer.createdAt??>
+                    <div class="answer-date">- ${answer.createdAt}</div>
+                </#if>
+
             </div>
-            <div class="answers">${answer.description}</div>
         </div>
     <#else>
         <div>No answers</div>
