@@ -40,3 +40,6 @@ target/*
 
 # Node.js files #
 node_modules
+
+# React files #
+/webapp/build/
