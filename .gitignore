@@ -22,12 +22,21 @@ target/*
 
 # emacs temp files #
 *~
+*.elc
+*#
+.#*
+!.#
 
 # log files #
 *.log
 
 #hibernate search
-
 /var/*
-
 /data/*
+
+# OS X dummy files #
+.DS_Store
+._*
+
+# Node.js files #
+node_modules
