@@ -42,4 +42,4 @@ target/*
 node_modules
 
 # React files #
-/webapp/build/
+build
