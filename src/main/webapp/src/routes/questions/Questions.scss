@@ -1,0 +1,99 @@
+@import '../../components/variables.scss';
+
+.tags {
+    color: #476C8F;
+    background-color: #CAE1FA;
+    border-radius: 25px;
+    padding: 5px 15px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.tagsCont {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    margin-top: 15px;
+}
+
+.answerTitle {
+    font-size: 23px;
+    color: #65758C;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.suggestionWrapper {
+    width: 933px;
+    display: block;
+    margin: 60px auto 0 auto;
+}
+
+.suggestionsCont,
+.questionCont {
+    width: 865px;
+    border-radius: 3px;
+    padding: 35px;
+    box-shadow: 0 0 3px #BFBDBD;
+    margin-bottom: 50px;
+    position: absolute;
+    background-color: #fff;
+}
+
+.questionCont {
+    background-color: #fff;
+}
+
+.suggestionsCont li {
+    width: 100%;
+    text-align: left;
+    margin-top: 22px;
+    border-top: 1px solid #F0F0F0;
+    padding-top: 15px;
+}
+
+.suggestionsCont li:first-child {
+    margin-top: 0;
+    border-top-width: 0;
+    padding-top: 0;
+}
+
+.unansweredQuestionsTitle {
+    font-size: 25px;
+    color: #595B67;
+    font-weight: 700;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 0 0 3px #BFBDBD;
+}
+
+.questionIcon {
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+.answersTotal {
+    display: inline-block;
+    color: #B1B1B1;
+    font-size: 19px;
+    margin-left: 20px;
+}
+
+.tagIcon {
+    display: inline-block;
+    color: #476C8F;
+    margin-right: 10px;
+}
+
+.tagIcon img {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+    margin-top: -3px;
+}
