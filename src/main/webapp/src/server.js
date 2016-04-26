@@ -17,7 +17,8 @@ import { match } from 'universal-router';
 import PrettyError from 'pretty-error';
 import routes from './routes';
 import assets from './assets';
-import { port, auth, analytics } from './config';
+import { port, apiPort, analytics } from './config';
+import proxy from 'http-proxy-middleware';
 
 const app = express();
 
@@ -27,6 +28,11 @@ const app = express();
 // -----------------------------------------------------------------------------
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
+
+//
+// Register API middleware
+// -----------------------------------------------------------------------------
+app.use(proxy(`http://localhost:${apiPort}/api`));
 
 //
 // Register Node.js middleware
