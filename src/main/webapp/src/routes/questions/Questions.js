@@ -11,7 +11,8 @@ function Questions({ questions, className }, context) {
   return (
     <div className={cx(s.container, className)}>
       <h1 className={s.unansweredQuestionsTitle}>
-        <img src={require('./question-icon.png')} className={s.questionIcon} /> Questions
+        <img src={require('./question-icon.png')} className={s.questionIcon} />
+        Questions
       </h1>
       <ul className={s.suggestionsCont}>
         {questions.map(function renderQuestions(question) {
