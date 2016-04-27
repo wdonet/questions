@@ -17,7 +17,7 @@ function Questions({ questions, className }, context) {
       <ul className={s.suggestionsCont}>
         {questions.map(function renderQuestions(question) {
           return (
-            <li>
+              <li key={question._links.self.href}>
               <Link className={s.answerTitle} to={`/questions/${question.id}`}>
                 {question.title}
               </Link>
