@@ -7,32 +7,12 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-* {
-  line-height: 1.2;
-  margin: 0;
-}
-
-html {
-  color: #888;
-  display: table;
-  font-family: sans-serif;
-  height: 100%;
-  text-align: center;
-  width: 100%;
-}
-
-body {
-  display: table-cell;
-  vertical-align: middle;
-  /* stylelint-disable */
-  margin: 2em auto;
-  /* stylelint-enable */
-}
-
 h1 {
   color: #555;
   font-size: 2em;
   font-weight: 400;
+  text-align: center;
+  margin-top: 100px;
 }
 
 p {
