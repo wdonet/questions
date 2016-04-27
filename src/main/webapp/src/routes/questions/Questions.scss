@@ -1,5 +1,11 @@
 @import '../../components/variables.scss';
 
+.container {
+    width: 933px;
+    display: block;
+    margin: 60px auto 0 auto;
+}
+
 .tags {
     color: #476C8F;
     background-color: #CAE1FA;
@@ -24,12 +30,6 @@
     &:hover {
         text-decoration: underline;
     }
-}
-
-.suggestionWrapper {
-    width: 933px;
-    display: block;
-    margin: 60px auto 0 auto;
 }
 
 .suggestionsCont,
@@ -73,7 +73,7 @@
 
 .questionIcon {
     display: inline-block;
-    vertical-align: text-top;
+    vertical-align: middle;
 }
 
 .answersTotal {
