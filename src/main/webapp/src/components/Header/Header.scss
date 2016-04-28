@@ -1,10 +1,8 @@
 @import '../variables.scss';
 
-.root {
-  width: 100%;
-  margin: 0 auto;
-  height: 115px;
+:global .header {
   background-color: #595B67;
+  height: 115px;
 }
 
 .container {
@@ -17,7 +15,7 @@
   padding-top: 40px;
 }
 
-#go_signin {
+.go_signin {
   width: auto;
   float: right;
   margin-top: 50px;

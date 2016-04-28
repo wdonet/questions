@@ -29,9 +29,9 @@ function QuestionCard({ title, totalAnswers, tags = [], user, className }, conte
 
 QuestionCard.propTypes = {
   className: PropTypes.string,
+  tags: PropTypes.array,
   title: PropTypes.string,
   totalAnswers: PropTypes.number,
-  tags: PropTypes.array,
   user: PropTypes.object,
 };
 

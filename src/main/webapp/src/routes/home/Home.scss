@@ -8,11 +8,11 @@ body {
   margin: 0;
 }
 
-header {
+:global .header {
   background-color: transparent;
 }
 
-strong {
+.hl {
   color: #FFFFFF;
   text-decoration: underline;
 }

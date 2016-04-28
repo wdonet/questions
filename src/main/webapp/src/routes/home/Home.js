@@ -8,11 +8,11 @@ const title = 'NSQuestions';
 function Home(props, context) {
   context.setTitle(title);
   return (
-    <div className={s.root}>
+    <section className={s.root}>
       <h1 className={s.title}>
-        It's easy to find answers to <strong>internal</strong>  &amp; <strong>technical</strong> questions
+        It's easy to find answers to <strong className={s.hl}>internal</strong> &amp; <strong className={s.hl}>technical</strong> questions
       </h1>
-      <section className={s.features}>
+      <div className={s.features}>
         <Feature title="Search Questions" img={require('./busca-img.png')} imgAlt="Busca alguna pregunta">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
         </Feature>
@@ -22,8 +22,8 @@ function Home(props, context) {
         <Feature title="Notify Questions" img={require('./notifica-img.png')} imgAlt="Notifica">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
         </Feature>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 

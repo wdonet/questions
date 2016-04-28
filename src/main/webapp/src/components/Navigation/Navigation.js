@@ -7,8 +7,7 @@ import Link from '../Link';
 function Navigation({ className }) {
   return (
     <nav className={cx(s.root, className)} role="navigation">
-      <Link className={s.link} to="/">FAQ</Link>
-      <Link className={s.link} to="/">Tags</Link>
+      <Link className={s.link} to="/">Search</Link>
       <Link className={s.link} to="/">Tags</Link>
       <Link className={s.link} to="/questions/order/unanswered">Unanswered</Link>
       <Link className={s.link} to="/questions/order/newest">Newest</Link>

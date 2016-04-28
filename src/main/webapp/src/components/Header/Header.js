@@ -1,15 +1,20 @@
 import React from 'react';
+import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.scss';
 import Navigation from '../Navigation';
+import Link from '../Link';
 
-function Header() {
+function Header({ className }) {
   return (
-    <header className={s.root}>
+    <header className={cx('header', className)}>
       <div className={s.container}>
-        <img src={require('./logo.png')} className={s.logo} />
+        <Link to="/"><img src={require('./logo.png')} className={s.logo} /></Link>
         {/*
-        <form name="go_signin" id={s.go_signin} action="/auth/google" method="post"><input className={s.submit} type="submit" defaultValue="Sign in with your Nearsoft account" /><input type="hidden" name="scope" defaultValue="profile email" /></form>
+        <form name="go_signin" className={s.go_signin} action="/auth/google" method="post">
+          <input className={s.submit} type="submit" defaultValue="Sign in with your Nearsoft account" />
+          <input type="hidden" name="scope" defaultValue="profile email" />
+        </form>
         */}
         <Navigation />
       </div>
