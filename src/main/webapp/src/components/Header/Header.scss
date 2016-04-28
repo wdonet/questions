@@ -1,42 +1,42 @@
 @import '../variables.scss';
 
-header {
-    width: 100%;
-    margin: 0 auto;
-    height: 115px;
-    background-color: #595B67;
+.root {
+  width: 100%;
+  margin: 0 auto;
+  height: 115px;
+  background-color: #595B67;
 }
 
-.headerWrapper {
-    width: 930px;
-    margin: 0 auto;
+.container {
+  width: 930px;
+  margin: 0 auto;
 }
 
 .logo {
-    background-image: url(./logo.png) no-repeat center;
-    padding-top: 40px;
+  background-image: url(./logo.png) no-repeat center;
+  padding-top: 40px;
 }
 
 #go_signin {
-    width: auto;
-    float: right;
-    margin-top: 50px;
+  width: auto;
+  float: right;
+  margin-top: 50px;
 }
 
-input[type='submit'] {
-    border: 0;
-    background-color: #F25D00;
-    border-radius: 3px;
-    padding: 13px 13px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    margin-left: 15px;
-    margin-top: -13px;
-    font-weight: 700;
-    cursor: pointer;
-}
+.submit {
+  border: 0;
+  background-color: #F25D00;
+  border-radius: 3px;
+  padding: 13px 13px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  margin-left: 15px;
+  margin-top: -13px;
+  font-weight: 700;
+  cursor: pointer;
 
-input[type='submit']:hover {
+  &:hover {
     background-color: #FF6A00;
+  }
 }
