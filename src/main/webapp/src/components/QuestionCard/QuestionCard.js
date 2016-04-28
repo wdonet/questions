@@ -5,9 +5,8 @@ import Link from '../../components/Link';
 import s from './QuestionCard.scss';
 
 function QuestionCard({ title, totalAnswers, tags = [], user, className }, context) {
-  const tagsList = tags.map(function renderTags(tag) {
-    return <li key={tag} className={s.tag}><Link to="/">{tag}</Link></li>;
-  });
+  const tagsList = tags.map(
+    tag => <li key={tag} className={s.tag}><Link to="/">{tag}</Link></li>);
 
   return (
     <article className={cx(s.root, className)}>

@@ -9,9 +9,8 @@ const title = 'Questions';
 function Questions({ questions, className }, context) {
   context.setTitle(title);
 
-  const questionsList = questions.map(function renderQuestions(question) {
-    return <QuestionCard key={question._links.self.href} {...question} />;
-  });
+  const questionsList = questions.map(
+    question => <QuestionCard key={question._links.self.href} {...question} />);
 
   return (
     <section className={cx(s.root, className)}>
