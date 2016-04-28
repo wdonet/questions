@@ -4,7 +4,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Link from '../../components/Link';
 import s from './QuestionCard.scss';
 
-function QuestionCard({ title, totalAnswers, tags = [], user, className }, context) {
+function QuestionCard(props, context) {
+  const { title, totalAnswers, tags = [], user, className } = props;
+
   const tagsList = tags.map(
     tag => <li key={tag} className={s.tag}><Link to="/">{tag}</Link></li>);
 
