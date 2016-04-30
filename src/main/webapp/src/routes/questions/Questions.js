@@ -2,22 +2,15 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Questions.scss';
-import QuestionCard from '../../components/QuestionCard';
+import QuestionsList from '../../components/QuestionsList';
 
-const title = 'Questions';
-
-function Questions({ questions, className }, context) {
+function Questions({ questions, title, className }, context) {
   context.setTitle(title);
-
-  const questionsList = questions.map(
-    question => <QuestionCard key={question._links.self.href} {...question} />);
 
   return (
     <section className={cx(s.root, className)}>
-      <h1 className={s.title}>Questions</h1>
-      <section className={s.content}>
-        {questionsList}
-      </section>
+      <h1 className={s.title}>{title}</h1>
+      <QuestionsList questions={questions} />
     </section>
   );
 }
@@ -29,6 +22,7 @@ Questions.contextTypes = {
 Questions.propTypes = {
   className: PropTypes.string,
   questions: PropTypes.array,
+  title: PropTypes.string,
 };
 
 export default withStyles(s)(Questions);
