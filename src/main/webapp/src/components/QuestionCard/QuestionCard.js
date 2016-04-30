@@ -4,8 +4,11 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Link from '../../components/Link';
 import s from './QuestionCard.scss';
 
-function QuestionCard(props, context) {
-  const { title, totalAnswers, tags = [], user, className } = props;
+function QuestionCard(props) {
+  const { title, totalAnswers, tags = [], user, _links, className } = props;
+
+  const id = _links.self.href.split('/').pop();
+  const url = `/questions/${id}`;
 
   const tagsList = tags.map(
     tag => <li key={tag} className={s.tag}><Link to="/">{tag}</Link></li>);
@@ -13,7 +16,7 @@ function QuestionCard(props, context) {
   return (
     <article className={cx(s.root, className)}>
       <header>
-        <h1 className={s.title}><Link to="/">{title}</Link></h1>
+        <h1 className={s.title}><Link to={url}>{title}</Link></h1>
         <span className={s.totalAnswers}>- {totalAnswers} Answers</span>
       </header>
 
@@ -29,6 +32,7 @@ function QuestionCard(props, context) {
 }
 
 QuestionCard.propTypes = {
+  _links: PropTypes.object,
   className: PropTypes.string,
   tags: PropTypes.array,
   title: PropTypes.string,
