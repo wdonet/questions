@@ -10,9 +10,9 @@ export default {
 
   children: [
     all,
-    question,
     sort,
     unanswered,
+    question,
   ],
 
   async action({ next }) {
