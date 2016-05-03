@@ -1,6 +1,7 @@
 import React from 'react';
 import api from '../../../api';
-import Questions from '../../../components/Questions';
+import QuestionsList from '../../../components/QuestionsList';
+import Container from '../../../components/Container';
 
 export default {
 
@@ -15,6 +16,10 @@ export default {
     const content = res.entity._embedded;
     if (! content) return undefined;
 
-    return <Questions {...content} title="Unanswered Questions" />;
+    return (
+      <Container title="Unanswered Questions">
+        <QuestionsList {...content} />
+      </Container>
+    );
   },
 };
