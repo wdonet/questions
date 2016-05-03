@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Questions.scss';
+import s from './ContentWithTitle.scss';
 import QuestionsList from '../../components/QuestionsList';
 
 function Questions({ questions, title, className }, context) {

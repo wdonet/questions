@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../../../api';
 import capitalize from 'underscore.string/capitalize';
-import Questions from '../Questions';
+import Questions from '../../../components/Questions';
 
 export default {
 
