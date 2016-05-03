@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Link from '../../components/Link';
+import TagList from '../../components/TagList';
 import s from './QuestionCard.scss';
 
 function QuestionCard(props) {
@@ -9,9 +10,6 @@ function QuestionCard(props) {
 
   const id = _links.self.href.split('/').pop();
   const url = `/questions/${id}`;
-
-  const tagsList = tags.map(
-    tag => <li key={tag} className={s.tag}><Link to="/">{tag}</Link></li>);
 
   return (
     <article className={cx(s.root, className)}>
@@ -22,9 +20,7 @@ function QuestionCard(props) {
 
       <footer>
         <strong className={s.tagsHeader}>Tags:</strong>
-        <ul className={s.tagsList}>
-          {tagsList}
-        </ul>
+        <TagList tags={tags} />
         <b className={s.author}><small>Asked by</small> {user.fullName}</b>
       </footer>
     </article>
