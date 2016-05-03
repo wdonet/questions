@@ -1,6 +1,6 @@
 // Child routes
 import all from './all';
-import order from './order';
+import sort from './sort';
 import question from './question';
 
 export default {
@@ -9,7 +9,7 @@ export default {
 
   children: [
     all,
-    order,
+    sort,
     question,
   ],
 

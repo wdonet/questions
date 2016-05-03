@@ -5,20 +5,19 @@ import Questions from '../Questions';
 
 export default {
 
-  path: '/order/:order',
+  path: '/sort/:sort',
 
-  async action(context, { order }) {
+  async action(context, { sort }) {
     const res = await api({
       method: 'GET',
       path: '/api/questions',
-      params: { order },
+      params: { order: sort },
     });
 
     const content = res.entity._embedded;
     if (! content) return undefined;
 
-    console.log('test order route');
-    const title = capitalize(`${order} Questions`);
+    const title = capitalize(`${sort} Questions`);
 
     return <Questions {...content} title={title} />;
   },

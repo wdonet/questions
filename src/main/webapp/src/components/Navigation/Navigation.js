@@ -9,8 +9,8 @@ function Navigation({ className }) {
     <nav className={cx(s.root, className)} role="navigation">
       <Link className={s.link} to="/">Search</Link>
       <Link className={s.link} to="/">Tags</Link>
-      <Link className={s.link} to="/questions/order/unanswered">Unanswered</Link>
-      <Link className={s.link} to="/questions/order/newest">Newest</Link>
+      <Link className={s.link} to="/questions/unanswered">Unanswered</Link>
+      <Link className={s.link} to="/questions/sort/newest">Newest</Link>
       <Link className={s.linkAsk} to="/ask">Ask a Question</Link>
     </nav>
   );
