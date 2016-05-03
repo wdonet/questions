@@ -1,5 +1,5 @@
 import React from 'react';
-import Questions from '../Questions';
+import Questions from '../../../components/Questions';
 import api from '../../../api';
 
 export default {
