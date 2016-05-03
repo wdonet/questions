@@ -3,8 +3,6 @@ import App from '../components/App';
 
 // Child routes
 import home from './home';
-import login from './login';
-import register from './register';
 import questions from './questions';
 import error from './error';
 
@@ -14,8 +12,6 @@ export default {
 
   children: [
     home,
-    login,
-    register,
     questions,
     error,
   ],
