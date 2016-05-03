@@ -1,7 +1,8 @@
 // Child routes
 import all from './all';
-import sort from './sort';
 import question from './question';
+import sort from './sort';
+import unanswered from './unanswered';
 
 export default {
 
@@ -9,8 +10,9 @@ export default {
 
   children: [
     all,
-    sort,
     question,
+    sort,
+    unanswered,
   ],
 
   async action({ next }) {
