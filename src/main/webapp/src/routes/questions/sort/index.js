@@ -1,7 +1,8 @@
 import React from 'react';
 import api from '../../../api';
 import capitalize from 'underscore.string/capitalize';
-import Questions from '../../../components/Questions';
+import QuestionsList from '../../../components/QuestionsList';
+import Container from '../../../components/Container';
 
 export default {
 
@@ -19,6 +20,10 @@ export default {
 
     const title = capitalize(`${sort} Questions`);
 
-    return <Questions {...content} title={title} />;
+    return (
+      <Container title={title}>
+        <QuestionsList {...content} />
+      </Container>
+    );
   },
 };

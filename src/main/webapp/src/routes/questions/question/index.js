@@ -1,6 +1,7 @@
 import React from 'react';
 import api from '../../../api';
 import Question from './Question';
+import Container from '../../../components/Container';
 
 export default {
 
@@ -15,6 +16,10 @@ export default {
     const content = res.entity;
     if (! content) return undefined;
 
-    return <Question {...content} />;
+    return (
+      <Container>
+        <Question {...content} />
+      </Container>
+    );
   },
 };
