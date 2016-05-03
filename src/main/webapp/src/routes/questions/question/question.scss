@@ -1,5 +1,29 @@
 @import '../../../components/variables.scss';
 
 .root {
+}
 
+.title {
+  color: #595B67;
+  margin-bottom: 5px;
+  font-size: 30px;
+}
+
+.description {
+  border: 2px solid #F1F1F1;
+  padding: 15px;
+  margin: 25px 0 15px;
+  border-radius: 3px;
+  background-color: #F9F9F9;
+  color: #4F4F4F;
+}
+
+.footer {
+  color: #536C8F;
+  font-weight: 700;
+}
+
+.answers {
+  border-top: 1px solid #F1F1F1;
+  margin-top: 25px;
 }
