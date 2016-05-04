@@ -6,7 +6,7 @@ import TagList from '../../components/TagList';
 import s from './QuestionCard.scss';
 
 function QuestionCard(props) {
-  const { title, totalAnswers, tags = [], user, _links, className } = props;
+  const { title, totalAnswers, tags, user, _links, className } = props;
 
   const id = _links.self.href.split('/').pop();
   const url = `/questions/${id}`;
@@ -26,6 +26,9 @@ function QuestionCard(props) {
     </article>
   );
 }
+QuestionCard.defaultProps = {
+  tags: [],
+};
 
 QuestionCard.propTypes = {
   _links: PropTypes.object,

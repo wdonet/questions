@@ -1,0 +1,10 @@
+@import '../../components/variables.scss';
+
+.question {
+  border-top: 1px solid #F0F0F0;
+  padding-bottom: 20px;
+
+  &:first-child {
+    border-top-width: 0;
+  }
+}
