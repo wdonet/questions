@@ -1,0 +1,32 @@
+a[type="button"],
+button {
+  appearance: none;
+  border-radius: 3px;
+  border: 0;
+  color: #FFF;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.9rem;
+  font-smoothing: antialiased;
+  line-height: 1;
+  margin: 0;
+  padding: 0.85em 1em;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.25s ease-out;
+  vertical-align: middle;
+
+  &disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &:global.blue {
+    background: #4285F4;
+  }
+
+  &:global.orange {
+    background: #F25D00;
+  }
+}

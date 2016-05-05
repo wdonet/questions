@@ -1,9 +1,14 @@
 @import '../../../node_modules/normalize.css/normalize.css';
+@import '../buttons.scss';
 @import '../variables.scss';
 
 /*
  * Base styles
  * ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
 
 html {
   color: #222;

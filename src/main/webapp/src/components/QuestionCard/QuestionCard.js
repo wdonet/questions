@@ -26,10 +26,6 @@ function QuestionCard(props) {
     </article>
   );
 }
-QuestionCard.defaultProps = {
-  tags: [],
-};
-
 QuestionCard.propTypes = {
   _links: PropTypes.object,
   className: PropTypes.string,
@@ -37,6 +33,10 @@ QuestionCard.propTypes = {
   title: PropTypes.string,
   totalAnswers: PropTypes.number,
   user: PropTypes.object,
+};
+
+QuestionCard.defaultProps = {
+  tags: [],
 };
 
 export default withStyles(s)(QuestionCard);

@@ -11,7 +11,9 @@ function Navigation({ className }) {
       <Link className={s.link} to="/">Tags</Link>
       <Link className={s.link} to="/questions/unanswered">Unanswered</Link>
       <Link className={s.link} to="/questions/sort/newest">Newest</Link>
-      <Link className={s.linkAsk} to="/ask">Ask a Question</Link>
+      <Link className={cx(s.link, 'orange')} type="button" to="/ask">
+        Ask a Question
+      </Link>
     </nav>
   );
 }
