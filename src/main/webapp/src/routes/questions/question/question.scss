@@ -1,8 +1,5 @@
 @import '../../../components/variables.scss';
 
-.root {
-}
-
 .title {
   color: #595B67;
   margin-bottom: 5px;
@@ -18,12 +15,29 @@
   color: #4F4F4F;
 }
 
-.footer {
+.author {
   color: #536C8F;
   font-weight: 700;
 }
 
-.answers {
+.answer {
+  margin-bottom: 25px;
+}
+
+.answers,
+.addAnswer {
   border-top: 1px solid #F1F1F1;
   margin-top: 25px;
+}
+
+.answerInput {
+  width: 100%;
+  border: 2px solid #F1F1F1;
+  min-height: 80px;
+  padding: 10px;
+}
+
+.addButton {
+  padding-left: 30px;
+  padding-right: 30px;
 }
