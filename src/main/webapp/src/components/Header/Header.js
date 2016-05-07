@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.scss';
@@ -9,17 +9,19 @@ function Header({ className }) {
   return (
     <header className={cx('header', className)}>
       <div className={s.container}>
-        <Link to="/"><img src={require('./logo.png')} className={s.logo} /></Link>
-        {/*
-        <form name="go_signin" className={s.go_signin} action="/auth/google" method="post">
-          <input className={s.submit} type="submit" defaultValue="Sign in with your Nearsoft account" />
-          <input type="hidden" name="scope" defaultValue="profile email" />
-        </form>
-        */}
+        <Link to="/">
+          <img className={s.logo}
+            src={require('./logo.png')} alt="Nearsoft Questions"
+          />
+        </Link>
         <Navigation />
       </div>
     </header>
   );
 }
+
+Header.propTypes = {
+  className: PropTypes.string,
+};
 
 export default withStyles(s)(Header);
