@@ -5,6 +5,7 @@
 - [Java 1.8] (https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jdk.html)
 - [PostgreSQL Server] (http://www.postgresql.org/download/macosx/)
 - Maven 3. Run `brew update && brew install maven`
+- Node 6. You can use [nvm] (https://github.com/creationix/nvm)
 
 ## Setting up your environment
 
@@ -16,7 +17,9 @@
 We are using Spring Boot and the plugin to run a Spring Boot application with Maven is enabled so you can run the app with
 `mvn spring-boot:run -Ddbuser=<user> -Ddbpass=<password> -Dserver.port=<port>`
 
-**Note**: To be able to login with Google Nearsoft account you must run the application in 8080 or 8081
+**Note**: To be able to login with Google Nearsoft account you must run the application in 8080
+
+To run the UI in React go to `src/main/webapp` and run the command `npm start`. Once it's ready it will open your browser with the url `http://localhost:3001`.
 
 ## Deploying
 
