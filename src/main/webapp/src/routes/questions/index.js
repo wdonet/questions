@@ -1,7 +1,7 @@
 // Child routes
 import all from './all';
 import question from './question';
-import sort from './sort';
+import newest from './newest';
 import unanswered from './unanswered';
 
 export default {
@@ -10,7 +10,7 @@ export default {
 
   children: [
     all,
-    sort,
+    newest,
     unanswered,
     question,
   ],

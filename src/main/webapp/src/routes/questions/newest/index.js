@@ -6,19 +6,19 @@ import Container from '../../../components/Container';
 
 export default {
 
-  path: '/sort/:sort',
+  path: '/sort/newest',
 
-  async action(context, { sort }) {
+  async action() {
     const res = await api({
       method: 'GET',
       path: '/api/questions',
-      params: { order: sort },
+      params: { sort: 'createdAt' },
     });
 
     const content = res.entity._embedded;
     if (! content) return undefined;
 
-    const title = capitalize(`${sort} Questions`);
+    const title = capitalize('Newest Questions');
 
     return (
       <Container title={title}>
