@@ -1,9 +1,9 @@
-a[type="button"],
+a[type='button'],
 button {
   appearance: none;
   border-radius: 3px;
   border: 0;
-  color: #FFF;
+  color: #fff;
   cursor: pointer;
   display: inline-block;
   font-size: 0.9rem;
@@ -23,10 +23,10 @@ button {
   }
 
   &:global.blue {
-    background: #4285F4;
+    background: #4285f4;
   }
 
   &:global.orange {
-    background: #F25D00;
+    background: #f25d00;
   }
 }
