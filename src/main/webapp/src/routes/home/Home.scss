@@ -4,7 +4,7 @@ body {
   background: #e4e4e4 url('./bg.jpg') no-repeat center top;
   background-size: cover;
   height: 100%;
-  padding:0;
+  padding: 0;
   margin: 0;
 }
 
@@ -13,14 +13,14 @@ body {
 }
 
 .hl {
-  color: #FFFFFF;
+  color: #fff;
   text-decoration: underline;
 }
 
 .root {
   width: 1050px;
   display: block;
-  margin: 60px auto 0 auto;
+  margin: 60px auto 0;
 }
 
 .title {

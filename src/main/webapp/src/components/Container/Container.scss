@@ -2,14 +2,14 @@
 
 .root {
   width: 933px;
-  margin: 60px auto 0 auto;
+  margin: 60px auto 0;
 }
 
 .title {
-  background: #FFF url('./question-icon.png') no-repeat 35px center;
+  background: #fff url('./question-icon.png') no-repeat 35px center;
   border-radius: 3px;
-  box-shadow: 0 0 3px #BFBDBD;
-  color: #595B67;
+  box-shadow: 0 0 3px #bfbdbd;
+  color: #595b67;
   font-size: 25px;
   font-weight: 700;
   padding: 20px 35px;
@@ -17,9 +17,9 @@
 }
 
 .content {
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 3px;
-  box-shadow: 0 0 3px #BFBDBD;
+  box-shadow: 0 0 3px #bfbdbd;
   margin-bottom: 50px;
   padding: 35px;
 }
