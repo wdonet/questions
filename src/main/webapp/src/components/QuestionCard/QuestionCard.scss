@@ -1,0 +1,39 @@
+@import '../../components/variables.scss';
+
+.title {
+  display: inline-block;
+  font-size: 23px;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  a {
+    color: #65758c;
+    text-decoration: none;
+  }
+}
+
+.totalAnswers {
+  color: #b1b1b1;
+  display: inline-block;
+  font-size: 19px;
+  margin-left: 20px;
+}
+
+.tagsHeader {
+  background: transparent url('./tag-icon.png') no-repeat 0 center;
+  background-size: 30px;
+  color: #476c8f;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 10px;
+  padding-left: 30px;
+}
+
+.author {
+  color: #476c8f;
+  float: right;
+}
