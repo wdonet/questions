@@ -16,7 +16,7 @@ export default {
     });
 
     const content = res.entity._embedded;
-    if (! content) return undefined;
+    if (!content) return undefined;
 
     const title = capitalize('Newest Questions');
 

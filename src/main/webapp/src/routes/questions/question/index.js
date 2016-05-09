@@ -14,7 +14,7 @@ export default {
     });
 
     const content = res.entity;
-    if (! content) return undefined;
+    if (!content) return undefined;
 
     return (
       <Container>

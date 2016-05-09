@@ -10,6 +10,7 @@ const uriListConverter = {
   read(str) {
     return str.split('\n');
   },
+
   write(obj) {
     // If this is an Array, extract the self URI and then join using a newline
     let ret;
@@ -27,11 +28,13 @@ const uriListConverter = {
 const interceptor = require('rest/interceptor');
 const uriTemplateInterceptor = interceptor({
   request(request) {
-    /* If the URI is a URI Template per RFC 6570 (http://tools.ietf.org/html/rfc6570), trim out the template part */
+    /* If the URI is a URI Template per RFC 6570
+    (http://tools.ietf.org/html/rfc6570), trim out the template part */
     const ret = request;
     if (request.path.indexOf('{') !== -1) {
       ret.path = request.path.split('{')[0];
     }
+
     return ret;
   },
 });

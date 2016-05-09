@@ -26,6 +26,7 @@ function QuestionCard(props) {
     </article>
   );
 }
+
 QuestionCard.propTypes = {
   _links: PropTypes.object,
   className: PropTypes.string,
