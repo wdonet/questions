@@ -41,6 +41,7 @@ async function copy({ watch } = {}) {
       const relPath = file.substr(path.join(__dirname, '../src/content/').length);
       await ncp(`src/content/${relPath}`, `build/content/${relPath}`);
     };
+
     watcher.on('changed', cp);
     watcher.on('added', cp);
   }

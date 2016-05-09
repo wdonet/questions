@@ -14,7 +14,7 @@ export default {
     });
 
     const content = res.entity._embedded;
-    if (! content) return undefined;
+    if (!content) return undefined;
 
     return (
       <Container title="Questions">
