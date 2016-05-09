@@ -1,0 +1,39 @@
+@import '../../components/variables.scss';
+
+body {
+  background: #e4e4e4 url('./bg.jpg') no-repeat center top;
+  background-size: cover;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+:global .header {
+  background-color: transparent;
+}
+
+.hl {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.root {
+  width: 1050px;
+  display: block;
+  margin: 60px auto 0;
+}
+
+.title {
+  text-align: center;
+  color: #fff;
+  font-weight: 500;
+  margin-top: 99px;
+  margin-bottom: 0;
+}
+
+.features {
+  margin-top: 65px;
+  padding: 44px calc(65% - 627px);
+  background-color: rgba(23, 25, 35, 0.3);
+  border-radius: 3px;
+}

@@ -1,0 +1,20 @@
+.root {
+  float: right;
+  padding-top: 50px;
+}
+
+.link,
+.link:active,
+.link:visited {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.link {
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: none;
+
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+}

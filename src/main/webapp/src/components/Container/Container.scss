@@ -1,0 +1,25 @@
+@import '../../components/variables.scss';
+
+.root {
+  width: 933px;
+  margin: 60px auto 0;
+}
+
+.title {
+  background: #fff url('./question-icon.png') no-repeat 35px center;
+  border-radius: 3px;
+  box-shadow: 0 0 3px #bfbdbd;
+  color: #595b67;
+  font-size: 25px;
+  font-weight: 700;
+  padding: 20px 35px;
+  padding-left: 65px;
+}
+
+.content {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 3px #bfbdbd;
+  margin-bottom: 50px;
+  padding: 35px;
+}
