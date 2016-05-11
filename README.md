@@ -1,5 +1,7 @@
 # Nearsoft Questions
 
+[![Build Status](https://travis-ci.org/Nearsoft/questions.svg?branch=dev)](https://travis-ci.org/Nearsoft/questions)
+
 ## Requirements
 
 - [Java 1.8] (https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jdk.html)
