@@ -1,6 +1,7 @@
 # Nearsoft Questions
 
-[![Build Status](https://travis-ci.org/Nearsoft/questions.svg?branch=dev)](https://travis-ci.org/Nearsoft/questions)
+[![Travis Build Status](https://travis-ci.org/Nearsoft/questions.svg?branch=dev)](https://travis-ci.org/Nearsoft/questions)
+[ ![Codeship Status for Nearsoft/questions](https://codeship.com/projects/fe46cd40-f9e0-0133-27dd-124ad23604b3/status?branch=dev)](https://codeship.com/projects/151404)
 
 ## Requirements
 
@@ -39,4 +40,3 @@ Each time a change in the code from the master branch is detected a new deployme
 ## How to contribute
 
 Please check how to contribute in our [Contribution document](https://github.com/Nearsoft/questions/blob/master/CONTRIBUTING.md)
-
