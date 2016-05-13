@@ -30,10 +30,6 @@ target/*
 # log files #
 *.log
 
-#hibernate search
-/var/*
-/data/*
-
 # OS X dummy files #
 .DS_Store
 ._*
@@ -43,3 +39,5 @@ node_modules
 
 # React files #
 **/webapp/build/
+
+/data/*

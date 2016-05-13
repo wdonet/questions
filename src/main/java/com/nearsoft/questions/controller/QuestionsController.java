@@ -3,6 +3,7 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
 import org.slf4j.Logger;
@@ -26,6 +27,9 @@ public class QuestionsController extends BaseController {
     QuestionService questionService;
 
     @Autowired
+    QuestionSearchRepository questionSearchRepository;
+
+    @Autowired
     TagService tagService;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -35,6 +39,7 @@ public class QuestionsController extends BaseController {
             log.debug("Trying to add " + form);
             Question question = new Question(form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
             questionService.save(question);
+            questionSearchRepository.save(question);
             redirectAttributes.addAttribute("id", question.getId());
             return "redirect:/question/{id}";
         }
@@ -69,7 +74,7 @@ public class QuestionsController extends BaseController {
     public String get(@PathVariable long id, Model model) {
         log.info("question with id " + id);
         model.addAttribute(questionService.get(id));
-        return "showOneQuestion";
+        return "show1Question";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
@@ -16,7 +14,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Entity
-@Indexed
+@Document(indexName = "nsquestions", type = "question")
 public class Question extends AbstractAuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
@@ -24,21 +22,17 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    @Field
     private String title;
 
     @Column(nullable = false)
-    @Field
     private String description;
 
-    @IndexedEmbedded
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
 
     @Column(nullable = false)
     private Integer totalAnswers = 0;
 
-    @IndexedEmbedded
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
