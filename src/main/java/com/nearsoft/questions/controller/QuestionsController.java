@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/question")
 public class QuestionsController extends BaseController {
@@ -73,6 +75,13 @@ public class QuestionsController extends BaseController {
         log.info("question with id " + id);
         model.addAttribute(questionService.get(id));
         return "showOneQuestion";
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Question> search(@RequestParam String query) {
+        log.debug("Query : " + query);
+        return questionService.search(query);
     }
 
 }
