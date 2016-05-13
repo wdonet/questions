@@ -72,7 +72,7 @@ public class QuestionsController extends BaseController {
     public String get(@PathVariable long id, Model model) {
         log.info("question with id " + id);
         model.addAttribute(questionService.get(id));
-        return "show1Question";
+        return "showOneQuestion";
     }
 
 }
