@@ -2,10 +2,13 @@ package com.nearsoft.questions.controller.api;
 
 
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -21,12 +24,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RepositoryRestController
 public class QuestionApiController {
 
-    private final QuestionSearchRepository repository;
+    private final QuestionSearchRepository searchRepository;
+    private final QuestionRepository repository;
 
     private PagedResourcesAssembler<Question> assembler;
 
     @Autowired
-    public QuestionApiController(QuestionSearchRepository repository, PagedResourcesAssembler<Question> assembler) {
+    public QuestionApiController(QuestionSearchRepository searchRepository, QuestionRepository repository, PagedResourcesAssembler<Question> assembler) {
+        this.searchRepository = searchRepository;
         this.repository = repository;
         this.assembler = assembler;
     }
@@ -36,9 +41,29 @@ public class QuestionApiController {
     @ResponseBody
     HttpEntity<PagedResources<Resource<Question>>> search(@RequestParam String term, Pageable pageable) {
 
-        Page<Question> results = repository.findByTitleOrDescription(term, term, pageable);
+        Page<Question> results = searchRepository.findByTitleOrDescription(term, term, pageable);
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
 
     }
 
+    @RequestMapping(value = "/questions/unanswered", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    HttpEntity<PagedResources<Resource<Question>>> unanswered(Pageable pageable) {
+
+        Page<Question> results = repository.findByAnswersIsNull(pageable);
+        return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/questions/newest", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    HttpEntity<PagedResources<Resource<Question>>> newest(Pageable pageable) {
+
+        Page<Question> results = repository.findAll(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(),
+                new Sort(Sort.Direction.DESC, "createdAt")));
+        return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
+
+    }
 }
