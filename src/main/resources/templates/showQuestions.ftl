@@ -11,24 +11,27 @@
 <div class="suggestion-wrapper">
     <h1 class="unanswered-questions-title"><img src="/img/question-icon.png" class="question-icon"> Questions</h1>
     <ul class="suggestions-cont">
-    <#list questionList as question>
-        <li>
-            <a class="respuesta-titulo" href="/question/${question.id}">${question.title}</a>
+    <#if questionList?has_content>
+        <#list questionList as question>
+            <li>
+                <a class="respuesta-titulo" href="/question/${question.id}">${question.title}</a>
 
-            <div class="respuestas-total">- ${question.totalAnswers} Answers</div>
-            <div class="tags-cont">
-                <div class="tag-icon"><img src="/img/tag-icon.png" alt="">Tags:</div>
-                <#list question.tags as tag>
-                    <span class="tags"><a href="/question/tag/${tag.id}">${tag.name}</a></span>
-                <#else>
-                    <span class="tags">No tags</span>
-                </#list>
-                <div class="owner">asked by &nbsp; <span>${(question.user.fullName)!""}</span></div>
-            </div>
-        </li>
-    <#else>
+                <div class="respuestas-total">- ${question.totalAnswers} Answers</div>
+                <div class="tags-cont">
+                    <div class="tag-icon"><img src="/img/tag-icon.png" alt="">Tags:</div>
+                    <#list question.tags as tag>
+                        <span class="tags"><a href="/question/tag/${tag.id}">${tag.name}</a></span>
+                    <#else>
+                        <span class="tags">No tags</span>
+                    </#list>
+                    <div class="owner">asked by &nbsp; <span>${(question.user.fullName)!""}</span></div>
+                </div>
+            </li>
+        </#list>
+    </#if>
+    <#if !questionList?has_content>
         <div><@spring.message "questions.empty"/></div>
-    </#list>
+    </#if>
     </ul>
 </div>
 

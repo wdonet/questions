@@ -61,7 +61,10 @@ public class QuestionsController extends BaseController {
     public String getNewestByTag(Model model, @PathVariable long id,
                                  @RequestParam(required = false, defaultValue = "1") Integer page,
                                  @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
-        model.addAttribute(questionService.getNewestByTag(id, page, pageSize).getContent());
+
+        List<Question> questions = questionService.getNewestByTag(id, page, pageSize).getContent();
+
+        model.addAttribute(questions);
         return "showQuestions";
     }
 
