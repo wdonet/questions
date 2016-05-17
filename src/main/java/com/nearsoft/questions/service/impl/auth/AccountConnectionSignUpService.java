@@ -60,8 +60,14 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
     }
 
     private boolean checkDomain(String domain) {
-        List<String> allowedDomains = Arrays.asList(environment.getProperty("spring.social.google.domains").split(","));
-        return allowedDomains.contains(domain);
+        String domains = environment.getProperty("spring.social.google.domains");
+
+        if (domains != null) {
+            List<String> allowedDomains = Arrays.asList(domains.split(","));
+            return allowedDomains.isEmpty() || allowedDomains.contains(domain);
+        }
+
+        return true;
 
     }
 
