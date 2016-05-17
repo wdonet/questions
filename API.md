@@ -63,7 +63,7 @@ All api URIs start with `/api` followed by one of the below.
 1. **Pagination** uses 2 variables:
   + _page_ : Zero based index of number of page
   + _size_ : Total results by page
-2. **Sorting** uses the name of field and default type is ASC, for DESC need to add the ".dir=desc" to the name of field. For field "name", it should be "name.dir=desc"
+2. **Sorting** uses the name of field and default type is ASC, for DESC need to add the ",desc" to the name of field. For field "name", it should be "name,desc"
   + _sort_ : The name of field to use
   + _asc/desc_ : You can specify direction using a comma ',' after field name followed by `asc` or `desc` value.  Default is 'asc'.  For example `?sort=name,desc` => _Sorts by descending name_
     + Value can also be embedded like `?sort=user.firstName,desc`, where user is an embedded object with property 'firstName'
