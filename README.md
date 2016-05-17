@@ -3,6 +3,7 @@
 ## Continuous Integration
 
 We are following behaviors in two tools (**TODO**: _later we'll decide wich one is better_):
+
 1. [![Travis Build Status](https://travis-ci.org/Nearsoft/questions.svg?branch=dev)](https://travis-ci.org/Nearsoft/questions)
     - The config is based on [travis.yml](https://github.com/Nearsoft/questions/blob/dev/.travis.yml) file
 2. [![Codeship Build Status](https://codeship.com/projects/fe46cd40-f9e0-0133-27dd-124ad23604b3/status?branch=dev)](https://codeship.com/projects/151404)
@@ -45,6 +46,7 @@ We are using Spring Boot and the maven plugin to run the application.
 ### Running the React App
 
 To run the App in React:
+
 1. Go to `src/main/webapp`
 2. Run `npm install`
 3. Run `npm start`
