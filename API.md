@@ -35,7 +35,9 @@ All api URIs start with `/api` followed by one of the below.
 | `/questions/{id}/answers` | Show all answers of question with {id} | Yes | Yes | `id` |
 | `/questions/{id}/tags` | Show all tags of question with {id} | Yes | Yes | `id` |
 | `/questions/{id}/user` | Show owner of question with {id} (_not working_)| No | No | `id` |
-| `/questions/search` | Search questions using ?term={term} param.| Yes | Yes | `term` |
+| `/questions/search` | Search questions using ?term={term} param| Yes | Yes | `term` |
+| `/questions/unanswered` | Look for all unanswered questions| Yes | Yes | - |
+| `/questions/newest` | Look for all questions showing newest first| Yes | createdAd,desc | - |
 | `/answers` | Show all answers | Yes | Yes | - |
 | `/answers/{id}` | Show answer by {id} | Yes | Yes | `id` |
 | `/answers/{id}/question` | Show question of answer with {id} | Yes | Yes | `id` |
