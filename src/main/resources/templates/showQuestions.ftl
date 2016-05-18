@@ -15,7 +15,7 @@
         <li>
             <a class="respuesta-titulo" href="/question/${question.id}">${question.title}</a>
 
-            <div class="respuestas-total">- ${question.totalAnswers} Answers</div>
+            <div class="respuestas-total">- <#if question.totalAnswers gt 0 && onlyOneAnswer>1<#else>${question.totalAnswers}</#if> Answer(s)</div>
             <div class="tags-cont">
                 <div class="tag-icon"><img src="/img/tag-icon.png" alt="">Tags:</div>
                 <#list question.tags as tag>

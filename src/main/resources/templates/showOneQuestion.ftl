@@ -37,14 +37,16 @@
     <#else>
         <div>No answers</div>
     </#list>
+    <#if !onlyOneAnswer || question.answers?size == 0>
         <form method="post" action="/answer">
             <h3 class="answers-title">Add an answer</h3>
             <textarea class="add-answer-input" name="description" type="textarea"
-                      placeholder="Add a detailed answer"></textarea>
+                    placeholder="Add a detailed answer"></textarea>
             <input name="questionId" type="hidden" value="${question.id}">
         <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
             <input class="add-button" type="submit" value="Add">
         </form>
+    </#if>
     </div>
 </div>
 </body>
