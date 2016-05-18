@@ -21,7 +21,10 @@ function QuestionCard(props) {
       <footer>
         <strong className={s.tagsHeader}>Tags:</strong>
         <TagList tags={tags} />
-        <b className={s.author}><small>Asked by</small> {user.fullName}</b>
+        <b className={s.author}>
+          <small>Asked by</small>
+          user.fullName
+        </b>
       </footer>
     </article>
   );
