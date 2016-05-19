@@ -6,7 +6,7 @@ import TagList from '../../../components/TagList';
 import Answer from '../../../components/Answer';
 
 function Question(props, context) {
-  const { title, tags, description, user, answers, className } = props;
+  const { title, tags, description, authorName, answers, className } = props;
 
   context.setTitle(title);
 
@@ -25,7 +25,7 @@ function Question(props, context) {
       </section>
 
       <footer className={s.footer}>
-        <b className={s.author}>asked by owner.fullName</b>
+        <b className={s.author}>asked by {authorName}</b>
       </footer>
 
       <section className={s.answers}>
