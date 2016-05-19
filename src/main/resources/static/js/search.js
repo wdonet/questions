@@ -4,6 +4,12 @@ $(document).ready(function(){
         return $('.input-search-question')[0].value;
     };
 
+    $('.input-search-question').on('keypress', function(key){
+        if (key.keyCode == 13) {
+            $($('.search-submit')[0]).click()
+        }
+    });
+
     $('.search-submit').on("click", function(){
         var query = getQuery();
         var url = '/question/search?query=' + query;
