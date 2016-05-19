@@ -16,7 +16,11 @@
     <#else>
         <span>No tags</span>
     </#list>
-        <div class="question-description">${question.description}</div>
+        <#if question.description?? && question.description?length &gt; 0>
+            <div class="question-description">${question.description}</div>
+        <#else>
+            <div></div>
+        </#if>
         <div class="author-name">asked by <span>${(question.authorName)!""}</span>
             <img src="${question.user.profile.photoUri!"#"}">
             <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
