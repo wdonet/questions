@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $('.suggestions-cont').attr('hidden', true)
+
     var getQuery = function() {
         return $('.input-search-question')[0].value;
     };
@@ -11,12 +13,14 @@ $(document).ready(function(){
     });
 
     $('.search-submit').on("click", function(){
+        $('.suggestions-cont').toggle(false);
         var query = getQuery();
         var url = '/question/search?query=' + query;
         $.get(url, function(data, status) {
+            $('.suggestions-cont').toggle(true);
             $('.suggestions-cont').children().remove();
             console.log("Data: " + data[0] + "\nStatus: " + status);
-            if (Array.isArray(data)) {
+            if (Array.isArray(data) && data.length > 0) {
                 data.forEach(function(e){
                     var span = '<span class="tags"></span>';
                     var spans = ''; //todo
@@ -35,6 +39,9 @@ $(document).ready(function(){
                         '</li>';
                     $('.suggestions-cont').append(html);
                 });
+            }
+            else {
+                $('.suggestions-cont').append('<li><div class="respuestas-total">No matches.</div></li>');
             }
         });
     });
