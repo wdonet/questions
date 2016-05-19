@@ -55,4 +55,8 @@ public abstract class AbstractAuditableEntity {
     public void setUpdatedAt(ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public String getAuthorName() {
+        return this.user.getFullName();
+    }
 }

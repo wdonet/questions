@@ -6,7 +6,7 @@ import TagList from '../../components/TagList';
 import s from './QuestionCard.scss';
 
 function QuestionCard(props) {
-  const { id, title, totalAnswers, tags, user, _links, className } = props;
+  const { id, title, totalAnswers, tags, authorName, className } = props;
 
   const url = `/questions/${id}`;
 
@@ -21,8 +21,7 @@ function QuestionCard(props) {
         <strong className={s.tagsHeader}>Tags:</strong>
         <TagList tags={tags} />
         <b className={s.author}>
-          <small>Asked by</small>
-          owner.fullName
+          <small>Asked by</small> {authorName}
         </b>
       </footer>
     </article>
@@ -30,13 +29,12 @@ function QuestionCard(props) {
 }
 
 QuestionCard.propTypes = {
-  _links: PropTypes.object,
   className: PropTypes.string,
   tags: PropTypes.array,
   title: PropTypes.string,
   totalAnswers: PropTypes.number,
   id: PropTypes.number,
-  // owner: PropTypes.object,
+  ownerName: PropTypes.string,
 };
 
 QuestionCard.defaultProps = {
