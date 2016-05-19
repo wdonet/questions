@@ -25,7 +25,7 @@ function Question(props, context) {
       </section>
 
       <footer className={s.footer}>
-        <b className={s.author}>asked by {user.fullName}</b>
+        <b className={s.author}>asked by owner.fullName</b>
       </footer>
 
       <section className={s.answers}>
