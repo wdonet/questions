@@ -6,9 +6,8 @@ import TagList from '../../components/TagList';
 import s from './QuestionCard.scss';
 
 function QuestionCard(props) {
-  const { title, totalAnswers, tags, user, _links, className } = props;
+  const { id, title, totalAnswers, tags, user, _links, className } = props;
 
-  const id = _links.self.href.split('/').pop();
   const url = `/questions/${id}`;
 
   return (
@@ -23,7 +22,7 @@ function QuestionCard(props) {
         <TagList tags={tags} />
         <b className={s.author}>
           <small>Asked by</small>
-          user.fullName
+          owner.fullName
         </b>
       </footer>
     </article>
@@ -36,7 +35,8 @@ QuestionCard.propTypes = {
   tags: PropTypes.array,
   title: PropTypes.string,
   totalAnswers: PropTypes.number,
-  user: PropTypes.object,
+  id: PropTypes.number,
+  // owner: PropTypes.object,
 };
 
 QuestionCard.defaultProps = {
