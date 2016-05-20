@@ -5,6 +5,9 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="/js/linkify.js"></script>
+    <script src="/js/showOneQuestion.js"></script>
 </head>
 <body>
 <#include "header.ftl">
