@@ -367,6 +367,101 @@ h1.tags-title-form {
     margin-top: 20px !important;
 }
 
+div.preview {
+    width: 870px;
+    padding: 25px;
+    border: 1px dotted #595B67;
+    margin: 30px auto 0 ;
+}
+
+div.preview div.markdown h1,
+div.preview div.markdown h2,
+div.preview div.markdown h3,
+div.preview div.markdown h4,
+div.preview div.markdown h5,
+div.preview div.markdown h6 {
+    color: #65758C;
+    font-weight: 400;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+div.preview div.markdown h1 {
+    font-size: 20px;
+}
+div.preview div.markdown h2 {
+    font-size: 18px;
+}
+div.preview div.markdown h3 {
+    font-size: 16px;
+}
+div.preview div.markdown h4 {
+    font-size: 14px;
+}
+div.preview div.markdown h5 {
+    font-size: 12px;
+}
+div.preview div.markdown h6 {
+    font-size: 10px;
+}
+
+div.preview div.markdown ul,
+div.preview div.markdown ol,
+div.preview div.markdown li {
+    margin-left: 5px;
+    padding-left: 5px;
+    color: #000;
+}
+
+div.preview div.markdown li {
+    margin-top: 5px;
+    display: list-item;
+}
+
+div.preview div.markdown table,
+div.preview div.markdown th,
+div.preview div.markdown td {
+    border-spacing: 10px 5px;
+}
+
+div.preview div.markdown table,
+div.preview div.markdown td {
+    border-radius: 3px;
+    box-shadow: 0 0 3px #BFBDBD;
+    padding: 5px 0px;
+    margin: 10px 5px;
+}
+
+div.preview div.markdown th,
+div.preview div.markdown thead {
+    border-radius: 5px;
+    box-shadow: 0 0 3px #333;
+    background-color: #EEE;
+    padding: 2px 5px;
+}
+
+div.preview div.markdown code {
+    font-size: larger;
+    border-radius: 2px;
+    box-shadow: 0 0 3px #5aa;
+    background-color: #EEE;
+    color: #333;
+    padding: 0px 2px;
+    margin: 0px;
+}
+
+div.preview div.markdown a {
+    text-decoration: underline;
+    font-weight: 400;
+    color: #65758C;
+}
+
+div.preview div.markdown a:hover {
+    text-decoration: none;
+    font-weight: 600;
+    color: #8595AC;
+}
+
 input.cancel-ask,
 input.submit-ask {
     display: inline-block;
