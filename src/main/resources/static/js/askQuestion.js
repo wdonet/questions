@@ -1,5 +1,13 @@
+var converter = new showdown.Converter();
+converter.setOption('tables', 'true');
+converter.setOption('tasklists', 'true');
+converter.setOption('strikethrough', 'true');
+converter.setOption('literalMidWordUnderscores', 'true');
+converter.setOption('simplifiedAutoLink', 'true');
+
 var preview = function (txt) {
-    return marked(txt);
+    return marked(txt);  //https://raw.githubusercontent.com/chjj/marked/master/marked.min.js
+    //return converter.makeHtml(txt);  //https://cdn.rawgit.com/showdownjs/showdown/1.4.1/dist/showdown.min.js
 };
 
 $(document).ready(function(){
@@ -13,24 +21,23 @@ $(document).ready(function(){
 });
 
 /*
- # Try this FIRST:
+# Try this FIRST:
  1. first numeric bullet
    - option 1
    - option 2
      - 2.2 correctly indented
  2. second numeric bullet
-   - option 3
-     - option 4
- 3. third numeric bullet
+   - [x] This task is done
+   - [ ] This is still pending 3. third numeric bullet
 
- ## SECOND
+## SECOND
    - `highlighted`
-   - Code:
+   - __Code__:
  ```
- System.out.println("hello world");
+System.out.println("hello world");
  ```
 
- ### TABLA
+### 3rd TABLE
 
 
  | Right | Left | Centered |
@@ -39,6 +46,8 @@ $(document).ready(function(){
  | 1.00 | d | 12312312333123123 |
  | 23.00 | SDasdf | asdd |
 
- #### Link
+#### Link
+ ~~strikethrough~~
  [google](http://google.com)
+ Auto link? http://gmail.com
 */
