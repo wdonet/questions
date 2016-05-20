@@ -374,6 +374,12 @@ div.preview {
     margin: 30px auto 0 ;
 }
 
+div[class^='editor-preview'] h1,
+div[class^='editor-preview'] h2,
+div[class^='editor-preview'] h3,
+div[class^='editor-preview'] h4,
+div[class^='editor-preview'] h5,
+div[class^='editor-preview'] h6,
 div.preview div.markdown h1,
 div.preview div.markdown h2,
 div.preview div.markdown h3,
@@ -386,25 +392,34 @@ div.preview div.markdown h6 {
     margin-bottom: 5px;
 }
 
+div[class^='editor-preview'] h1,
 div.preview div.markdown h1 {
     font-size: 20px;
 }
+div[class^='editor-preview'] h2,
 div.preview div.markdown h2 {
     font-size: 18px;
 }
+div[class^='editor-preview'] h3,
 div.preview div.markdown h3 {
     font-size: 16px;
 }
+div[class^='editor-preview'] h4,
 div.preview div.markdown h4 {
     font-size: 14px;
 }
+div[class^='editor-preview'] h5,
 div.preview div.markdown h5 {
     font-size: 12px;
 }
+div[class^='editor-preview'] h6,
 div.preview div.markdown h6 {
     font-size: 10px;
 }
 
+div[class^='editor-preview'] ul,
+div[class^='editor-preview'] ol,
+div[class^='editor-preview'] li,
 div.preview div.markdown ul,
 div.preview div.markdown ol,
 div.preview div.markdown li {
@@ -413,6 +428,7 @@ div.preview div.markdown li {
     color: #000;
 }
 
+div[class^='editor-preview'] li,
 div.preview div.markdown li {
     margin-top: 5px;
     display: list-item;
@@ -432,6 +448,8 @@ div.preview div.markdown td {
     margin: 10px 5px;
 }
 
+div[class^='editor-preview'] th,
+div[class^='editor-preview'] thead,
 div.preview div.markdown th,
 div.preview div.markdown thead {
     border-radius: 5px;
@@ -450,12 +468,14 @@ div.preview div.markdown code {
     margin: 0px;
 }
 
+div[class^='editor-preview'] a,
 div.preview div.markdown a {
     text-decoration: underline;
     font-weight: 400;
     color: #65758C;
 }
 
+div[class^='editor-preview'] a:hover,
 div.preview div.markdown a:hover {
     text-decoration: none;
     font-weight: 600;
