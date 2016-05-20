@@ -1,16 +1,8 @@
-// Configuration for SimpleMDE =============
 $(document).ready(function(){
     var smde = new SimpleMDE({
-        autofocus : true,
         element : $('.source-code')[0],
+        autofocus : true,
         hideIcons: ["horizontal-rule"],
-        //shortcuts : {
-        //    toggleHeadingSmaller : "Alt-B",
-        //    toggleHeadingBigger : "Alt-Shift-B",
-        //    togglePreview : "Cmd-Shift-P",
-        //    toggleCodeBlock : "Cmd-Alt-X",
-        //    drawImage : "Alt-I",
-        //},
         blockStyles: { italic: "_" },
         indentWithTabs: false,
         tabSize: 4,
@@ -30,31 +22,7 @@ $(document).ready(function(){
 });
 
 /*
-// Configuration for showdown =============
-var converter = new showdown.Converter();
-converter.setOption('tables', 'true');
-converter.setOption('tasklists', 'true');
-converter.setOption('strikethrough', 'true');
-converter.setOption('literalMidWordUnderscores', 'true');
-converter.setOption('simplifiedAutoLink', 'true');
 
-var preview = function (txt) {
-    return marked(txt);  //use this line for marked lib : https://raw.githubusercontent.com/chjj/marked/master/marked.min.js
-    //return converter.makeHtml(txt);  //use this line for showdown lib : https://cdn.rawgit.com/showdownjs/showdown/1.4.1/dist/showdown.min.js
-};
-
-$(document).ready(function(){
-    $('.source-code').on('keypress focusout keyup', function(key){
-        var txt = $('.source-code')[0].value;
-        $('.markdown').html(preview(txt));
-        var shouldShow = $('.preview').text() != "";
-        $('.preview').toggle(shouldShow);
-    });
-
-});
-*/
-
-/*
 # Try this FIRST:
  1. first numeric bullet
    - option 1
@@ -84,4 +52,5 @@ System.out.println("hello world");
  ~~strikethrough~~
  [google](http://google.com)
  Auto link? http://gmail.com
+
 */

@@ -374,6 +374,18 @@ div.preview {
     margin: 30px auto 0 ;
 }
 
+div.question-description h1,
+div.answers h1,
+div.question-description h2,
+div.answers h2,
+div.question-description h3,
+div.answers h3,
+div.question-description h4,
+div.answers h4,
+div.question-description h5,
+div.answers h5,
+div.question-description h6,
+div.answers h6,
 div[class^='editor-preview'] h1,
 div[class^='editor-preview'] h2,
 div[class^='editor-preview'] h3,
@@ -392,31 +404,49 @@ div.preview div.markdown h6 {
     margin-bottom: 5px;
 }
 
+div.question-description h1,
+div.answers h1,
 div[class^='editor-preview'] h1,
 div.preview div.markdown h1 {
     font-size: 20px;
 }
+div.question-description h2,
+div.answers h2,
 div[class^='editor-preview'] h2,
 div.preview div.markdown h2 {
     font-size: 18px;
 }
+div.question-description h3,
+div.answers h3,
 div[class^='editor-preview'] h3,
 div.preview div.markdown h3 {
     font-size: 16px;
 }
+div.question-description h4,
+div.answers h4,
 div[class^='editor-preview'] h4,
 div.preview div.markdown h4 {
     font-size: 14px;
 }
+div.question-description h5,
+div.answers h5,
 div[class^='editor-preview'] h5,
 div.preview div.markdown h5 {
     font-size: 12px;
 }
+div.question-description h6,
+div.answers h6,
 div[class^='editor-preview'] h6,
 div.preview div.markdown h6 {
     font-size: 10px;
 }
 
+div.question-description ul,
+div.answers ul,
+div.question-description ol,
+div.answers ol,
+div.question-description li,
+div.answers li,
 div[class^='editor-preview'] ul,
 div[class^='editor-preview'] ol,
 div[class^='editor-preview'] li,
@@ -428,18 +458,30 @@ div.preview div.markdown li {
     color: #000;
 }
 
+div.question-description li,
+div.answers li,
 div[class^='editor-preview'] li,
 div.preview div.markdown li {
     margin-top: 5px;
     display: list-item;
 }
 
+div.question-description table,
+div.answers table,
+div.question-description th,
+div.answers th,
+div.question-description td,
+div.answers td,
 div.preview div.markdown table,
 div.preview div.markdown th,
 div.preview div.markdown td {
     border-spacing: 10px 5px;
 }
 
+div.question-description table,
+div.answers table,
+div.question-description td,
+div.answers td,
 div.preview div.markdown table,
 div.preview div.markdown td {
     border-radius: 3px;
@@ -448,6 +490,10 @@ div.preview div.markdown td {
     margin: 10px 5px;
 }
 
+div.question-description th,
+div.answers th,
+div.question-description thead,
+div.answers thead,
 div[class^='editor-preview'] th,
 div[class^='editor-preview'] thead,
 div.preview div.markdown th,
@@ -468,6 +514,8 @@ div.preview div.markdown code {
     margin: 0px;
 }
 
+div.question-description a,
+div.answers a,
 div[class^='editor-preview'] a,
 div.preview div.markdown a {
     text-decoration: underline;
@@ -475,6 +523,8 @@ div.preview div.markdown a {
     color: #65758C;
 }
 
+div.question-description a:hover,
+div.answers a:hover,
 div[class^='editor-preview'] a:hover,
 div.preview div.markdown a:hover {
     text-decoration: none;
