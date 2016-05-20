@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <#--https://raw.githubusercontent.com/chjj/marked/master/marked.min.js-->
     <script src="/lib/marked.min.js"></script>
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.1/dist/showdown.min.js"></script>
     <script src="/js/askQuestion.js"></script>
 </head>
 <body>
