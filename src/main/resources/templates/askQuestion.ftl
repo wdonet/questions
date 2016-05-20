@@ -5,16 +5,9 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-    <#--https://raw.githubusercontent.com/chjj/marked/master/marked.min.js-->
-    <script src="/lib/marked.min.js"></script>
-
-    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.4.1/dist/showdown.min.js"></script>
-
     <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
     <script src="/js/askQuestion.js"></script>
 </head>
 <body>
