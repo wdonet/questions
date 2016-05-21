@@ -4,7 +4,9 @@
 
 We are following behaviors in two tools (**TODO**: _later we'll decide wich one is better_):
 
-1. [![Travis Build Status](https://travis-ci.org/Nearsoft/questions.svg?branch=dev)](https://travis-ci.org/Nearsoft/questions)
+
+1. NSJenkins [![Build Status](http://52.38.39.250/jenkins/job/questions-dev/1/badge/icon)](http://52.38.39.250/jenkins/job/questions-dev/1/)
+2. [![Travis Build Status](https://travis-ci.org/Nearsoft/questions.svg?branch=dev)](https://travis-ci.org/Nearsoft/questions)
     - The config is based on [travis.yml](https://github.com/Nearsoft/questions/blob/dev/.travis.yml) file
 2. [![Codeship Build Status](https://codeship.com/projects/fe46cd40-f9e0-0133-27dd-124ad23604b3/status?branch=dev)](https://codeship.com/projects/151404)
     - Each push on [dev branch](https://github.com/Nearsoft/questions/tree/dev) triggers a build.
