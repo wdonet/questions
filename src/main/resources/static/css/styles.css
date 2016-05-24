@@ -5,7 +5,6 @@ html {
 body {
     /*background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;*/
     background-color: #e4e4e4;
-    background-size: cover;
     height: 100%;
     padding: 0;
     margin: 0;
@@ -14,16 +13,15 @@ body {
 
 .body-home {
     background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;
-    background-size: cover;
 }
 
 .body-home header {
     background-color: transparent;
 }
 
-.body-home .suggestion-wrapper {
+/*.body-home .suggestion-wrapper {
     width: 1050px;
-}
+}*/
 
 header {
     width: 100% margin : 0 auto;
@@ -43,22 +41,21 @@ form#go_signin {
 }
 
 form#go_signin > input {
-    border: 0;
-    background-color: #F25D00;
+    border: 1px solid;
+    background-color: transparent;
     border-radius: 3px;
     padding: 13px 13px;
     color: #fff;
-    text-decoration: none;
+    text-transform: uppercase;
     font-size: 14px;
     margin-left: 15px;
     margin-top: -13px;
-    font-weight: 700;
     cursor: pointer;
     background-color 0.5s ease;
 }
 
 form#go_signin > input:hover {
-    background-color: #FF6A00;
+    /*background-color: #FF6A00;*/
 }
 
 .menu {
@@ -133,8 +130,14 @@ li {
     text-decoration: underline;
 }
 
-section {
+/*section {
     padding: 0px calc(51% - 625px);
+}*/
+
+.section-how {
+    width: 100%;
+    background: #fff;
+    padding-bottom: 150px;
 }
 
 .form-cont h1 {
@@ -149,6 +152,7 @@ section {
 .logo {
     background-image: url(/img/logo.png) no-repeat center;
     padding-top: 40px;
+    height: 35px;
 }
 
 .form-search-question {
@@ -156,7 +160,7 @@ section {
 }
 
 .input-search-question {
-    width: 92%;
+    width: 80%;
     border: 0;
     height: 40px;
     border-radius: 3px;
@@ -166,9 +170,8 @@ section {
     color: #606060;
 }
 
-input.search-submit {
-    background: url(/img/search-icon.png) no-repeat center;
-    background-color: #008EFF;
+button.search-submit {
+    background-color: #F25D00;
     border: 0;
     color: #fff;
     height: 50px;
@@ -178,14 +181,26 @@ input.search-submit {
     border-radius: 0px 3px 3px 0px;
     margin-left: -8px;
     cursor: pointer;
+    position: relative;
+}
+
+.positioning:after {
+    content: '\f002';
+    font-family: FontAwesome;
+    top: 13px;
+    right: 65px;
+    font-size: 21px;
+    color: #fff;
 }
 
 .title {
     text-align: center;
     color: #fff;
-    font-weight: 500;
-    margin-top: 99px;
+    font-weight: 400;
+    font-size: 36px;
+    margin-top: 65px;
     margin-bottom: 0;
+    font-family: 'Lato', sans-serif;
 }
 
 .title span {
@@ -195,16 +210,39 @@ input.search-submit {
 }
 
 .how-it-works {
-    margin-top: 65px;
-    padding: 44px calc(65% - 627px);
-    background-color: rgba(23, 25, 35, 0.3);;
+    background-color: #fff;
     border-radius: 3px;
+    margin: 0 auto;
+    width: 1024px;
+}
+
+h2.how-title {
+    text-align: center;
+    padding: 85px 0 65px;
+    font-size: 26px;
+    text-transform: uppercase;
+    color: #4F5D73;
+    font-family: 'Lato', sans-serif;
+    position: relative;
+}
+
+h2.how-title::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    background-color: #e4e4e4;
+    display: block;
+    top: 127px;
+    height: 4px;
+    left: 457px;
 }
 
 .how-it-works h1 {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 500;
     text-align: center;
+    color: #696969;
+    margin-bottom: 0;
 }
 
 .how-cont {
@@ -217,6 +255,8 @@ input.search-submit {
 .how-cont p {
     font-size: 15px;
     text-align: center;
+    color: #666;
+    margin-top: 10px;
 }
 
 .how-cont img {
@@ -264,7 +304,7 @@ a.respuesta-titulo:hover {
 .suggestion-wrapper {
     width: 933px;
     display: block;
-    margin: 60px auto 0 auto;
+    margin: 60px auto 95px auto;
 }
 
 ul.suggestions-cont,
@@ -552,7 +592,8 @@ input.submit-ask {
 input[type="text"],
 input[type="textarea"] {
     padding: 5px 15px;
-    font-size: 15px;
+    font-size: 17px;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .question-description {
@@ -668,8 +709,15 @@ input[type="textarea"] {
 
 .search-container{
     font-size: 17px;
-    width: 933px;
     display: block;
     margin: 30px auto 0;
     padding: 0 50px;
+    text-align: center;
+}
+
+p.nuuk-tip {
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
 }
