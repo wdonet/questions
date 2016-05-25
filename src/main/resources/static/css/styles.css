@@ -4,7 +4,7 @@ html {
 
 body {
     /*background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;*/
-    background-color: #e4e4e4;
+    background-color:#fff;
     height: 100%;
     padding: 0;
     margin: 0;
@@ -40,7 +40,8 @@ form#go_signin {
     margin-top: 50px;
 }
 
-form#go_signin > input {
+form#go_signin > input,
+.logout {
     border: 1px solid;
     background-color: transparent;
     border-radius: 3px;
@@ -61,6 +62,15 @@ form#go_signin > input:hover {
 .menu {
     float: right;
     padding-top: 50px;
+}
+
+.menu li {
+    margin-right: 10px;
+    color: #fff;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-family: 'Lato', sans-serif;
 }
 
 ul {
@@ -89,36 +99,38 @@ li {
 }
 
 .user-info {
-    background-color: #fff;
+/*    background-color: #fff;
     border-radius: 3px;
-    padding: 13px 13px;
-    color: #F25D00;
+    padding: 13px 13px;*/
+    color: #FFF;
+/*    text-decoration: none;
+    margin-left: 15px;*/
     text-decoration: none;
-    margin-left: 15px;
     background-color 0.5s ease;
 }
 
 .user-info:hover {
-    background-color: #fff;
+
 }
 
 .logout {
-    background-color: #fff;
-    border-radius: 3px;
-    padding: 8px 8px;
-    color: #F25D00;
     text-decoration: none;
-    margin-left: 3px;
 }
 
 .owner {
-    float: right;
-    color: #476C8F;
-    font-size: x-small;
+    color: #5C5C5C;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.owner i {
+    color: #4F5D73;
+    margin-right: 5px;
 }
 
 .owner span {
-    font-size: small;
+    color: #FF5E00;
 }
 
 .category {
@@ -175,7 +187,7 @@ button.search-submit {
     border: 0;
     color: #fff;
     height: 50px;
-    width: 5%;
+    width: 6%;
     display: inline-block;
     vertical-align: top;
     border-radius: 0px 3px 3px 0px;
@@ -216,7 +228,7 @@ button.search-submit {
     width: 1024px;
 }
 
-h2.how-title {
+.how-title {
     text-align: center;
     padding: 85px 0 65px;
     font-size: 26px;
@@ -226,7 +238,7 @@ h2.how-title {
     position: relative;
 }
 
-h2.how-title::after {
+.how-title::after {
     content: '';
     position: absolute;
     width: 100px;
@@ -235,6 +247,39 @@ h2.how-title::after {
     top: 127px;
     height: 4px;
     left: 457px;
+}
+
+.unanswered-q {
+    text-align: center;
+    padding: 55px 0 65px;
+    font-size: 26px;
+    text-transform: uppercase;
+    color: #4F5D73;
+    font-family: 'Lato', sans-serif;
+    position: relative;
+}
+
+.unanswered-q::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    background-color: #e4e4e4;
+    display: block;
+    top: 62%;
+    height: 4px;
+    left: 45%;
+}
+
+.showquestions .search-container,
+.question .search-container {
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 52px;
+}
+
+.showquestions input[type="text"], input[type="textarea"],
+.question input[type="text"], input[type="textarea"] {
+    border: 1px solid #e4e4e4;
+    height: 38px;
 }
 
 .how-it-works h1 {
@@ -271,16 +316,13 @@ h2.how-title::after {
 }
 
 span.tags {
-    color: #476C8F;
-    background-color: #CAE1FA;
-    border-radius: 25px;
-    padding: 5px 15px;
+    color: #FC4800;
     font-size: 14px;
     display: inline-block;
 }
 
 span.tags a {
-    color: #476C8F;
+    color: #FC4800;
     text-decoration: none;
 }
 
@@ -292,8 +334,8 @@ span.tags a {
 }
 
 a.respuesta-titulo {
-    font-size: 23px;
-    color: #65758C;
+    font-size: 26px;
+    color: #5C5C5C;
     text-decoration: none;
 }
 
@@ -310,9 +352,6 @@ a.respuesta-titulo:hover {
 ul.suggestions-cont,
 .question-cont {
     width: 865px;
-    border-radius: 3px;
-    padding: 35px;
-    box-shadow: 0 0 3px #BFBDBD;
     margin-bottom: 50px;
 }
 
@@ -320,12 +359,25 @@ ul.suggestions-cont,
     background-color: #fff;
 }
 
+a.back-btn {
+    margin: 35px 0;
+    display: inline-block;
+    color: #F25D00;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+a.back-btn:hover {
+    text-decoration: underline;
+}
+
 ul.suggestions-cont li {
     width: 100%;
     text-align: left;
-    margin-top: 22px;
-    border-top: 1px solid #F0F0F0;
-    padding-top: 15px;
+    margin-top: 35px;
+    border-top: 1px solid #e4e4e4;
+    padding-top: 35px;
 }
 
 ul.suggestions-cont li:first-child {
@@ -340,8 +392,6 @@ ul.suggestions-cont li:first-child {
     font-weight: 700;
     background-color: #fff;
     padding: 20px;
-    border-radius: 3px;
-    box-shadow: 0 0 3px #BFBDBD;
 }
 
 .question-icon {
@@ -352,14 +402,19 @@ ul.suggestions-cont li:first-child {
 .respuestas-total {
     display: inline-block;
     color: #B1B1B1;
-    font-size: 19px;
-    margin-left: 20px;
+    margin-left: 5px;
 }
 
 .tag-icon {
     display: inline-block;
-    color: #476C8F;
-    margin-right: 10px;
+    color: #5C5C5C;
+    font-size: 14px;
+}
+
+.tag-icon i,
+.respuestas-total i {
+    color: #4F5D73;
+    margin-right: 5px;
 }
 
 .tag-icon img {
@@ -597,42 +652,53 @@ input[type="textarea"] {
 }
 
 .question-description {
-    padding: 15px;
-    border: 2px solid #F1F1F1;
-    margin: 25px 0 15px;
-    color: #4F4F4F;
-    border-radius: 3px;
-    background-color: #F9F9F9;
+    margin: 55px 0 20px;
+    color: #5C5C5C;
+    font-size: 16px;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 20px;
 }
 
 .question-title {
-    font-size: 30px;
+    font-size: 32px;
     color: #595B67;
-    font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
+    font-family: 'Lato', sans-serif;
 }
 
 .answers-title {
     font-size: 20px;
-    font-weight: 700;
-    color: #595B67;
-    border-top: 1px solid #F1F1F1;
-    padding-top: 25px;
-    margin-top: 25px;
+    color: #4F5D73;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    font-family: 'Lato', sans-serif;
+}
+
+.leave-answers {
+    font-size: 14px;
+    color: #4F5D73;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    font-family: 'Lato', sans-serif;
 }
 
 .answers {
     padding: 15px;
-    border: 2px solid #F1F1F1;
-    margin: 15px 0;
+    border: 1px solid #DEDEDE;
+    margin: 15px 0 80px;
     color: #4F4F4F;
     border-radius: 3px;
+    background-color: #F5F5F5;
 }
 
 .author-name {
     color: #536C8F;
     font-weight: 700;
     display: inline-block;
+}
+
+.answer-author {
+    color: #FF5E00;
 }
 
 .answer-date {
@@ -662,7 +728,7 @@ input[type="textarea"] {
     border-radius: 3px;
     display: inline-block;
     width: 124px !important;
-    background-color: #4285F4;
+    background-color: #F25D00;
     border: 0 !important;
     color: #fff;
     font-size: 16px;
@@ -721,3 +787,4 @@ p.nuuk-tip {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
 }
+
