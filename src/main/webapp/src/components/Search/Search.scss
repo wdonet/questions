@@ -1,0 +1,23 @@
+@import '../../components/variables.scss';
+
+.container {
+  margin: 30px auto 0;
+  padding: 0 50px;
+  text-align: center;
+}
+
+.searchBox {
+  padding: 12px 15px;
+  font-size: 18px;
+  width: 90%;
+  border-radius: 3px 0 0 3px;
+  border: 1px solid #e4e4e4;
+  border-right: none;
+}
+
+.submitSearch {
+  vertical-align: top;
+  background-color: #f25d00;
+  border-radius: 0 3px 3px 0;
+  height: 50px;
+}
