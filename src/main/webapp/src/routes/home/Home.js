@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.scss';
 import Feature from '../../components/Feature';
+import Search from '../../components/Search';
 
 const title = 'NSQuestions';
 
@@ -12,14 +13,12 @@ function Home(props, context) {
       <h1 className={s.title}>
         Search And Find Questions
       </h1>
-      <div className={s.search}>
-        <input placeholder="What are you looking for?" className={s.searchBox} />
-        <button className={s.submitSearch}>
-        </button>
+      <section className={s.search}>
+        <Search />
         <p className={s.quickTip}>
           Quick Tip On How to Search: ( Ex.- Cómo hacer una declaración de impuestos? ).
         </p>
-      </div>
+      </section>
       <div className={s.features}>
         <h2 className={s.subtitle}>
           How it works
