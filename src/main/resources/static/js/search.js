@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-    $('.suggestions-cont').attr('hidden', true)
-
     var getQuery = function() {
         return $('.input-search-question')[0].value;
     };
@@ -13,7 +11,6 @@ $(document).ready(function(){
     });
 
     $('.search-submit').on("click", function(){
-        $('.suggestions-cont').toggle(false);
         var query = getQuery();
         var url = '/question/search?query=' + query;
         $.get(url, function(data, status) {
@@ -31,10 +28,11 @@ $(document).ready(function(){
                     //}
                     var html = '<li>' +
                         '<a class="respuesta-titulo" href="/question/' + e.id + '">' + e.title + '</a>' +
-                        '<div class="respuestas-total">- ' + e.totalAnswers + ' Answers</div>' +
                         '<div class="tags-cont">' +
-                        '    <div class="tag-icon"><img src="img/tag-icon.png">Tags:</div>' + spans +
-                        '    <div class="owner">asked by &nbsp; <span>' + e.user.fullName + '</span></div>' +
+                        '    <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>' + spans +
+                        '    <div class="respuestas-total"><i class="fa fa-comments-o"></i>- ' + e.totalAnswers + ' Answers</div>' +
+
+                        '    <div class="owner"><i class="fa fa-user"></i>Asked By &nbsp; <span>' + e.user.fullName + '</span></div>' +
                         '</div>' +
                         '</li>';
                     $('.suggestions-cont').append(html);
