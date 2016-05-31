@@ -2,11 +2,12 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Container.scss';
+import Title from '../Title';
 
 function Container({ title, children, className }, context) {
   context.setTitle(title);
 
-  const maybeTitle = !!title && <h1 className={s.title}>{title}</h1>;
+  const maybeTitle = !!title && <Title className={s.title}>{title}</Title>;
 
   return (
     <section className={cx(s.root, className)}>

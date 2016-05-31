@@ -1,0 +1,22 @@
+@import '../../components/variables.scss';
+
+.root {
+  padding: 85px 0 65px;
+  font-size: 26px;
+  text-align: center;
+  color: #4f5d73;
+  position: relative;
+  text-transform: uppercase;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    background-color: #e4e4e4;
+    display: block;
+    top: 127px;
+    height: 4px;
+    left: 50%;
+    margin-left: -50px;
+  }
+}
