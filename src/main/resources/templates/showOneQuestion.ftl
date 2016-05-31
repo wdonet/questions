@@ -39,6 +39,16 @@
         <#else>
             <div></div>
         </#if>
+        <div class="coments-question-cont">
+            <div class="owner"><span>${(question.user.fullName)!""}</span></div>
+            <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
+            <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
+        </div>
+        <div class="add-comment-cont">
+            <a href="#">Add Comment</a>
+            <a href="#">Hide Comments</a>
+        </div>
             <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
         </div>
         <h2 class="answers-title">ANSWERS</h2>
@@ -50,8 +60,28 @@
                     <span>${answer.authorName!""}</span>
                 </div>
                     <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
+                    <div class="validation-cont">
+                        <div class="validation-positive">
+                            <a href="#" class="val-pos"><i class="fa fa-arrow-up"></i></a>
+                            <div class="votes">10</div>
+                        </div>
+                        <div class="validation-negative">
+                            <a href="#" class="val-neg"><i class="fa fa-arrow-down"></i></a>
+                            <div class="votes">10</div>
+                        </div>
+                    </div>
             </div>
             <div class="answers">${answer.description}</div>
+            <div class="coments-question-cont">
+                <div class="owner"><span>${(question.user.fullName)!""}</span></div>
+                <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
+                <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
+            </div>
+            <div class="add-comment-cont">
+                <a href="#">Add Comment</a>
+                <a href="#">Hide Comments</a>
+            </div>
         </div>
     <#else>
         <div>No answers</div>
