@@ -9,6 +9,7 @@
                 <li><a href="/question/order/newest" class="category">Newest</a></li>
                 <!-- <li><a href="/ask" class="ask-question">Ask a Question</a></li> -->
                 <li><a href="/profile" class="user-info">${(user.fullName)!""}</a></li>
+                <li><a href="/profile" class="notifications-icon"><i class="fa fa-bell"></i></a></li>
                 <li><a href="/logout" class="logout">Logout</a></li>
             </ul>
         </nav>

@@ -28,7 +28,7 @@
                     <span class="tags">No tags</span>
                 </#list>
                 <div class="respuestas-total"><i class="fa fa-comments-o"></i>- <#if question.totalAnswers gt 0 && onlyOneAnswer>1<#else>${question.totalAnswers}</#if> Answer(s)</div>
-                <div class="owner"><i class="fa fa-user"></i>Asked By &nbsp; ${(question.user.fullName)!""}</div>
+                <div class="owner"><i class="fa fa-user"></i>Asked By ${(question.user.fullName)!""}</div>
             </div>
         </li>
     <#else>
