@@ -1,8 +1,16 @@
 package com.nearsoft.questions.domain.auth;
 
-import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.rest.core.annotation.RestResource;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -31,10 +39,21 @@ public class User {
     @Column(name = "sign_in_provider", length = 20)
     private SocialMediaService signInProvider;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonIgnore
-    @RestResource(exported = false)
-    private Profile profile;
+    @Column(name = "photo_uri")
+    private String photoUri;
+
+    private String location;
+
+    @Transient
+    private Integer reputation;
+
+    public String getPhotoUri() {
+        return photoUri;
+    }
+
+    public String getLocation() {
+        return location;
+    }
 
     public Long getId() {
         return id;
@@ -56,6 +75,10 @@ public class User {
         return firstName + " " + lastName;
     }
 
+    public Integer getReputation() {
+        return reputation;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -64,20 +87,20 @@ public class User {
         return signInProvider;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
     }
 
     public static class Builder {
@@ -109,10 +132,18 @@ public class User {
             return this;
         }
 
+        public Builder photoUri(String photoUri) {
+            user.photoUri = photoUri;
+            return this;
+        }
+
+        public Builder location(String location) {
+            user.location = location;
+            return this;
+        }
+
         public User build() {
             return user;
         }
     }
-
-
 }
