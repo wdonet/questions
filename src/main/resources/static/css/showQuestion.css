@@ -214,3 +214,7 @@ ul.suggestions-cont li:first-child {
 .answer-comment-form {
     width: 100%;
 }
+
+.comment-textarea {
+    width: 100%;
+}
