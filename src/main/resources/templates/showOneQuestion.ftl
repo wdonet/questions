@@ -61,14 +61,18 @@
                 </div>
                     <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
                     <div class="validation-cont">
-                        <div class="validation-positive">
-                            <a href="#" class="val-pos"><i class="fa fa-arrow-up"></i></a>
+                        <form action="/answer/voteUp" method="post" class="validation-positive">
+                            <input name="answerId" type="hidden" value="${answer.id}">
+                            <input name="questionId" type="hidden" value="${question.id}">
+                            <button class="val-pos fa fa-arrow-up" type="submit"></button>
                             <div class="votes">${answer.votesUp}</div>
-                        </div>
-                        <div class="validation-negative">
-                            <a href="#" class="val-neg"><i class="fa fa-arrow-down"></i></a>
+                        </form>
+                        <form action="/answer/voteDown" method="post" class="validation-negative">
+                            <input name="answerId" type="hidden" value="${answer.id}">
+                            <input name="questionId" type="hidden" value="${question.id}">
+                            <button class="val-neg fa fa-arrow-down" type="submit"></button>
                             <div class="votes">${answer.votesDown}</div>
-                        </div>
+                        </form>
                     </div>
             </div>
             <div class="answers">${answer.description}</div>
