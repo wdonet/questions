@@ -40,15 +40,14 @@
             <div></div>
         </#if>
         <#list question.comments as comment>
-            <div class="coments-question-cont">
+            <div class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                 <#-- Format Month DD at HH:mm -->
                 <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
         </#list>
-        
-        
+
         <div class="add-comment-cont">
             <a href="#">Add Comment</a>
             <a href="#">Hide Comments</a>
@@ -77,7 +76,7 @@
             </div>
             <div class="answers">${answer.description}</div>
             <#list answer.comments as comment>
-                <div class="coments-question-cont">
+                <div class="comments-question-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                     <#-- Format Month DD at HH:mm -->
                     <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
