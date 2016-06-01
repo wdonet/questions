@@ -10,9 +10,6 @@ import java.util.Map;
 @Service
 public class QuestionImprovedNotifierServiceImpl implements NotificationDelivererService {
 
-    @Autowired
-    private NotificationMailSender notificationMailSender;
-
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
         //notificationMailSender.execute();
