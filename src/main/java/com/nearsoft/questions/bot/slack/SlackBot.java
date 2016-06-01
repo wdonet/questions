@@ -10,6 +10,7 @@ import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
+import org.springframework.context.MessageSource;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class SlackBot extends AbstractBot<SlackEvent> implements SlackMessagePos
     protected void sendMessage(SlackEvent event, Collection<Question> questions) {
         SlackSession slackSession = event.getSlackSession();
         SlackChannel channel = event.getMessagePosted().getChannel();
-        slackSession.sendMessage(channel, "Encontramos varias respuestas, wacha:"); //TODO
+        slackSession.sendMessage(channel, "The following questions are similar to yours, take a look!"); //TODO i18n
         for (Question q : questions) {
             slackSession.sendMessage(channel, null, new SlackAttachment(q.getTitle(), null, appSite + "/question/" + q.getId(), null));
         }
