@@ -1,85 +1,67 @@
-var notifications = [{
-    postId: 1,
-    title: 'Hello World',
-    description: 'This is the fucking description lorem mada fucka ipsum im!!!',
-    viewed: false,
-    status: 'improvement'
-}, {
-    postId: 2,
-    title: 'Hello World 1',
-    description: 'This is the fucking description 1',
-    viewed: true,
-    status: 'added-tag'
-}, {
-    postId: 3,
-    title: 'Hello World 2',
-    description: 'This is the fucking description 2',
-    viewed: false,
-    status: 'close-improvement'
-}];
-
 $(function () {
+
+    if (!$('.notifications-icon')[0]) {
+       return;
+    }
 
     var getDropContent = function (notificationsList) {
         var templateString = '<div class="notifications-header"><strong>Notifications</strong></div><ul>';
 
         notificationsList.forEach(function (notification) {
             var statusClass;
-            switch (notification.status) {
-                case 'improvement':
-                    statusClass = 'fa fa-arrow-circle-up ' + notification.status;
+            switch (notification.type) {
+                case 'IMPROVEMENT':
+                    statusClass = 'fa fa-arrow-circle-up improvement';
                     break;
-                case 'close-improvement':
-                    statusClass = 'fa fa-ban ' + notification.status;
+                case 'CLOSE':
+                    statusClass = 'fa fa-ban close-improvement';
                     break;
-                case 'added-tag':
+                case 'ADD':
                 default:
-                    statusClass = 'fa fa-tags ' + notification.status;
+                    statusClass = 'fa fa-tags added-tag';
                     break;
             }
             var notificationClass;
-            if (!notification.viewed) {
+            if (!notification.uiNotified) {
                 notificationClass = ' notification-unseen';
             }
             if (notification.description.length >= 57) {
                 notification.description = notification.description.substring(0, 57) + '...';
             }
 
-            templateString += '<li data-post-id="' + notification.postId + '" class="' +
+            templateString += '<li data-notification-id="' + notification.id + '" data-question-id="' + notification.question.id + '" class="' +
                 notificationClass + '"><div><i class="' + statusClass + '"></i><strong>' +
-                notification.title + '</strong></div><div>' + notification.description +
-                '</div></li>';
+                notification.description + '</strong></div><div> HERE WE HAVE A DESCRIPTION </div></li>';
         });
         templateString += '</ul><div class="show-more-notifications center-text"><a href="/inbox">Show more content ...</a></div>';
 
         return templateString;
     };
-    var drop = new Drop({
-        target: $('.notifications-icon')[0],
-        content: getDropContent(notifications),
-        classes: 'drop-theme-arrows',
-        position: 'bottom center'
-    });
 
-    drop.once('open', function (event) {
-        $('.drop-content ul').on('click', 'li', function (event) {
-            window.location = '/question/' + $(this).data('post-id');
+    $.get('/inbox/notifications', function (data) {
+        var drop = new Drop({
+            target: $('.notifications-icon')[0],
+            content: '<div class="notification-container">' + getDropContent(data) + '</div>',
+            classes: 'drop-theme-arrows',
+            position: 'bottom center'
+        });
+        drop.once('open', function () {
+            $('.drop-content').on('click', 'li', function () {
+                $.ajax({
+                    url: '/inbox/notifications/read/' + $(this).data('notification-id') + '/',
+                    type: 'POST'
+                }).done(function() {
+                    window.location = '/question/' + $(this).data('question-id');
+                }.bind(this));
+            });
         });
     });
 
+    var getNotifications = function () {
+        $.get('/inbox/notifications', function (data) {
+            $('.notification-container').html(getDropContent(data));
+        });
+    };
 
-
-
-
-
-
-
-    //var checkForNotifications = function() {
-    //    $.get('/inbox/notifications', function() {
-    //
-    //    });
-    //};
-    //
-    //setInterval(checkForNotifications, 5000);
-
+    setInterval(getNotifications, 5000);
 });

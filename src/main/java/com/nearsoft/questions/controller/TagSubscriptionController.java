@@ -5,7 +5,6 @@ import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.TagNotFoundException;
 import com.nearsoft.questions.error.UserNotSubscribedToTagException;
-import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.TagsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ public class TagSubscriptionController {
 
     @Autowired
     TagsSubscriptionService tagsSubscriptionService;
-
 
     @RequestMapping(value = "/subscription/tags/{tagId}", method = RequestMethod.POST)
     public void subscribe(@PathVariable Long tagId, @AuthenticationPrincipal UserDetails details) throws TagNotFoundException {

@@ -3,7 +3,6 @@ package com.nearsoft.questions.domain;
 import com.nearsoft.questions.domain.auth.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity(name = "notification")
 public class Notification {
@@ -13,16 +12,17 @@ public class Notification {
 
     private String description;
 
-    private LocalDateTime date;
-
     @ManyToOne(targetEntity = User.class, optional = false)
     private User user;
+
+    @ManyToOne(targetEntity = Question.class, optional = false)
+    private Question question;
 
     @Column(name = "email_delivered")
     private boolean emailDelivered;
 
     @Column(name = "ui_notified")
-    private boolean uiNotified;
+    private Boolean uiNotified;
 
     @Column(name = "notification_type")
     @Enumerated
@@ -44,14 +44,6 @@ public class Notification {
         this.description = description;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
     public User getUser() {
         return user;
     }
@@ -68,11 +60,11 @@ public class Notification {
         this.emailDelivered = emailDelivered;
     }
 
-    public boolean isUiNotified() {
+    public Boolean isUiNotified() {
         return uiNotified;
     }
 
-    public void setUiNotified(boolean uiNotified) {
+    public void setUiNotified(Boolean uiNotified) {
         this.uiNotified = uiNotified;
     }
 
@@ -82,5 +74,13 @@ public class Notification {
 
     public void setType(NotificationType type) {
         this.type = type;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 }
