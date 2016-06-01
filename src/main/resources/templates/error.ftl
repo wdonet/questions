@@ -4,7 +4,8 @@
 
 <html lang="en">
     <head>
-        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <link rel="stylesheet" type="text/css" href="/css/general.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     </head>
     <body>
