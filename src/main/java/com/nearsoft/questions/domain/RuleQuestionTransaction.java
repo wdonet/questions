@@ -1,0 +1,1 @@
+package com.nearsoft.questions.domain;public class RuleQuestionTransaction {}

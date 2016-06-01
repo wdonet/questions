@@ -1,0 +1,1 @@
+package com.nearsoft.questions.domain;public enum RuleName {    NEW_ANSWER,    NEW_QUESTION,    VOTED_UP_ANSWER,    VOTED_UP_QUESTION,    ACCEPTED_ANSWER,    QUESTION_NEEDS_IMPROVEMENT,    QUESTION_IMPROVED,    QUESTION_IMPROVED_ACCEPTED}

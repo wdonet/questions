@@ -17,6 +17,12 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private Integer votesUp;
+
+    @Column(nullable = false)
+    private Integer votesDown;
+
     public Long getId() {
         return id;
     }
@@ -39,5 +45,21 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getVotesUp() {
+        return votesUp;
+    }
+
+    public void setVotesUp(Integer votesUp) {
+        this.votesUp = votesUp;
+    }
+
+    public Integer getVotesDown() {
+        return votesDown;
+    }
+
+    public void setVotesDown(Integer votesDown) {
+        this.votesDown = votesDown;
     }
 }
