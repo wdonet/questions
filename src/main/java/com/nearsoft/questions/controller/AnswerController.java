@@ -5,6 +5,7 @@ import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.QuestionNotFoundException;
+import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
 import org.slf4j.Logger;
@@ -24,10 +25,37 @@ public class AnswerController extends BaseController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
+    AnswerRepository answerRepository;
+
+    @Autowired
     AnswerService answerService;
 
     @Autowired
     QuestionService questionService;
+
+    @RequestMapping(value = "/voteDown", method = RequestMethod.POST)
+    public String voteDown(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes) {
+        log.debug("Trying to vote down " + form);
+        if (form != null && form.getAnswerId() != null) {
+            Answer answer = answerRepository.findOne(form.getAnswerId());
+            answerService.downvote(answer);
+            redirectAttributes.addAttribute("id", answer.getQuestion().getId());
+            return "redirect:/question/{id}";
+        }
+        return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/voteUp", method = RequestMethod.POST)
+    public String voteUp(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes) {
+        log.debug("Trying to vote up " + form);
+        if (form != null && form.getAnswerId() != null) {
+            Answer answer = answerRepository.findOne(form.getAnswerId());
+            answerService.upvote(answer);
+            redirectAttributes.addAttribute("id", answer.getQuestion().getId());
+            return "redirect:/question/{id}";
+        }
+        return "redirect:/search";
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details)

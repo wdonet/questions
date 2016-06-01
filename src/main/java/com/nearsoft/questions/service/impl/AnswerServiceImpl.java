@@ -8,11 +8,15 @@ import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.service.AnswerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -24,11 +28,28 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void save(Answer answer) {
         answerRepository.save(answer);
+        saveWithRuleName(answer, RuleName.NEW_ANSWER);
+    }
 
-        int points = _ruleRepository.findFirstByRuleName(RuleName.NEW_ANSWER).getPoints();
+    @Override
+    public void downvote(Answer answer) {
+        answer.setVotesDown(answer.getVotesDown() + 1);
+        answerRepository.save(answer);
+        saveWithRuleName(answer, RuleName.VOTED_DOWN_ANSWER);
+    }
+
+    @Override
+    public void upvote(Answer answer) {
+        answer.setVotesUp(answer.getVotesUp() + 1);
+        answerRepository.save(answer);
+        saveWithRuleName(answer, RuleName.VOTED_UP_ANSWER);
+    }
+
+    private void saveWithRuleName(Answer answer, RuleName ruleName) {
+        int points = _ruleRepository.findFirstByRuleName(ruleName).getPoints();
         RuleAnswerTransaction transaction = new RuleAnswerTransaction();
         transaction.setPoints(points);
-        transaction.setRuleName(RuleName.NEW_ANSWER);
+        transaction.setRuleName(ruleName);
         transaction.setAnswerId(answer.getId());
         transaction.setCreatedAt(ZonedDateTime.now());
 
