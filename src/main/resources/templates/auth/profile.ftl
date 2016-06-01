@@ -23,6 +23,9 @@
     <@spring.message "auth.profile.lastname"/>: <input type="text" name="lastName" value="${form.lastName}"/><br/><br/>
     <@spring.message "auth.profile.location"/>: <input type="text" name="location"
                                                        value="${form.location!""}"/><br/><br/>
+    <@spring.message "auth.profile.points"/>: <input type="text" name="reputation" disabled
+                                                       value="${form.reputation!""}"/><br/><br/>
+
         <input class="submit-ask" type="submit" value="<@spring.message "update"/>">
 
     </form>

@@ -39,7 +39,7 @@ public class SimpleSocialUsersDetailService implements SocialUserDetailsService 
                 .username(user.getEmail())
                 .socialSignInProvider(user.getSignInProvider())
                 .role(user.getRole())
-                .imageUrl(user.getProfile().getPhotoUri())
+                .imageUrl(user.getPhotoUri())
                 .user(user)
                 .build();
     }

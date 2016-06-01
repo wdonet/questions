@@ -35,7 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        final User user = userRepository.findByEmail(email);
+        user.setReputation(userRepository.getPointsForUserId(user.getId()));
+        return user;
     }
 
 }

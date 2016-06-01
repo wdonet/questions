@@ -34,7 +34,7 @@
         <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>
         <span class="tags">${tag.name}</span>
             <div class="owner"><i class="fa fa-user"></i>Asked By ${(question.authorName)!""}</div>
-            <img src="${question.user.profile.photoUri!"#"}">
+            <img src="${question.user.photoUri!"#"}">
     <#else>
         <span>No tags</span>
     </#list>
@@ -70,19 +70,23 @@
         <div class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
-                    <img src="${answer.user.profile.photoUri!"#"}">
+                    <img src="${answer.user.photoUri!"#"}">
                     <span>${answer.authorName!""}</span>
                 </div>
                     <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
                     <div class="validation-cont">
-                        <div class="validation-positive">
-                            <a href="#" class="val-pos"><i class="fa fa-arrow-up"></i></a>
-                            <div class="votes">10</div>
-                        </div>
-                        <div class="validation-negative">
-                            <a href="#" class="val-neg"><i class="fa fa-arrow-down"></i></a>
-                            <div class="votes">10</div>
-                        </div>
+                        <form action="/answer/voteUp" method="post" class="validation-positive">
+                            <input name="answerId" type="hidden" value="${answer.id}">
+                            <input name="questionId" type="hidden" value="${question.id}">
+                            <button class="val-pos fa fa-arrow-up" type="submit"></button>
+                            <div class="votes">${answer.votesUp}</div>
+                        </form>
+                        <form action="/answer/voteDown" method="post" class="validation-negative">
+                            <input name="answerId" type="hidden" value="${answer.id}">
+                            <input name="questionId" type="hidden" value="${question.id}">
+                            <button class="val-neg fa fa-arrow-down" type="submit"></button>
+                            <div class="votes">${answer.votesDown}</div>
+                        </form>
                     </div>
             </div>
             <div class="answers">${answer.description}</div>
