@@ -1,21 +1,21 @@
-package com.nearsoft;
+package com.nearsoft.deliverer;
 
 import com.nearsoft.questions.config.QuestionsApplication;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.impl.deliverer.NotificationQuestionDelivererServiceImpl;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * Created by rjimenez on 5/31/16.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(QuestionsApplication.class)
-public class QuestionsApplicationTests {
-
+public class NotificationQuestionServiceTest {
     @Autowired
     NotificationService notificationService;
 
@@ -25,6 +25,5 @@ public class QuestionsApplicationTests {
         NotificationDelivererService n = notificationService.sendNotification(NotificationQuestionDelivererServiceImpl.class);
         n.sendNotification();
     }
-
 
 }
