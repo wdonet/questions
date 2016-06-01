@@ -30,6 +30,8 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
     private static final String NEW_QUESTION_MSG = "NEW QUESTION: ";
 
+    public static final String DESCRIPTION_PARAM ="com.nsquestions.question.description";
+
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -63,13 +65,21 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         String tagList = buildTagsListParam(tags);
 
+        String description;
+
         templateParams.put("tagList", tagList);
-        templateParams.put("description", NEW_QUESTION_MSG + question.getDescription());
+        if(parametersMap.containsKey(DESCRIPTION_PARAM)){
+            description = parametersMap.get(DESCRIPTION_PARAM);
+        }else {
+            description = NEW_QUESTION_MSG + question.getDescription();
+        }
+
+        templateParams.put("description", description);
 
         for (User user : tagSubscriptions) {
             Notification notification = new Notification();
 
-            notification.setDescription(NEW_QUESTION_MSG + question.getDescription());
+            notification.setDescription(description);
             notification.setType(NotificationType.ADD);
             notification.setUser(user);
             notification.setUiNotified(false);
