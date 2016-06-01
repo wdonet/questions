@@ -1,6 +1,9 @@
 package com.nearsoft.questions.service.impl.deliverer;
 
-import com.nearsoft.questions.domain.*;
+import com.nearsoft.questions.domain.Notification;
+import com.nearsoft.questions.domain.NotificationType;
+import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
@@ -11,8 +14,6 @@ import com.nearsoft.questions.service.TagsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,6 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
             notification.setDescription(NEW_QUESTION_MSG + question.getDescription());
             notification.setType(NotificationType.ADD);
-            notification.setDate(LocalDateTime.now());
             notification.setUser(user);
 
             notificationRepository.save(notification);

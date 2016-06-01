@@ -6,12 +6,10 @@ import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
-import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 
@@ -39,8 +37,6 @@ public class QuestionImproveRequiredNotifierServiceImpl implements NotificationD
 
         notification.setDescription("");
         notification.setType(NotificationType.IMPROVEMENT);
-        notification.setDate(LocalDateTime.now());
-
 
         notificationRepository.save(notification);
 
