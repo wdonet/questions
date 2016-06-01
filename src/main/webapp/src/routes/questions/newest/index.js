@@ -12,7 +12,7 @@ export default {
     const res = await api({
       method: 'GET',
       path: '/api/questions',
-      params: { sort: 'createdAt' },
+      params: { sort: 'createdAt,asc' },
     });
 
     const content = res.entity._embedded;

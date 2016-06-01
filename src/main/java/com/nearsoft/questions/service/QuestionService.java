@@ -14,9 +14,12 @@ public interface QuestionService {
 
     List<Question> search(String query);
 
-    Page<Question> getUnanswered(int UIPageNumber, int pageSize);
+    Page<Question> getUnanswered(int uiPageNumber, int pageSize);
 
-    Page<Question> getNewest(int UIPageNumber, int pageSize);
+    Page<Question> getNewest(int uiPageNumber, int pageSize);
 
-    Page<Question> getNewestByTag(long tagId, int UIPageNumber, int pageSize);
+    Page<Question> getNewestByTag(long tagId, int uiPageNumber, int pageSize);
+
+    boolean isOnlyOneAnswer();
+
 }
