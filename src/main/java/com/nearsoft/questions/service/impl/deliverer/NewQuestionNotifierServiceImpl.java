@@ -8,6 +8,8 @@ import com.nearsoft.questions.repository.TagsSubscriptionRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.TagsSubscriptionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.util.Map;
 
 @Service
 public class NewQuestionNotifierServiceImpl implements NotificationDelivererService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public static final String QUESTION_ID_PARAM = "com.nsquestions.question.id";
 
@@ -57,8 +61,12 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         Map<String, String> templateParams = new HashMap<>();
 
+        String tagList = buildTagsListParam(tags);
 
-        for(User user : tagSubscriptions) {
+        templateParams.put("tagList", tagList);
+        templateParams.put("description", NEW_QUESTION_MSG + question.getDescription());
+
+        for (User user : tagSubscriptions) {
             Notification notification = new Notification();
 
             notification.setDescription(NEW_QUESTION_MSG + question.getDescription());
@@ -72,11 +80,29 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
             notificationRepository.save(notification);
 
-            //mailSenderService.sendEmail(toMails, subject, templateParams,NotificationType.ADD);
+            try {
+                mailSenderService.sendEmail(NotificationType.ADD, subject, templateParams, user.getEmail());
+            } catch (MessagingException e) {
+                log.error("Can't deliver notification by email", e);
+            }
         }
 
 
+    }
 
+    private String buildTagsListParam(List<Tag> tags) {
+        StringBuilder tagsList = new StringBuilder();
+
+        tagsList.append("[");
+        for (Tag tag : tags) {
+            if (tagsList.length() > 1) {
+                tagsList.append(",");
+            }
+            tagsList.append(tag.getName());
+        }
+        tagsList.append("]");
+
+        return tagsList.toString();
 
     }
 }

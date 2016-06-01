@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfigura
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -31,6 +32,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 
 
     @Override
+    @Async
     public void sendEmail(NotificationType notificationType, String subject, Object object, String... mailList) throws MessagingException {
         MimeMessage mail = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, true);
