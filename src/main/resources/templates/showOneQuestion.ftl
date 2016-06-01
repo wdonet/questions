@@ -47,7 +47,7 @@
             <div class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                 <#-- Format Month DD at HH:mm -->
-                <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
         </#list>
@@ -89,7 +89,7 @@
                 <div class="comments-question-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                     <#-- Format Month DD at HH:mm -->
-                    <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label> </div>
+                    <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>
             </#list>
