@@ -1,17 +1,24 @@
 package com.nearsoft.questions.domain;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
 
 @Entity
 @Document(indexName = "nsquestions", type = "question")
@@ -29,9 +36,6 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
-
-    @Column(nullable = false)
-    private Integer totalAnswers = 0;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
@@ -105,14 +109,6 @@ public class Question extends AbstractAuditableEntity implements Serializable {
             tags = new ArrayList<>();
         }
         tags.add(tag);
-    }
-
-    public Integer getTotalAnswers() {
-        return totalAnswers;
-    }
-
-    public void setTotalAnswers(Integer totalAnswers) {
-        this.totalAnswers = totalAnswers;
     }
 
     @JsonIgnore

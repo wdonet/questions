@@ -41,7 +41,6 @@ public class AnswerController extends BaseController {
             answer.setDescription(form.getDescription());
             answer.setQuestion(question);
             answerService.save(answer);
-            questionService.updateTotalAnswers(question);
 
             redirectAttributes.addAttribute("id", form.getQuestionId());
             return "redirect:/question/{id}";

@@ -1,7 +1,7 @@
 package com.nearsoft.questions.service.impl;
 
+import java.util.List;
 import com.nearsoft.questions.domain.Question;
-import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -29,23 +27,11 @@ public class QuestionServiceImpl implements QuestionService {
         this.questionSearchRepository = questionSearchRepository;
     }
 
-    @Autowired
-    private AnswerRepository answerRepository;
-
     @Override
     public void save(Question question) {
         questionRepository.save(question);
     }
 
-    @Override
-    public synchronized void updateTotalAnswers(Question question) {
-        int total = answerRepository.countByQuestionId(question.getId());
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("Updating question %d with total answers: %d", question.getId(), total));
-        }
-        question.setTotalAnswers(total);
-        questionRepository.save(question);
-    }
 
     @Override
     public Question get(long id) {
