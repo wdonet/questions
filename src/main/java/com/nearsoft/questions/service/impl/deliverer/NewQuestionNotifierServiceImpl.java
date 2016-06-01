@@ -44,7 +44,7 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
     @Autowired
     ParameterReader parameterReader;
 
-    @Value("${com.nsquestions.notification.newquestion.subject}")
+    @Value("${com.nsquestions.notification.newquestion.subject:New question}")
     private String subject;
 
     @Override
@@ -57,7 +57,7 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         Map<String, String> templateParams = new HashMap<>();
 
-        
+
         for(User user : tagSubscriptions) {
             Notification notification = new Notification();
 
