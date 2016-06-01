@@ -5,8 +5,8 @@
             <ul>
                 <!-- <li><a href="/search" class="category">Search</a></li> -->
                 <li><a href="/tags" class="category">Categories</a></li>
-                <li><a href="/question/order/unanswered" class="category">Unanswered</a></li>
-                <li><a href="/question/order/newest" class="category">Newest</a></li>
+                <li><a href="/question/order/unanswered" class="category unanswered-link">Unanswered</a></li>
+                <li><a href="/question/order/newest" class="category newest-link">Newest</a></li>
                 <!-- <li><a href="/ask" class="ask-question">Ask a Question</a></li> -->
                 <li><a href="/profile" class="user-info">${(user.fullName)!""}</a></li>
                 <li><a href="/profile" class="notifications-icon"><i class="fa fa-bell"></i></a></li>

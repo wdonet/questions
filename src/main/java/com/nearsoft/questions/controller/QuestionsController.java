@@ -23,6 +23,8 @@ import java.util.List;
 public class QuestionsController extends BaseController {
 
     public static final String SHOW_QUESTIONS = "showQuestions";
+    public static final String TITLE = "title";
+    public static final String PAGE_NAME = "pageName";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -58,6 +60,8 @@ public class QuestionsController extends BaseController {
                                 @RequestParam(required = false, defaultValue = "1") Integer page,
                                 @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute("questionList", questionService.getUnanswered(page, pageSize).getContent());
+        model.addAttribute(TITLE, "Unanswered Questions");
+        model.addAttribute(PAGE_NAME, "unanswered");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
@@ -67,6 +71,8 @@ public class QuestionsController extends BaseController {
                             @RequestParam(required = false, defaultValue = "1") Integer page,
                             @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute(questionService.getNewest(page, pageSize).getContent());
+        model.addAttribute(TITLE, "Newest Questions");
+        model.addAttribute(PAGE_NAME, "newest");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
