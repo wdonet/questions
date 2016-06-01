@@ -2,6 +2,7 @@ package com.nearsoft.questions.domain.auth;
 
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -32,6 +33,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
+    @RestResource(exported = false)
     private Profile profile;
 
     public Long getId() {

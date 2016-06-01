@@ -27,17 +27,21 @@ All api URIs start with `/api` followed by one of the below.
 |:--- |:----------- |:----------:|:-------:|:------------ |
 | `/users` | Show users | No | No | - |
 | `/users/{id}` | Show user with id | No | No | `id` |
+| `/users/search` | Explore more user related URIs | No | No | `id` |
+| `/users/search/byEmail` | Search user by email | No | No | `q`  |
 | `/tags` | Show all tags | Yes | Yes | - |
 | `/tags/{id}` | Show tag by {id} | Yes | Yes | `id` |
 | `/tags/{id}/user` | Show owner of tag with {id} (_not working_)| Yes | Yes | `id` |
+| `/tags/search` | Explore more tag related URIs| - | - | - |
+| `/tags/search/byName` | Search tags by tag name, could be multiple 'name' params or many values separated by commas | Yes | Yes | `name` |
 | `/questions` | Show all questions | Yes | Yes | - |
 | `/questions/{id}` | Show question by {id} | Yes | Yes | `id` |
 | `/questions/{id}/answers` | Show all answers of question with {id} | Yes | Yes | `id` |
 | `/questions/{id}/tags` | Show all tags of question with {id} | Yes | Yes | `id` |
-| `/questions/{id}/user` | Show owner of question with {id} (_not working_)| No | No | `id` |
+| `/questions/{id}/user` | Show owner of question with {id} | No | No | `id` |
 | `/questions/search` | Search questions using ?term={term} param| Yes | Yes | `term` |
 | `/questions/unanswered` | Look for all unanswered questions| Yes | Yes | - |
-| `/questions/newest` | Look for all questions showing newest first| Yes | createdAt,desc | - |
+| `/questions/newest` | Look for all questions showing newest first| Yes | createdAt,desc + user choices | - |
 | `/answers` | Show all answers | Yes | Yes | - |
 | `/answers/{id}` | Show answer by {id} | Yes | Yes | `id` |
 | `/answers/{id}/question` | Show question of answer with {id} | Yes | Yes | `id` |

@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Entity
 @Document(indexName = "nsquestions", type = "question")
@@ -47,20 +47,15 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
         if (CollectionUtils.isNotEmpty(persistedTags)) {
             this.tags.addAll(persistedTags);
-            requestedTagNames.removeIf(new Predicate<String>() {
-                @Override
-                public boolean test(String tagName) {
-                    if (tagName != null) {
-                        String requestedTagName = StringUtils.trimWhitespace(tagName);
-                        return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
-                    }
-                    return false;
+            requestedTagNames.removeIf(tagName -> {
+                if (tagName != null) {
+                    String requestedTagName = StringUtils.trimWhitespace(tagName);
+                    return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
                 }
+                return false;
             });
         }
-        for (String requestedTagName : requestedTagNames) {
-            this.tags.add(new Tag(requestedTagName));
-        }
+        this.tags.addAll(requestedTagNames.stream().map(Tag::new).collect(Collectors.toList()));
     }
 
     public Question withTitle(String title) {
