@@ -41,21 +41,21 @@
 
         <h1>Search Questions</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+        <p>Find out how the most common problems within your project have been solved.</p>
     </div>
     <div class="how-cont">
         <img src="img/crea-img.png" alt="Crea tu pregunta">
 
         <h1>Create Questions</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+        <p>Contribute to your team by creating useful questions that will help others.</p>
     </div>
     <div class="how-cont">
         <img src="img/notifica-img.png" alt="Notifica">
 
         <h1>Notify Questions</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+        <p>Get realtime input regarding questions of your interest.</p>
     </div>
 </div>
 </section>

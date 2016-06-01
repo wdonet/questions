@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.RuleAnswerTransaction;
+import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.RuleAnswerTransaction;
 import com.nearsoft.questions.domain.RuleName;
