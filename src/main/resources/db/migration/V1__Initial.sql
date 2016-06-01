@@ -79,7 +79,7 @@ CACHE 1;
 CREATE TABLE public.rule_answer_transaction
 (
   id               bigint         NOT NULL,
-  question_id               bigint         NOT NULL,
+  answer_id               bigint         NOT NULL,
   rule_name CHARACTER VARYING(35) NOT NULL,
   created_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
   points INTEGER NOT NULL
