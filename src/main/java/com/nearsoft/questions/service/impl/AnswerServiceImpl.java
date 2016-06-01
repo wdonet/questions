@@ -1,6 +1,9 @@
 package com.nearsoft.questions.service.impl;
 
 import java.time.ZonedDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.RuleAnswerTransaction;
@@ -32,6 +35,11 @@ public class AnswerServiceImpl implements AnswerService {
     public void save(Answer answer) {
         answerRepository.save(answer);
         saveWithRuleName(answer, RuleName.NEW_ANSWER);
+    }
+
+    @Override
+    public Answer get(final Long id){
+    	return answerRepository.findOne(id);
     }
 
     @Override
