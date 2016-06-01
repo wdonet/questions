@@ -2,8 +2,11 @@ package com.nearsoft.questions.service.impl;
 
 import java.time.ZonedDateTime;
 import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.RuleAnswerTransaction;
 import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.auth.User;
+import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
@@ -43,6 +46,23 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setVotesUp(answer.getVotesUp() + 1);
         answerRepository.save(answer);
         saveWithRuleName(answer, RuleName.VOTED_UP_ANSWER);
+    }
+
+    @Override
+    public void markAsAccepted(Long answerId, User user) throws UserNotOwnerOfQuestionException{
+
+        Answer answer = answerRepository.findOne(answerId);
+        if (!answer.getQuestion().getUser().getId().equals(user.getId())) {
+            throw new UserNotOwnerOfQuestionException(user.getId(), answer.getQuestion().getUser().getId());
+        }
+
+        for (Answer otherAnswer :answer.getQuestion().getAnswers()) {
+            otherAnswer.setStatus(ItemStatus.NOT_ACCEPTED);
+            answerRepository.save(otherAnswer);
+        }
+
+        answer.setStatus(ItemStatus.ACCEPTED);
+        answerRepository.save(answer);
     }
 
     private void saveWithRuleName(Answer answer, RuleName ruleName) {

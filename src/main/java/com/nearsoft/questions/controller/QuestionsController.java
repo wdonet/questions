@@ -4,6 +4,7 @@ import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
@@ -100,9 +101,13 @@ public class QuestionsController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String get(@PathVariable long id, Model model) {
+    public String get(@PathVariable long id, Model model, @AuthenticationPrincipal UserDetails details) {
         log.info("question with id " + id);
-        model.addAttribute(questionService.get(id));
+
+        Question question = questionService.get(id);
+        model.addAttribute("isQuestionOwner", details.getUser().getId().equals(question.getUser().getId()));
+        model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
+        model.addAttribute(question);
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return "showOneQuestion";
     }
