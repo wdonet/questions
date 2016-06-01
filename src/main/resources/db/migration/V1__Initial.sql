@@ -148,7 +148,8 @@ CREATE TABLE notification
   email_delivered   BOOLEAN                 NOT NULL,
   ui_notified       BOOLEAN                 NOT NULL,
   user_id           INT8                    NOT NULL,
+  question_id       INT8                    NOT NULL,
   notification_type INT8                    NOT NULL,
-  date              TIMESTAMP WITHOUT TIME ZONE,
-  CONSTRAINT notification_user_fk FOREIGN KEY (user_id) REFERENCES public.user
+  CONSTRAINT notification_user_fk FOREIGN KEY (user_id) REFERENCES public.user,
+  CONSTRAINT notification_question_fk FOREIGN KEY (question_id) REFERENCES public.question
 );

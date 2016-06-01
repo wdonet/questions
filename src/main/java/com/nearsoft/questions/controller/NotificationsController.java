@@ -6,19 +6,14 @@ import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.NotificationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.inject.Inject;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/inbox")
 public class NotificationsController extends BaseController {
 
@@ -27,7 +22,7 @@ public class NotificationsController extends BaseController {
 //    @Inject
 //    private NotificationService notificationService;
 
-    @Inject
+    @Autowired
     private NotificationRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
@@ -47,9 +42,11 @@ public class NotificationsController extends BaseController {
         repository.delete(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/notifications/read/{id}")
+    @RequestMapping(method = RequestMethod.POST, value = "/notifications/read/{id}")
     public void read(@PathVariable Long id) {
-        repository.delete(id);
+        Notification notification = repository.findOne(id);
+        notification.setUiNotified(Boolean.TRUE);
+        repository.save(notification);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/notifications/read")
