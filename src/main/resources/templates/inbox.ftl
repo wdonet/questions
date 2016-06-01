@@ -6,7 +6,8 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-basic.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-basic.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-arrows.css"/>
 
     <script src="https://use.fontawesome.com/4eda52b947.js"></script>
@@ -23,25 +24,43 @@
         <button type="button" value="" class="search-submit positioning"></button>
     </div>
     <a href="#" class="back-btn">« BACK </a>
+
     <div class="question-cont">
-		<h1 class="unanswered-q">Notifications</h1>
-		<ul>
-			<li class="notifications-li"><i class="fa fa-ban close-improvement"></i>PEM_read_bio_X509 (sometimes) fails (OpenSSL 1.0.1p) <span class="close-improvement">Question closed due to improvement</span></li>
-			<li class="notifications-li"><i class="fa fa-arrow-circle-up improvement"></i>Python convert date string to timestamp <span class="improvement">Question improved</span></li>
-			<li class="notifications-li"><i class="fa fa-tags added-tag"></i>Using PCA for for feature extraction of OCR process <span class="added-tag">Question added for the categorie Ruby</span></li>
-			<li class="notifications-li"><i class="fa fa-arrow-circle-up improvement"></i>Python convert date string to timestamp <span class="improvement">Question improved</span></li>
-		</ul>
-    </div>
     <#if notifications?has_content>
-        <#list notifications as notification>
-            <span class="tags">
-                <a href="/question/tag/${notification.id}">${notification.description}</a>
-            </span>
-        </#list>
+        <h1 class="unanswered-q">Notifications</h1>
+        <ul>
+            <#list notifications as notification>
+                <#switch notification.type>
+                    <#case "ADD">
+                        <#assign icon = "fa fa-tags added-tag">
+                        <#assign details = "Question added">
+                        <#assign detailsClass = "added-tag">
+                        <#break>
+                    <#case "IMPROVEMENT">
+                        <#assign icon = "fa fa-arrow-circle-up improvement">
+                        <#assign details = "Question improved">
+                        <#assign detailsClass = "improvement">
+                        <#break>
+                    <#case "CLOSE">
+                        <#assign icon = "fa fa-ban close-improvement">
+                        <#assign details = "Question closed due to improvement">
+                        <#assign detailsClass = "close-improvement">
+                        <#break>
+                </#switch>
+                <li class="notifications-li">
+                    <a class="notification-remove-anchor-style" href="/question/${notification.question.id}">
+                        <i class="${icon}"></i>
+                            ${notification.description}
+                        <span class="${detailsClass}">${details}</span>
+                    </a>
+                </li>
+            </#list>
+        </ul>
     </#if>
     <#if !notifications?has_content>
-        <span class="tags">Nothing new for you</span>
+        Nothing new for you
     </#if>
+    </div>
 </div>
 <script src="/js/header.js"></script>
 </body>
