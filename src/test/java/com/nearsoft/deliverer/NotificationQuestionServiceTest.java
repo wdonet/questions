@@ -28,7 +28,7 @@ public class NotificationQuestionServiceTest {
     @Test
     public void contextLoads() {
         Map<String, String> XD = new HashMap<>();
-        NotificationDelivererService n = notificationService.sendNotification(NewQuestionNotifierServiceImpl.class);
+        NotificationDelivererService n = notificationService.getDelivererInstance(NewQuestionNotifierServiceImpl.class);
         n.sendNotification(XD);
     }
 

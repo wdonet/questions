@@ -1,35 +1,65 @@
 package com.nearsoft.questions.service.impl.deliverer;
 
+import com.nearsoft.questions.domain.*;
+import com.nearsoft.questions.domain.auth.User;
+import com.nearsoft.questions.repository.NotificationRepository;
+import com.nearsoft.questions.repository.QuestionRepository;
+import com.nearsoft.questions.repository.TagsSubscriptionRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
+import com.nearsoft.questions.service.TagsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Created by rjimenez on 5/31/16.
- */
 @Service
 public class NewQuestionNotifierServiceImpl implements NotificationDelivererService {
 
-    @Autowired
-    MailSenderService mailSenderService;
+    public static final String QUESTION_ID_PARAM = "com.nsquestions.question.id";
 
+    private static final String NEW_QUESTION_MSG = "NEW QUESTION: ";
+
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    private TagsSubscriptionRepository tagsSubscriptionRepository;
+
+    @Autowired
+    private TagsSubscriptionService tagsSubscriptionService;
+
+    @Autowired
+    private MailSenderService mailSenderService;
+
+    @Autowired
+    ParameterReader parameterReader;
 
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
-        try {
-            mailSenderService.sendEmail("rjimenez@nearsoft.com", "subject", "Text");
-        } catch (MessagingException e) {
-            e.printStackTrace();
+        Question question = questionRepository.findOne(parameterReader.getLong(parametersMap, QUESTION_ID_PARAM));
+
+        List<Tag> tags = question.getTags();
+
+        List<User> tagSubscriptions = tagsSubscriptionService.findByTagsIsIn(tags);
+
+        for(User user : tagSubscriptions) {
+            Notification notification = new Notification();
+
+            notification.setDescription(NEW_QUESTION_MSG + question.getDescription());
+            notification.setType(NotificationType.ADD);
+            notification.setDate(LocalDateTime.now());
+            notification.setUser(user);
+
+            notificationRepository.save(notification);
         }
+
 
     }
 }
