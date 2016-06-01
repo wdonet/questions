@@ -4,6 +4,8 @@
     <head>
         <link rel="stylesheet" type="text/css" href="/css/styles.css">
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="/js/tags.js"></script>
     </head>
     <body>
     <#include "header.ftl">
@@ -13,7 +15,7 @@
                 <div>
                 <#list tagList as tag>
                     <span class="tags">
-                        <a href="/question/tag/${tag.id}">${tag.name}</a>
+                        <input class="tag-checkbox" value="${tag.id}" type="checkbox" <#if true>checked</#if>> <a href="/question/tag/${tag.id}">${tag.name}</a>
                     </span>
                 <#else>
                     <span class="tags">No tags</span>
