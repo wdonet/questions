@@ -31,7 +31,7 @@ $(function () {
 
             templateString += '<li data-notification-id="' + notification.id + '" data-question-id="' + notification.question.id + '" class="' +
                 notificationClass + '"><div><i class="' + statusClass + '"></i><strong>' +
-                notification.description + '</strong></div><div> HERE WE HAVE A DESCRIPTION </div></li>';
+                notification.description + '</strong></div></li>';
         });
         templateString += '</ul><div class="show-more-notifications center-text"><a href="/inbox">Show more content ...</a></div>';
 
