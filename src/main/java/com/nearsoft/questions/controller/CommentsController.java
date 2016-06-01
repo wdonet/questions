@@ -23,25 +23,25 @@ import com.nearsoft.questions.service.QuestionCommentService;
 @RequestMapping("/comments")
 public class CommentsController extends BaseController {
 
-	@Autowired
-	private QuestionCommentService questionCommentService;
-	
-	@Autowired
-	private AnswerCommentService answerCommentService;
-	
-	
-	@Autowired
-	private AnswerService answerService;
-	
-	private final Logger log = LoggerFactory.getLogger(getClass());
-	
-	@RequestMapping(value="question/{id}", method= RequestMethod.GET)
-	public String getQuestionCommentForm(@PathVariable("id") final Long sourceId, final Model model){
-		model.addAttribute("sourceId", sourceId);
-		return "commentForm";
-	}
+    @Autowired
+    private QuestionCommentService questionCommentService;
 
-    @RequestMapping(value={"/question/{id}", "/question"}, method = RequestMethod.POST)
+    @Autowired
+    private AnswerCommentService answerCommentService;
+
+
+    @Autowired
+    private AnswerService answerService;
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    @RequestMapping(value = "question/{id}", method = RequestMethod.GET)
+    public String getQuestionCommentForm(@PathVariable("id") final Long sourceId, final Model model) {
+        model.addAttribute("sourceId", sourceId);
+        return "commentForm";
+    }
+
+    @RequestMapping(value = {"/question/{id}", "/question"}, method = RequestMethod.POST)
     public String saveQuestionComment(@ModelAttribute CommentForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
         log.debug("Who's operating ? " + details);
         if (form != null) {
@@ -52,14 +52,14 @@ public class CommentsController extends BaseController {
         }
         return "redirect:/ask";
     }
-    
-	@RequestMapping(value="answer/{id}", method= RequestMethod.GET)
-	public String getAnswerCommentForm(@PathVariable("id") final Long sourceId, final Model model){
-		model.addAttribute("sourceId", sourceId);
-		return "commentForm";
-	}
 
-    @RequestMapping(value={"/answer/{id}", "/question"}, method = RequestMethod.POST)
+    @RequestMapping(value = "answer/{id}", method = RequestMethod.GET)
+    public String getAnswerCommentForm(@PathVariable("id") final Long sourceId, final Model model) {
+        model.addAttribute("sourceId", sourceId);
+        return "commentForm";
+    }
+
+    @RequestMapping(value = {"/answer/{id}", "/answer"}, method = RequestMethod.POST)
     public String saveAnswerComment(@ModelAttribute CommentForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
         log.debug("Who's operating ? " + details);
         if (form != null) {
@@ -67,7 +67,7 @@ public class CommentsController extends BaseController {
             answerCommentService.save(form, getUser(details));
             Answer answer = answerService.get(form.getSourceId());
             redirectAttributes.addAttribute("id", answer.getQuestion().getId());
-            return "redirect:/question/"+answer.getQuestion().getId();
+            return "redirect:/question/" + answer.getQuestion().getId();
         }
         return "redirect:/ask";
     }

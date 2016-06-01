@@ -6,12 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
 
+    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="/js/linkify.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
     <script src="/js/showOneQuestion.js"></script>
@@ -83,7 +82,14 @@
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>
             </#list>
+
             <div class="add-comment-cont">
+                <div>
+                    <form id="answer-comment-form" method="post" action="/comments/answer/">
+                        <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
+                        <textarea name="description" type="textarea" class="answer-comment-textarea" placeholder="Add your comment here"></textarea>
+                    </form>
+                </div>
                 <a href="#">Add Comment</a>
                 <a href="#">Hide Comments</a>
             </div>
