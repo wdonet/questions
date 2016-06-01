@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.annotations.Formula;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
 
@@ -45,6 +46,9 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
+
+    @Formula("(select count(a.*) from Answer a where a.question_id = id)")
+    private Integer totalAnswers;
 
     public Question() {
     }
@@ -132,5 +136,9 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
     public void setStatus(ItemStatus status) {
         this.status = status;
+    }
+
+    public Integer getTotalAnswers() {
+        return totalAnswers;
     }
 }
