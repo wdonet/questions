@@ -127,14 +127,6 @@ public class Question extends AbstractAuditableEntity implements Serializable {
         tags.add(tag);
     }
 
-    public Integer getTotalAnswers() {
-        return totalAnswers;
-    }
-
-    public void setTotalAnswers(Integer totalAnswers) {
-        this.totalAnswers = totalAnswers;
-    }
-
     @JsonIgnore
     public List<Answer> getAnswers() {
         return answers;
