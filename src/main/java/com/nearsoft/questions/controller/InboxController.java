@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/inbox")
+@RequestMapping("/inboxa")
 public class InboxController {
 
     @RequestMapping(method = RequestMethod.GET)

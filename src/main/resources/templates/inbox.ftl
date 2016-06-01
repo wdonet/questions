@@ -26,6 +26,16 @@
 			<li class="notifications-li"><i class="fa fa-arrow-circle-up improvement"></i>Python convert date string to timestamp <span class="improvement">Question improved</span></li>
 		</ul>
     </div>
+    <#if notifications?has_content>
+        <#list notifications as notification>
+            <span class="tags">
+                <a href="/question/tag/${notification.id}">${notification.description}</a>
+            </span>
+        </#list>
+    </#if>
+    <#if !notifications?has_content>
+        <span class="tags">Nothing new for you</span>
+    </#if>
 </div>
 </body>
 </html>
