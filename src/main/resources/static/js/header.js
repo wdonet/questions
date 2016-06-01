@@ -1,24 +1,24 @@
-$(function () {
+var notifications = [{
+    postId: 1,
+    title: 'Hello World',
+    description: 'This is the fucking description lorem mada fucka ipsum im!!!',
+    viewed: false,
+    status: 'improvement'
+}, {
+    postId: 2,
+    title: 'Hello World 1',
+    description: 'This is the fucking description 1',
+    viewed: true,
+    status: 'added-tag'
+}, {
+    postId: 3,
+    title: 'Hello World 2',
+    description: 'This is the fucking description 2',
+    viewed: false,
+    status: 'close-improvement'
+}];
 
-    var notifications = [{
-        postId: 9,
-        title: 'Hello World',
-        description: 'This is the fucking description lorem mada fucka ipsum im!!!',
-        viewed: false,
-        status: 'improvement'
-    }, {
-        postId: 1,
-        title: 'Hello World 1',
-        description: 'This is the fucking description 1',
-        viewed: true,
-        status: 'added-tag'
-    }, {
-        postId: 2,
-        title: 'Hello World 2',
-        description: 'This is the fucking description 2',
-        viewed: false,
-        status: 'close-improvement'
-    }];
+$(function () {
 
     var getDropContent = function (notificationsList) {
         var templateString = '<div class="notifications-header"><strong>Notifications</strong></div><ul>';
@@ -45,9 +45,10 @@ $(function () {
                 notification.description = notification.description.substring(0, 57) + '...';
             }
 
-            var urlQuestion = '/question/' + notification.postId;
-            templateString += '<li class="' + notificationClass + '"><div><i class="' + statusClass + '"></i><strong>' + notification.title +
-                '</strong></div><div>' + notification.description + '</div></li>';
+            templateString += '<li data-post-id="' + notification.postId + '" class="' +
+                notificationClass + '"><div><i class="' + statusClass + '"></i><strong>' +
+                notification.title + '</strong></div><div>' + notification.description +
+                '</div></li>';
         });
         templateString += '</ul><div class="show-more-notifications center-text"><a href="/inbox">Show more content ...</a></div>';
 
@@ -59,6 +60,18 @@ $(function () {
         classes: 'drop-theme-arrows',
         position: 'bottom center'
     });
+
+    drop.once('open', function (event) {
+        $('.drop-content ul').on('click', 'li', function (event) {
+            window.location = '/question/' + $(this).data('post-id');
+        });
+    });
+
+
+
+
+
+
 
 
     //var checkForNotifications = function() {
