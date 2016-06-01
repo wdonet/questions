@@ -1,6 +1,8 @@
 .validation-cont,
 .validation-positive,
 .validation-negative,
+button.val-pos,
+button.val-neg,
 a.val-pos,
 a.val-neg,
 .votes {
@@ -16,6 +18,8 @@ a.val-neg,
     margin-right: 10px;
 }
 
+button.val-pos,
+button.val-neg,
 a.val-pos,
 a.val-neg {
     background-color: #2DD660;
@@ -25,6 +29,7 @@ a.val-neg {
     padding: 7px 10px;
 }
 
+button.val-neg,
 a.val-neg {
     background-color: #F55363;
 }
