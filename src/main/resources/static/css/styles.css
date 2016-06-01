@@ -103,6 +103,7 @@ div.notifications-icon {
     padding: 5px;
     cursor: pointer;
 }
+
 .drop-content .fa {
     margin-right: 5px;
 }
@@ -141,6 +142,13 @@ div.notifications-icon.new-notification:after {
     padding-bottom: 25px;
     margin-bottom: 25px;
     width: 100%;
+}
+
+.notification-remove-anchor-style:link,
+.notification-remove-anchor-style:hover,
+.notification-remove-anchor-style:active,
+.notification-remove-anchor-style:visited {
+    text-decoration: none
 }
 
 .close-improvement {
