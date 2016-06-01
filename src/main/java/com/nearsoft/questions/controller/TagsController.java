@@ -1,4 +1,4 @@
-package com.nearsoft.questions.controller.interceptor;
+package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.BaseController;
 import com.nearsoft.questions.service.TagService;
