@@ -9,4 +9,6 @@ public interface AnswerService {
     void downvote(Answer answer);
 
     void upvote(Answer answer);
+
+    Answer get(final Long id);
 }

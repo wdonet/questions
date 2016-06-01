@@ -1,0 +1,33 @@
+.input-search-question {
+    width: 80%;
+    border: 0;
+    height: 40px;
+    border-radius: 3px;
+    padding: 5px 15px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #606060;
+}
+
+.search-submit {
+    background-color: #F25D00;
+    border: 0;
+    color: #fff;
+    height: 50px;
+    width: 6%;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 0 3px 3px 0;
+    margin-left: -8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.search-container{
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 52px;
+    background-color: #595B67;
+    padding-top: 39px;
+    margin-top: 0;
+    text-align: center;
+}
