@@ -66,5 +66,5 @@ function formatDate(originalDate){
 	var time = date[4].split(':');
 	time.pop();
 	time = time.join(':');
-	return month + " " + day + " at " + time;
+	return " "+month + " " + day + " at " + time;
 }
