@@ -153,3 +153,10 @@ CREATE TABLE notification
   CONSTRAINT notification_user_fk FOREIGN KEY (user_id) REFERENCES public.user,
   CONSTRAINT notification_question_fk FOREIGN KEY (question_id) REFERENCES public.question
 );
+
+CREATE SEQUENCE notification_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 7
+CACHE 1;
