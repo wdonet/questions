@@ -129,6 +129,7 @@ ul.suggestions-cont li:first-child {
     background-color: #F5F5F5;
 }
 
+.add-comment-btn,
 .comment-textarea,
 .answers,
 .add-button {
@@ -222,4 +223,9 @@ ul.suggestions-cont li:first-child {
 .answer-comment-form,
 .comment-textarea {
     width: 100%;
+}
+
+.add-comment-btn {
+    background-color: #F25D00;
+    border: none;
 }
