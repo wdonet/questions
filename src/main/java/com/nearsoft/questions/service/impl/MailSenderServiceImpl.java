@@ -1,7 +1,12 @@
 package com.nearsoft.questions.service.impl;
 
+import com.nearsoft.questions.domain.NotificationType;
+import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.service.MailSenderService;
+import com.nearsoft.questions.service.TemplateGeneratorService;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by rjimenez on 6/1/16.
@@ -19,14 +26,23 @@ public class MailSenderServiceImpl implements MailSenderService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    @Autowired
+    TemplateGeneratorService templateGeneratorService;
+
+
     @Override
-    public void sendEmail(String sendTo, String subject, String text) throws MessagingException {
+    public void sendEmail(List<String> mailList, String subject, Object object, NotificationType notificationType) throws MessagingException {
         MimeMessage mail = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-        helper.setText(text);
-        helper.setTo(sendTo);
+        try {
+            helper.setText(templateGeneratorService.getTemplate(notificationType.getMailTemplateName(), object));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        helper.setTo(mailList.stream().toArray(String[]::new));
         helper.setSubject(subject);
         javaMailSender.send(mail);
-
     }
 }
