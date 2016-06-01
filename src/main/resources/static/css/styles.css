@@ -89,6 +89,11 @@ div.notifications-icon {
     max-width: 250px;
 }
 
+.drop-content ul {
+    max-height: 400px;
+    overflow: auto;
+}
+
 .drop-content:before {
     border-bottom-color: #fff !important;
     border-width: 9px !important;
