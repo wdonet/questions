@@ -52,7 +52,7 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    @OrderBy("votesUp ASC")
+    @OrderBy("votes_up DESC")
     private List<Answer> answers = new ArrayList<>();
 
     @Formula("(select count(a.*) from Answer a where a.question_id = id)")

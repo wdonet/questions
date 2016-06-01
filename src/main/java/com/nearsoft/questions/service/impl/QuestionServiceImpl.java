@@ -63,13 +63,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question get(long id) {
-        Question one = questionRepository.findOne(id);
-        if (CollectionUtils.isNotEmpty(one.getAnswers()) && one.getAnswers().size() > 1) {
-            one.getAnswers().sort((first, second) -> first.getId().compareTo(second.getId()));
-            log.info("Show onlyOneAnswer ? " + onlyOneAnswer);
-            adjustNumberOfAnswers(one);
-        }
-        return one;
+        return questionRepository.findOne(id);
     }
 
     @Override
