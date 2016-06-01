@@ -30,7 +30,7 @@
         <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>
         <span class="tags">${tag.name}</span>
             <div class="owner"><i class="fa fa-user"></i>Asked By ${(question.authorName)!""}</div>
-            <img src="${question.user.profile.photoUri!"#"}">
+            <img src="${question.user.photoUri!"#"}">
     <#else>
         <span>No tags</span>
     </#list>
@@ -56,7 +56,7 @@
         <div class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
-                    <img src="${answer.user.profile.photoUri!"#"}">
+                    <img src="${answer.user.photoUri!"#"}">
                     <span>${answer.authorName!""}</span>
                 </div>
                     <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
