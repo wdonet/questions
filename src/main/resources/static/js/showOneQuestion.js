@@ -37,6 +37,7 @@ $(document).ready(function(){
     $('form textarea[name="description"]').on('keydown', function(event) {
         if (event.keyCode == 13 && !event.shiftKey) {
             $(this).parent().submit();
+            return false;
         }
     });
 
