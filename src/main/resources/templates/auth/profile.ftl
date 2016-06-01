@@ -5,6 +5,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
 </head>
 <body>
 

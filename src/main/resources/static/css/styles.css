@@ -94,6 +94,24 @@ a.notifications-icon:after {
     width: 100%;
 }
 
+.no-results-cont {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.no-results-cont p {
+    color: #4F5D73;
+}
+
+.no-results-message {
+    display: inline-block;
+    background-color: #FFF0F0;
+    padding: 25px;
+    border: 1px solid #FFC2BF;
+    font-size: 20px;
+    color: #F56E67;
+}
+
 .close-improvement {
     color: #F55363;
 }
