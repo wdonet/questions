@@ -11,6 +11,7 @@ $(document).ready(function(){
     });
 
     $('.search-submit').on("click", function(){
+        $('.unanswered-q').toggle(false);
         var query = getQuery();
         var url = '/question/search?query=' + query;
         $.get(url, function(data, status) {

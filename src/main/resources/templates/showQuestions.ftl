@@ -1,5 +1,5 @@
 <#import "/spring.ftl" as spring/>
-<#assign title="Unanswered Questions" >
+<#--<#assign title="Unanswered Questions" >-->
 
 <!DOCTYPE html>
 
@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="/js/search.js"></script>
   </head>
-  <body class="showquestions">
+  <body class="showquestions ${pageName}">
     <#include "header.ftl">
     <#include "suggestions.ftl">
   </body>

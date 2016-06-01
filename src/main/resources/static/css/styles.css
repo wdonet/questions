@@ -945,3 +945,12 @@ a.val-neg {
 .validation-negative .votes {
     color: #F55363;
 }
+
+.unanswered .unanswered-link {
+    color: blue;
+}
+
+.newest .newest-link {
+    color: blue;
+}
+
