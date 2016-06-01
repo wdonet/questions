@@ -10,7 +10,9 @@ public class Notification {
 
     @Id
     private Long id;
+
     private String description;
+
     private LocalDateTime date;
 
     @ManyToOne(targetEntity = User.class, optional = false)
