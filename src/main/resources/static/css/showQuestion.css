@@ -129,8 +129,6 @@ ul.suggestions-cont li:first-child {
     background-color: #F5F5F5;
 }
 
-.add-comment-btn,
-.comment-textarea,
 .answers,
 .add-button {
     border-radius: 3px;
@@ -211,13 +209,17 @@ ul.suggestions-cont li:first-child {
     height: 45px;
     display: inline-block;
     width: 124px !important;
-    background-color: #F25D00;
     border: 0 !important;
-    color: #fff;
     font-size: 16px;
     margin-top: 5px;
     margin-right: 10px;
     cursor: pointer;
+}
+
+.add-button,
+.add-comment-btn {
+    color: #fff;
+    background-color: #F25D00;
 }
 
 .answer-comment-form,
@@ -226,6 +228,6 @@ ul.suggestions-cont li:first-child {
 }
 
 .add-comment-btn {
-    background-color: #F25D00;
     border: none;
+    padding: 5px 8px;
 }
