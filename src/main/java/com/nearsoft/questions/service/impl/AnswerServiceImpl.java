@@ -1,10 +1,11 @@
 package com.nearsoft.questions.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -15,6 +16,11 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void save(Answer answer) {
         answerRepository.save(answer);
+    }
+    
+    @Override
+    public Answer get(final Long id){
+    	return answerRepository.findOne(id);
     }
 
 }
