@@ -727,6 +727,10 @@ input[type="textarea"] {
     font-family: 'PT Sans', sans-serif;
 }
 
+.answer-comment-form {
+    width: 100%;
+}
+
 .question-description {
     margin: 40px 0 40px;
     color: #5C5C5C;

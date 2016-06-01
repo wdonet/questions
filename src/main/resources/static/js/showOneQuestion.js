@@ -29,4 +29,14 @@ $(document).ready(function(){
         $(child).html(smde.markdown($(child).text()))
     });
 
+    $('form textarea[name="description"]').on('keydown', function(event) {
+        if (event.keyCode == 13 && !event.shiftKey) {
+            $(this).parent().submit();
+        }
+    });
+
+    $('#answer-comment-form').submit(function() {
+        location.reload();
+    });
+
 });
