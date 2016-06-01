@@ -2,9 +2,12 @@ package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.form.AnswerForm;
 import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.QuestionNotFoundException;
+import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
+import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
@@ -32,6 +35,20 @@ public class AnswerController extends BaseController {
 
     @Autowired
     QuestionService questionService;
+
+    @RequestMapping(value = "/accepted", method = RequestMethod.POST)
+    public String markAsAccepted(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes,
+                                 @AuthenticationPrincipal UserDetails details) throws UserNotOwnerOfQuestionException {
+
+        log.debug("Marking as accepted " + form);
+        if (form == null || form.getAnswerId() == null) {
+            return "redirect:/search";
+        }
+
+        answerService.markAsAccepted(form.getAnswerId(), details.getUser());
+        redirectAttributes.addAttribute("id", form.getQuestionId());
+        return "redirect:/question/{id}";
+    }
 
     @RequestMapping(value = "/voteDown", method = RequestMethod.POST)
     public String voteDown(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes) {
@@ -68,6 +85,7 @@ public class AnswerController extends BaseController {
             answer.setUser(getUser(details));
             answer.setDescription(form.getDescription());
             answer.setQuestion(question);
+            answer.setStatus(ItemStatus.NOT_ACCEPTED);
             answerService.save(answer);
 
             redirectAttributes.addAttribute("id", form.getQuestionId());
