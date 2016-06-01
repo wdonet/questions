@@ -39,7 +39,7 @@ $(document).ready(function(){
                 });
             }
             else {
-                $('.suggestions-cont').append('<li><div class="respuestas-total">No matches.</div></li>');
+                $('.suggestions-cont').append('<div class="no-results-cont"><div class="no-results-message">We are sorry you couldnt find what you where looking for...</div><p>Help us grow our database by creating your question </p><input class="add-button" type="submit" value="Ask Question">');
             }
         });
     });
