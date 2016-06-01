@@ -31,7 +31,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 
 
     @Override
-    public void sendEmail(List<String> mailList, String subject, Object object, NotificationType notificationType) throws MessagingException {
+    public void sendEmail(NotificationType notificationType, String subject, Object object, String... mailList) throws MessagingException {
         MimeMessage mail = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, true);
         try {
@@ -41,7 +41,7 @@ public class MailSenderServiceImpl implements MailSenderService {
         } catch (TemplateException e) {
             e.printStackTrace();
         }
-        helper.setTo(mailList.stream().toArray(String[]::new));
+        helper.setTo(mailList);
         helper.setSubject(subject);
         javaMailSender.send(mail);
     }
