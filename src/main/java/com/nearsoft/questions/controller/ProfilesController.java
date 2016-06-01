@@ -1,7 +1,6 @@
 package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.form.auth.ProfileForm;
-import com.nearsoft.questions.domain.auth.Profile;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.service.UserService;
@@ -37,7 +36,7 @@ public class ProfilesController {
         log.info("Rendering My Profile view");
 
         model.addAttribute("form", new ProfileForm(userService.getUserFromDetails(
-                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+            (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
         ));
 
         return "auth/profile";
@@ -45,18 +44,16 @@ public class ProfilesController {
 
     @RequestMapping(method = RequestMethod.POST)
     @Secured({"ROLE_USER"})
-    public String updateMyProfile(@ModelAttribute("form") ProfileForm form, @AuthenticationPrincipal UserDetails details, RedirectAttributes attributes) {
+    public String updateMyProfile(@ModelAttribute("form") ProfileForm form, @AuthenticationPrincipal UserDetails details,
+        RedirectAttributes attributes) {
         log.info("Updating the profile for the user logged in");
-
         User user = userService.getUserFromDetails(details);
-        Profile profile = user.getProfile();
-
-        form.merge(profile);
+        user.setFirstName(form.getFirstName());
+        user.setLastName(form.getLastName());
+        user.setLocation(form.getLocation());
         userService.save(user);
-
         attributes.addFlashAttribute("successMessage", "Your profile has been updated");
 
         return "redirect:profile";
     }
-
 }

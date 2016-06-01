@@ -2,6 +2,7 @@ package com.nearsoft.questions.controller.form;
 
 public class AnswerForm {
     private String _description;
+    private Long _answerId;
     private Long _questionId;
 
     public String getDescription() {
@@ -10,6 +11,14 @@ public class AnswerForm {
 
     public void setDescription(String description) {
         _description = description;
+    }
+
+    public Long getAnswerId() {
+        return _answerId;
+    }
+
+    public void setAnswerId(Long answerId) {
+        _answerId = answerId;
     }
 
     public Long getQuestionId() {
