@@ -3,7 +3,7 @@ package com.nearsoft.deliverer;
 import com.nearsoft.questions.config.QuestionsApplication;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
-import com.nearsoft.questions.service.impl.deliverer.NotificationQuestionDelivererServiceImpl;
+import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class NotificationQuestionServiceTest {
     @Test
     public void contextLoads() {
         Map<String, String> XD = new HashMap<>();
-        NotificationDelivererService n = notificationService.sendNotification(NotificationQuestionDelivererServiceImpl.class);
+        NotificationDelivererService n = notificationService.sendNotification(NewQuestionNotifierServiceImpl.class);
         n.sendNotification(XD);
     }
 

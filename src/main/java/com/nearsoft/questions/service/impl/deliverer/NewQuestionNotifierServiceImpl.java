@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by rjimenez on 5/31/16.
  */
 @Service
-public class NotificationQuestionDelivererServiceImpl implements NotificationDelivererService {
+public class NewQuestionNotifierServiceImpl implements NotificationDelivererService {
 
     @Autowired
     MailSenderService mailSenderService;
