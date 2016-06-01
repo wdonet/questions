@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-public class TagSubscriptionController  {
+public class TagSubscriptionController {
 
     @Autowired
     TagsSubscriptionService tagsSubscriptionService;
