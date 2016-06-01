@@ -1,5 +1,5 @@
 Hi ${userName!},
 
-A new question was created tagged with ${tagList!}. Check it out!
+A question was created/modified tagged with ${tagList!} . Check it out!
 
 ${description!}
