@@ -44,10 +44,19 @@ CACHE 1;
 
 CREATE TABLE public.rule
 (
+  id               BIGINT                 NOT NULL,
   rule_name CHARACTER VARYING(35),
   points INTEGER NOT NULL,
-  CONSTRAINT rule_name_pkey PRIMARY KEY (rule_name)
+  CONSTRAINT rule_pkey PRIMARY KEY (id),
+  CONSTRAINT rule_name_ukey UNIQUE (rule_name)
 );
+
+CREATE SEQUENCE rule_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 2
+CACHE 1;
 
 
 

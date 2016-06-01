@@ -23,6 +23,10 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
     @Column(nullable = false)
     private Integer votesDown;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 35, nullable = false)
+    private ItemStatus status;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +65,13 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
 
     public void setVotesDown(Integer votesDown) {
         this.votesDown = votesDown;
+    }
+
+    public ItemStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ItemStatus status) {
+        this.status = status;
     }
 }
