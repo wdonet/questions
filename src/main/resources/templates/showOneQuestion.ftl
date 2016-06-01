@@ -39,15 +39,13 @@
         <#else>
             <div></div>
         </#if>
-        <div class="coments-question-cont">
-            <div class="owner"><span>${(question.user.fullName)!""}</span></div>
-            <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
-            <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
-        </div>
-        <h1>Comments list!</h1>
         <#list question.comments as comment>
-        	<label>${comment.description}</label><br/>
+            <div class="coments-question-cont">
+                <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                <#-- not working right now. -->
+                <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                <div class="comment-box-question">${(comment.description)!""}</div>
+            </div>
         </#list>
         
         
