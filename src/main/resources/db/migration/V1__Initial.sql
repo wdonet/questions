@@ -122,9 +122,9 @@ CREATE TABLE question_tags
 
 CREATE TABLE tag_subscription
 (
-  id         BIGINT                 NOT NULL,
-  tag_id     BIGINT NOT NULL,
-  user_id    INT8                   NOT NULL,
+  id      BIGINT NOT NULL,
+  tag_id  BIGINT NOT NULL,
+  user_id INT8   NOT NULL,
   CONSTRAINT tag_subscription_tag_fk FOREIGN KEY (tag_id)
   REFERENCES tag (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -139,3 +139,16 @@ MINVALUE 1
 MAXVALUE 9223372036854775807
 START 7
 CACHE 1;
+
+
+CREATE TABLE notification
+(
+  id                BIGINT                  NOT NULL,
+  description       CHARACTER VARYING(2048) NOT NULL,
+  email_delivered   BOOLEAN                 NOT NULL,
+  ui_notified       BOOLEAN                 NOT NULL,
+  user_id           INT8                    NOT NULL,
+  notification_type INT8                    NOT NULL,
+  date              TIMESTAMP WITHOUT TIME ZONE,
+  CONSTRAINT notification_user_fk FOREIGN KEY (user_id) REFERENCES public.user
+);
