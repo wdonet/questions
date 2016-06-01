@@ -45,6 +45,7 @@ $(function () {
             classes: 'drop-theme-arrows',
             position: 'bottom center'
         });
+        showOrHideNotificationsAlert(data);
         drop.once('open', function () {
             $('.drop-content').on('click', 'li', function () {
                 $.ajax({
@@ -60,7 +61,20 @@ $(function () {
     var getNotifications = function () {
         $.get('/inbox/notifications', function (data) {
             $('.notification-container').html(getDropContent(data));
+            showOrHideNotificationsAlert(data);
         });
+    };
+
+    var showOrHideNotificationsAlert = function (notificationsList) {
+        var filteredViewedNotifications = notificationsList.filter(function(notification) {
+            return notification.uiNotified;
+        });
+
+        if (filteredViewedNotifications.length === notificationsList.length) {
+            $('.notifications-icon').removeClass('new-notification');
+        } else {
+            $('.notifications-icon').addClass('new-notification');
+        }
     };
 
     setInterval(getNotifications, 5000);
