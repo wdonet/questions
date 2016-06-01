@@ -48,7 +48,7 @@
                         <#break>
                 </#switch>
                 <li class="notifications-li">
-                    <a class="notification-remove-anchor-style" href="/question/tag/${notification.id}">
+                    <a class="notification-remove-anchor-style" href="/question/${notification.question.id}">
                         <i class="${icon}"></i>
                             ${notification.description}
                         <span class="${detailsClass}">${details}</span>
