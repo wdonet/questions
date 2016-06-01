@@ -18,11 +18,11 @@
 </head>
 <body class="question">
 <#include "header.ftl">
-<div class="suggestion-wrapper">
     <div class="search-container">
         <input class="input-search-question" name="query" type="text" placeholder="What are you looking for?">
         <button type="button" value="" class="search-submit positioning"></button>
     </div>
+<div class="suggestion-wrapper">
     <a href="#" class="back-btn">« BACK </a>
     <div class="question-cont">
         <div class="question-title">${question.title}</div>
