@@ -1,5 +1,4 @@
 <div class="suggestion-wrapper">
-<#include "searchBox.ftl">
 <#if title??>
     <h1 class="unanswered-q">${title}</h1>
 </#if>

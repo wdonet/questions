@@ -14,6 +14,7 @@
   </head>
   <body class="showquestions ${pageName}">
     <#include "header.ftl">
+    <#include "searchBox.ftl">
     <#include "suggestions.ftl">
   </body>
 </html>
