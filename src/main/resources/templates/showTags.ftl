@@ -13,9 +13,12 @@
             <h1 class="unanswered-questions-title"><img src="/img/tag-icon.png"> Tags</h1>
             <div class="tags-cont">
                 <div>
-                <#list tagList as tag>
+                <#list userTagList as userTag>
                     <span class="tags">
-                        <input class="tag-checkbox" value="${tag.id}" type="checkbox" <#if true>checked</#if>> <a href="/question/tag/${tag.id}">${tag.name}</a>
+                        <input class="tag-checkbox" value="${userTag.tag.id}" type="checkbox"
+                         <#if userTag.subscribed>checked</#if>>
+                         <a href="/question/tag/${userTag.tag.id}">
+                         ${userTag.tag.name}</a>
                     </span>
                 <#else>
                     <span class="tags">No tags</span>

@@ -7,17 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-/**
- * Created by rjimenez on 6/1/16.
- */
 @Service
 public class QuestionImprovedNotifierServiceImpl implements NotificationDelivererService {
 
     @Autowired
-    MailSenderService mailSenderService;
+    private NotificationMailSender notificationMailSender;
 
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
-
+        //notificationMailSender.execute();
     }
 }

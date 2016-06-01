@@ -16,7 +16,7 @@ public class NotificationServiceImpl implements NotificationService {
     ApplicationContext applicationContext;
 
     @Override
-    public NotificationDelivererService sendNotification(Class<? extends NotificationDelivererService> notificationDeliverer) {
+    public NotificationDelivererService getDelivererInstance(Class<? extends NotificationDelivererService> notificationDeliverer) {
         return applicationContext.getBean(notificationDeliverer);
     }
 }

@@ -1,10 +1,11 @@
 $(function () {
     $('.tag-checkbox').click(function () {
+        var url = '/subscription/tags/' + this.value;
         if (this.checked) {
-            $.post('/subscription/tags/' + this.value);
+            $.post(url);
         } else {
             $.ajax({
-                url: '/subscription/tags/',
+                url: url,
                 type: 'DELETE'
             });
         }

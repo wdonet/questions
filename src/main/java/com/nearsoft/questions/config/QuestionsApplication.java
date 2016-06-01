@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.PostConstruct;
@@ -25,6 +26,7 @@ import java.io.IOException;
 @EntityScan("com.nearsoft.questions.domain")
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
+@EnableAsync
 public class QuestionsApplication extends SpringBootServletInitializer {
 
     @Inject
