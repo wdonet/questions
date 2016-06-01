@@ -25,10 +25,6 @@ public class NotificationsController extends BaseController {
     @Autowired
     private NotificationRepository repository;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String inbox(){
-        return "inbox";
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/notifications")
     @ResponseBody
