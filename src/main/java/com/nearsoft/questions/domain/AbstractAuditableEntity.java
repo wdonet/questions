@@ -1,5 +1,7 @@
 package com.nearsoft.questions.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nearsoft.questions.domain.auth.User;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
@@ -18,8 +20,8 @@ import java.time.ZonedDateTime;
 public abstract class AbstractAuditableEntity {
 
     @ManyToOne(optional = false)
-    @RestResource(exported = false)
     @CreatedBy
+//    @RestResource(exported = false)
     protected User user;
 
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
@@ -52,5 +54,9 @@ public abstract class AbstractAuditableEntity {
 
     public void setUpdatedAt(ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAuthorName() {
+        return this.user.getFullName();
     }
 }

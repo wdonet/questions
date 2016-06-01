@@ -14,7 +14,6 @@ import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
@@ -22,6 +21,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Formula;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
+
+import java.util.stream.Collectors;
 
 @Entity
 @Document(indexName = "nsquestions", type = "question")
@@ -61,20 +62,15 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
         if (CollectionUtils.isNotEmpty(persistedTags)) {
             this.tags.addAll(persistedTags);
-            requestedTagNames.removeIf(new Predicate<String>() {
-                @Override
-                public boolean test(String tagName) {
-                    if (tagName != null) {
-                        String requestedTagName = StringUtils.trimWhitespace(tagName);
-                        return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
-                    }
-                    return false;
+            requestedTagNames.removeIf(tagName -> {
+                if (tagName != null) {
+                    String requestedTagName = StringUtils.trimWhitespace(tagName);
+                    return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
                 }
+                return false;
             });
         }
-        for (String requestedTagName : requestedTagNames) {
-            this.tags.add(new Tag(requestedTagName));
-        }
+        this.tags.addAll(requestedTagNames.stream().map(Tag::new).collect(Collectors.toList()));
     }
 
     public Question withTitle(String title) {
