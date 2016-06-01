@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * Created by rjimenez on 5/31/16.
  */
 @Service
-public class NewQuestionNotifierServiceImpl implements NotificationService {
+public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     ApplicationContext applicationContext;
