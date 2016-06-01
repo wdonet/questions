@@ -18,4 +18,12 @@ public class ParameterReader {
 
         return longValue;
     }
+
+    public String getString(Map<String, String> parametersMap, String parameterName) {
+        if(!parametersMap.containsKey(parameterName)){
+            throw new ParameterMissingException(parameterName);
+        }
+
+        return parametersMap.get(parameterName);
+    }
 }
