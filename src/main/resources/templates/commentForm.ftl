@@ -17,13 +17,11 @@
 <body>
 <#include "header.ftl">
 <section class="form-cont-ask">
-    <form method="post" action="/question">
-        <h1>Question</h1>
-        <input name="title" type="text" placeholder="Add a title">
+    <form method="post" action="">
+        <h1>Comment</h1>
+        Question ID: <input name="sourceId" type="number" value="${sourceId}">
         <textarea name="description" type="textarea" placeholder="Add a description" class="source-code"></textarea>
 
-        <h1 class="tags-title-form">Tags:</h1>
-        <input name="tags" type="text" placeholder="Write a related tag">
         <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
         <input class="cancel-ask" type="button" value="Cancel" onclick="location.href='/search'">
         <input class="submit-ask" type="submit" value="Submit">
