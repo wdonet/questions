@@ -22,7 +22,6 @@ public class QuestionCommentServiceImpl implements com.nearsoft.questions.servic
 	
 	@Override
 	public void save(final CommentForm comment, final User userDetails) {
-		System.out.println(comment.getSourceId());
 		Question question = questionService.get(comment.getSourceId());
 		QuestionComment qComment = new QuestionComment(comment, question, userDetails);
 		commentRepository.save(qComment);

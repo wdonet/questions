@@ -23,8 +23,8 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
     @Column(nullable = false)
     private String description;
     
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<QuestionComment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
+    private List<AnswerComment> comments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -50,11 +50,11 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
         this.description = description;
     }
     
-    public List<QuestionComment> getComments() {
+    public List<AnswerComment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<QuestionComment> comments) {
+	public void setComments(List<AnswerComment> comments) {
 		this.comments = comments;
 	}
 }

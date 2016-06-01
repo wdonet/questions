@@ -81,6 +81,10 @@
                 <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
                 <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
+                <h1>Comments list!</h1>
+	        	<#list answer.comments as comment>
+	        		<label>${comment.description}</label><br/>
+	        	</#list>
             </div>
             <div class="add-comment-cont">
                 <a href="#">Add Comment</a>
