@@ -21,12 +21,28 @@ $(document).ready(function(){
 
     });
 
-    //For question
+    // For question
     $('div.question-description').html(smde.markdown($('div.question-description').text()));
 
-    //For answers
+    // For answers
     $('div.answers').each(function(index, child) {
-        $(child).html(smde.markdown($(child).text()))
+        $(child).html(smde.markdown($(child).text()));
+    });
+
+    // For Comments
+    $('.comment-box-question').each(function(index, child) {
+        $(child).html(smde.markdown($(child).text()));
+    });
+
+    $('form textarea[name="description"]').on('keydown', function(event) {
+        if (event.keyCode == 13 && !event.shiftKey) {
+            $(this).parent().submit();
+            return false;
+        }
+    });
+
+    $('#answer-comment-form').submit(function() {
+        location.reload();
     });
 
 });

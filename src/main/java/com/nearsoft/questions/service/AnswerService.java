@@ -13,4 +13,6 @@ public interface AnswerService {
     void upvote(Answer answer);
 
     void markAsAccepted(Long answerId, User user) throws UserNotOwnerOfQuestionException;
+
+    Answer get(final Long id);
 }

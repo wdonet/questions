@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,7 +52,11 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OrderBy("votes_up DESC")
     private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<QuestionComment> comments = new ArrayList<>();
 
     @Formula("(select count(a.*) from Answer a where a.question_id = id)")
     private Integer totalAnswers;
@@ -162,4 +167,12 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     public void setTotalAnswers(Integer totalAnswers) {
         this.totalAnswers = totalAnswers;
     }
+
+    public List<QuestionComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<QuestionComment> comments) {
+		this.comments = comments;
+	}
 }
