@@ -87,6 +87,13 @@
                             <button class="val-neg fa fa-arrow-down" type="submit"></button>
                             <div class="votes">${answer.votesDown}</div>
                         </form>
+                     <#if isQuestionOwner && answer.status != 'ACCEPTED' >
+                        <FORM action="/answer/accepted" method="post" class="validation-negative">
+                            <input name="answerId" type="hidden" value="${answer.id}">
+                            <input name="questionId" type="hidden" value="${question.id}">
+                            <button type="submit" class="add-button">Accept</button>
+                        </FORM>
+                     </#if>
                     </div>
             </div>
             <div class="answers">${answer.description}</div>
