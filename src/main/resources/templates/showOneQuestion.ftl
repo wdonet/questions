@@ -42,7 +42,7 @@
         <#list question.comments as comment>
             <div class="coments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
-                <#-- not working right now. -->
+                <#-- Format Month DD at HH:mm -->
                 <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
@@ -76,16 +76,14 @@
                     </div>
             </div>
             <div class="answers">${answer.description}</div>
-            <div class="coments-question-cont">
-                <div class="owner"><span>${(question.user.fullName)!""}</span></div>
-                <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
-                <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
-                <h1>Comments list!</h1>
-	        	<#list answer.comments as comment>
-	        		<label>${comment.description}</label><br/>
-	        	</#list>
-            </div>
+            <#list answer.comments as comment>
+                <div class="coments-question-cont">
+                    <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                    <#-- Format Month DD at HH:mm -->
+                    <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                    <div class="comment-box-question">${(comment.description)!""}</div>
+                </div>
+            </#list>
             <div class="add-comment-cont">
                 <a href="#">Add Comment</a>
                 <a href="#">Hide Comments</a>
