@@ -1,5 +1,9 @@
 $(function () {
 
+    if (!$('.notifications-icon')[0]) {
+       return;
+    }
+
     var getDropContent = function (notificationsList) {
         var templateString = '<div class="notifications-header"><strong>Notifications</strong></div><ul>';
 
