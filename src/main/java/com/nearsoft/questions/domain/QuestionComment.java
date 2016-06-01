@@ -13,6 +13,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nearsoft.questions.controller.form.CommentForm;
+import com.nearsoft.questions.domain.auth.User;
 
 @Entity
 @Table(name = "question_comments")
@@ -29,6 +31,15 @@ public class QuestionComment extends AbstractAuditableEntity implements Serializ
 	@JoinColumn(name="question_id", nullable=false)
 	@JsonIgnore
 	private Question question;
+
+	public QuestionComment(){}
+	
+	public QuestionComment(final CommentForm form, final Question question, final User user) {
+		this.description = form.getDescription();
+		question.setId(form.getSourceId());
+		this.question = question;
+		this.user = user;
+	}
 
 	public Long getId() {
 		return id;
