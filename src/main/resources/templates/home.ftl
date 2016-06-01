@@ -64,7 +64,9 @@
     </div>
 </div>
 </section>
-<script src="/js/header.js"></script>
+<#if user??>
+    <script src="/js/header.js"></script>
+</#if>
 </body>
 
 
