@@ -32,7 +32,8 @@ public abstract class AbstractBot<E> {
                 return;
             }
             if (questions.size() == 1) {
-                Answer answer = questions.get(0).getAnswers().stream().findAny().orElse(null); //TODO the most voted
+                Answer answer = new Answer();
+            answer.setDescription("Con ana Luisa 62 555 1234");
                 if (answer == null) {
                     // log
                 } else {
