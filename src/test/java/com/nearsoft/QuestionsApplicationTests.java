@@ -16,14 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringApplicationConfiguration(QuestionsApplication.class)
 public class QuestionsApplicationTests {
 
-    @Autowired
-    NotificationService notificationService;
-
 
     @Test
     public void contextLoads() {
-        NotificationDelivererService n = notificationService.sendNotification(NotificationQuestionDelivererServiceImpl.class);
-        n.sendNotification();
+
     }
 
 

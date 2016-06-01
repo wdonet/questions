@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by rjimenez on 5/31/16.
  */
@@ -22,8 +25,9 @@ public class NotificationQuestionServiceTest {
 
     @Test
     public void contextLoads() {
+        Map<String, String> XD = new HashMap<>();
         NotificationDelivererService n = notificationService.sendNotification(NotificationQuestionDelivererServiceImpl.class);
-        n.sendNotification();
+        n.sendNotification(XD);
     }
 
 }
