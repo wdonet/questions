@@ -14,8 +14,8 @@
   </head>
   <body class="showquestions">
     <#include "header.ftl">
-    <div class="suggestion-wrapper">
       <#include "searchBox.ftl">
+    <div class="suggestion-wrapper">
       <h1 class="unanswered-q">${title}</h1>
       <ul class="suggestions-cont">
       </ul>

@@ -6,6 +6,7 @@ import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import java.util.List;
 public class QuestionsController extends BaseController {
 
     public static final String SHOW_QUESTIONS = "showQuestions";
+    public static final String TITLE = "title";
+    public static final String PAGE_NAME = "pageName";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -58,6 +61,8 @@ public class QuestionsController extends BaseController {
                                 @RequestParam(required = false, defaultValue = "1") Integer page,
                                 @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute("questionList", questionService.getUnanswered(page, pageSize).getContent());
+        model.addAttribute(TITLE, "Unanswered Questions");
+        model.addAttribute(PAGE_NAME, "unanswered");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
@@ -67,6 +72,8 @@ public class QuestionsController extends BaseController {
                             @RequestParam(required = false, defaultValue = "1") Integer page,
                             @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute(questionService.getNewest(page, pageSize).getContent());
+        model.addAttribute(TITLE, "Newest Questions");
+        model.addAttribute(PAGE_NAME, "newest");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
@@ -75,7 +82,17 @@ public class QuestionsController extends BaseController {
     public String getNewestByTag(Model model, @PathVariable long id,
                                  @RequestParam(required = false, defaultValue = "1") Integer page,
                                  @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
-        model.addAttribute(questionService.getNewestByTag(id, page, pageSize).getContent());
+        List<Question> questionList = questionService.getNewestByTag(id, page, pageSize).getContent();
+        model.addAttribute(questionList);
+        if (CollectionUtils.isNotEmpty(questionList)) {
+            String tagName =
+                questionList.stream().findFirst().get().getTags().stream().filter(tag -> tag.getId().equals(id)).findFirst().get().getName();
+            model.addAttribute(TITLE, "Questions for " + tagName);
+        }
+        else {
+            model.addAttribute(TITLE, "");
+        }
+        model.addAttribute(PAGE_NAME, "tagged");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
