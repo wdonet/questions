@@ -19,6 +19,7 @@ import java.util.Map;
 public class QuestionImproveRequiredNotifierServiceImpl implements NotificationDelivererService {
 
     public static final String QUESTION_ID_PARAM = "com.nsquestions.question.id";
+    public static final String MESSAGE_TO_IMPROVE_PARAM = "com.nsquestions.question.message_to_improve";
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -32,15 +33,15 @@ public class QuestionImproveRequiredNotifierServiceImpl implements NotificationD
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
 
+        String messageToImprove = parameterReader.getString(parametersMap, MESSAGE_TO_IMPROVE_PARAM);
         Question question = questionRepository.findOne(parameterReader.getLong(parametersMap, QUESTION_ID_PARAM));
         User user = question.getUser();
 
         Notification notification = new Notification();
 
-        notification.setDescription("");
+        notification.setDescription(messageToImprove);
         notification.setType(NotificationType.IMPROVEMENT);
-        notification.setDate(LocalDateTime.now());
-
+        notification.setUser(user);
 
         notificationRepository.save(notification);
 

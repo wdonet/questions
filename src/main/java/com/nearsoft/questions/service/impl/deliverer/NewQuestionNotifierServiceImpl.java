@@ -9,10 +9,13 @@ import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.TagsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +44,9 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
     @Autowired
     ParameterReader parameterReader;
 
+    @Value("${com.nsquestions.notification.newquestion.subject:New question}")
+    private String subject;
+
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
         Question question = questionRepository.findOne(parameterReader.getLong(parametersMap, QUESTION_ID_PARAM));
@@ -49,16 +55,24 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         List<User> tagSubscriptions = tagsSubscriptionService.findByTagsIsIn(tags);
 
+        Map<String, String> templateParams = new HashMap<>();
+
+
         for(User user : tagSubscriptions) {
             Notification notification = new Notification();
 
             notification.setDescription(NEW_QUESTION_MSG + question.getDescription());
             notification.setType(NotificationType.ADD);
-            notification.setDate(LocalDateTime.now());
             notification.setUser(user);
 
+            templateParams.put("userName", user.getFirstName());
+
             notificationRepository.save(notification);
+
+            //mailSenderService.sendEmail(toMails, subject, templateParams,NotificationType.ADD);
         }
+
+
 
 
     }
