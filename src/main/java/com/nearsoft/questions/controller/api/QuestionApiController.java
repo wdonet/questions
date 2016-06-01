@@ -4,6 +4,10 @@ package com.nearsoft.questions.controller.api;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
+import com.nearsoft.questions.service.QuestionService;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,21 +29,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class QuestionApiController {
 
     private final QuestionSearchRepository searchRepository;
+    private final QuestionService questionService;
     private final QuestionRepository repository;
 
     private PagedResourcesAssembler<Question> assembler;
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+
     @Autowired
-    public QuestionApiController(QuestionSearchRepository searchRepository, QuestionRepository repository, PagedResourcesAssembler<Question> assembler) {
+    public QuestionApiController(QuestionSearchRepository searchRepository, QuestionService questionService, QuestionRepository repository,
+        PagedResourcesAssembler<Question> assembler) {
         this.searchRepository = searchRepository;
+        this.questionService = questionService;
         this.repository = repository;
         this.assembler = assembler;
     }
 
     @RequestMapping(value = "/questions/search", method = RequestMethod.GET)
-    public
     @ResponseBody
-    HttpEntity<PagedResources<Resource<Question>>> search(@RequestParam String term, Pageable pageable) {
+    public HttpEntity<PagedResources<Resource<Question>>> search(@RequestParam String term, Pageable pageable) {
 
         Page<Question> results = searchRepository.findByTitleOrDescription(term, term, pageable);
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
@@ -47,9 +56,8 @@ public class QuestionApiController {
     }
 
     @RequestMapping(value = "/questions/unanswered", method = RequestMethod.GET)
-    public
     @ResponseBody
-    HttpEntity<PagedResources<Resource<Question>>> unanswered(Pageable pageable) {
+    public HttpEntity<PagedResources<Resource<Question>>> unanswered(Pageable pageable) {
 
         Page<Question> results = repository.findByAnswersIsNull(pageable);
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
@@ -57,13 +65,24 @@ public class QuestionApiController {
     }
 
     @RequestMapping(value = "/questions/newest", method = RequestMethod.GET)
-    public
     @ResponseBody
-    HttpEntity<PagedResources<Resource<Question>>> newest(Pageable pageable) {
+    public HttpEntity<PagedResources<Resource<Question>>> newest(Pageable pageable) {
+        Sort createdAtDescAndUserChoices = new Sort(Sort.Direction.DESC, "createdAt").and(pageable.getSort());;
+        PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), createdAtDescAndUserChoices);
+        Page<Question> results = repository.findAll(pageRequest);
 
-        Page<Question> results = repository.findAll(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(),
-                new Sort(Sort.Direction.DESC, "createdAt")));
+        log.info("Show onlyOneAnswer ? " + questionService.isOnlyOneAnswer());
+        results.forEach(one -> {
+            boolean isMoreThanOneAnswer = false;
+            try {
+                isMoreThanOneAnswer = CollectionUtils.size(one.getAnswers()) > 1;
+            } catch (IllegalArgumentException ignored) {
+                // when this happens there's no answers (null) and isMoreThanOneAnswer remains false
+            }
+            if (isMoreThanOneAnswer && questionService.isOnlyOneAnswer()) {
+                one.setTotalAnswers(1);
+            }
+        });
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
-
     }
 }
