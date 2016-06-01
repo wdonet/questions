@@ -18,10 +18,10 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
     private String description;
 
     @Column(nullable = false)
-    private Integer votesUp;
+    private Integer votesUp = 0;
 
     @Column(nullable = false)
-    private Integer votesDown;
+    private Integer votesDown = 0;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 35, nullable = false)

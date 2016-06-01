@@ -99,38 +99,27 @@ INSERT INTO tag (id, name, user_id) VALUES (6, 'talk', 1);
 -- Question Tags
 
 INSERT INTO question_tags (question_id, tags_id)
-VALUES (1, 2);
+VALUES (1, 2),
+  (2, 5),
+  (3, 6),
+  (4, 4),
+  (4, 3),
+  (5, 1),
+  (6, 1),
+  (6, 3),
+  (7, 1),
+  (8, 1),
+  (9, 1),
+  (10, 1);
 
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (2, 5);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (3, 6);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (4, 4);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (4, 3);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (5, 1);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (6, 1);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (6, 3);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (7, 1);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (8, 1);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (9, 1);
-
-INSERT INTO question_tags (question_id, tags_id)
-VALUES (10, 1);
-
+INSERT INTO rule (id, rule_name, points)
+VALUES (1, 'NEW_ANSWER', 0),
+(2, 'NEW_QUESTION', 0),
+(3, 'VOTED_UP_ANSWER', 10),
+(4, 'VOTED_DOWN_ANSWER', 10),
+(5, 'VOTED_UP_QUESTION', 5),
+(6, 'VOTED_DOWN_QUESTION', 0),
+(7, 'ACCEPTED_ANSWER', 15),
+(8, 'QUESTION_NEEDS_IMPROVEMENT', -1),
+(9, 'QUESTION_IMPROVED', 3),
+(10, 'QUESTION_IMPROVED_ACCEPTED', 1);

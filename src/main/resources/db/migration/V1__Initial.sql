@@ -79,9 +79,9 @@ CACHE 1;
 CREATE TABLE public.rule_answer_transaction
 (
   id               bigint         NOT NULL,
-  answer_id               bigint         NOT NULL,
+  question_id               bigint         NOT NULL,
   rule_name CHARACTER VARYING(35) NOT NULL,
-  created_at    TIMESTAMP WITHOUT TIME ZONE,
+  created_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
   points INTEGER NOT NULL
 );
 
@@ -99,9 +99,11 @@ CREATE TABLE question
   description   CHARACTER VARYING(2048) NOT NULL,
   title         CHARACTER VARYING(255)  NOT NULL,
   user_id       INT8                    NOT NULL,
-  created_at    TIMESTAMP WITHOUT TIME ZONE,
-  updated_at    TIMESTAMP WITHOUT TIME ZONE,
-  status CHARACTER VARYING(35) NOT NULL,
+  created_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
+  updated_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
+  status CHARACTER VARYING(35) NOT NULL DEFAULT 'OPEN',
+  votes_up INTEGER NOT NULL DEFAULT 0,
+  votes_down INTEGER NOT NULL DEFAULT 0,
   CONSTRAINT question_pkey PRIMARY KEY (id),
   CONSTRAINT FK_os8bn3xr2x2owjn69es4hcxgs FOREIGN KEY (user_id) REFERENCES public.user
 );
@@ -121,9 +123,9 @@ CREATE TABLE answer
   user_id     INT8                    NOT NULL,
   created_at  TIMESTAMP WITHOUT TIME ZONE,
   updated_at  TIMESTAMP WITHOUT TIME ZONE,
-  status CHARACTER VARYING(35) NOT NULL,
-  votes_up INTEGER NOT NULL,
-  votes_down INTEGER NOT NULL,
+  status CHARACTER VARYING(35) DEFAULT 'OPEN',
+  votes_up INTEGER NOT NULL DEFAULT 0,
+  votes_down INTEGER NOT NULL DEFAULT 0,
   CONSTRAINT answer_pkey PRIMARY KEY (id),
   CONSTRAINT FK_ilrlwe1trc8dyqaius89vprop FOREIGN KEY (user_id) REFERENCES public.user,
   CONSTRAINT answer__question_question_fk FOREIGN KEY (question_id)

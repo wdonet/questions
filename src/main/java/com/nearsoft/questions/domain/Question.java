@@ -37,6 +37,12 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private Integer votesUp;
+
+    @Column(nullable = false)
+    private Integer votesDown;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 35, nullable = false)
     private ItemStatus status;
@@ -135,5 +141,25 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
     public Integer getTotalAnswers() {
         return totalAnswers;
+    }
+
+    public Integer getVotesUp() {
+        return votesUp;
+    }
+
+    public void setVotesUp(Integer votesUp) {
+        this.votesUp = votesUp;
+    }
+
+    public Integer getVotesDown() {
+        return votesDown;
+    }
+
+    public void setVotesDown(Integer votesDown) {
+        this.votesDown = votesDown;
+    }
+
+    public void setTotalAnswers(Integer totalAnswers) {
+        this.totalAnswers = totalAnswers;
     }
 }
