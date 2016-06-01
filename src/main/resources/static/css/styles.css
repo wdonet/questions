@@ -75,6 +75,10 @@ div.notifications-icon {
     color: #fff;
 }
 
+.notification-unseen {
+    background-color: #E3EEF5;
+}
+
 .drop-content .notifications-header {
     border-bottom: 1px #CACACA solid;
 }
