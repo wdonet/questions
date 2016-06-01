@@ -977,3 +977,8 @@ a.val-neg {
     color: blue;
 }
 
+.newest .unlinked,
+.unanswered .unlinked {
+    color: white;
+}
+
