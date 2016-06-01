@@ -63,11 +63,11 @@
                     <div class="validation-cont">
                         <div class="validation-positive">
                             <a href="#" class="val-pos"><i class="fa fa-arrow-up"></i></a>
-                            <div class="votes">10</div>
+                            <div class="votes">${answer.votesUp}</div>
                         </div>
                         <div class="validation-negative">
                             <a href="#" class="val-neg"><i class="fa fa-arrow-down"></i></a>
-                            <div class="votes">10</div>
+                            <div class="votes">${answer.votesDown}</div>
                         </div>
                     </div>
             </div>
