@@ -29,7 +29,7 @@ public class AnswerServiceImpl implements AnswerService {
         RuleAnswerTransaction transaction = new RuleAnswerTransaction();
         transaction.setPoints(points);
         transaction.setRuleName(RuleName.NEW_ANSWER);
-        transaction.setQuestionId(answer.getQuestion().getId());
+        transaction.setAnswerId(answer.getId());
         transaction.setCreatedAt(ZonedDateTime.now());
 
         ruleAnswerTransactionRepository.save(transaction);

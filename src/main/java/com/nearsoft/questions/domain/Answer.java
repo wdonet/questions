@@ -12,7 +12,7 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
     private Long id;
 
     @ManyToOne(optional = false)
-    private Answer answer;
+    private Question question;
 
     @Column(nullable = false)
     private String description;
@@ -35,12 +35,12 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
         this.id = id;
     }
 
-    public Answer getAnswer() {
-        return answer;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setAnswer(Answer answer) {
-        this.answer = answer;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getDescription() {
