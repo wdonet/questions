@@ -47,20 +47,21 @@
             <div class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                 <#-- Format Month DD at HH:mm -->
-                <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
         </#list>
 
         <div class="add-comment-cont">
-            <div>
-                <form id="question-comment-form" method="post" action="/comments/question/">
-                    <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
-                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
-                </form>
-            </div>
             <a href="#">Add Comment</a>
             <a href="#">Hide Comments</a>
+        </div>
+        <div>
+            <form id="question-comment-form" method="post" action="/comments/question/">
+                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
+                <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5"></textarea>
+                <button type="submit" class="add-comment-btn">Add Comment</button>
+            </form>
         </div>
             <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
         </div>
@@ -100,20 +101,21 @@
                 <div class="comments-question-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                     <#-- Format Month DD at HH:mm -->
-                    <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                    <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>
             </#list>
 
             <div class="add-comment-cont">
-                <div>
-                    <form id="answer-comment-form" method="post" action="/comments/answer/">
-                        <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
-                        <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
-                    </form>
-                </div>
                 <a href="#">Add Comment</a>
                 <a href="#">Hide Comments</a>
+            </div>
+            <div>
+                <form id="answer-comment-form" method="post" action="/comments/answer/">
+                    <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
+                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5"></textarea>
+                    <button type="submit" class="add-comment-btn">Add Comment</button>
+                </form>
             </div>
         </div>
     <#else>
