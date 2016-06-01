@@ -1,9 +1,14 @@
 package com.nearsoft.questions.service.impl;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.RuleQuestionTransaction;
 import com.nearsoft.questions.repository.QuestionRepository;
+import com.nearsoft.questions.repository.RuleQuestionTransactionRepository;
+import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import org.apache.commons.collections.CollectionUtils;
@@ -19,8 +24,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
+
     private final QuestionRepository questionRepository;
+
     private final QuestionSearchRepository questionSearchRepository;
+
+    @Autowired
+    private RuleQuestionTransactionRepository _ruleQuestionTransactionRepository;
+
+    @Autowired
+    private RuleRepository _ruleRepository;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -35,7 +48,17 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void save(Question question) {
+
         questionRepository.save(question);
+
+        int points = _ruleRepository.findFirstByRuleName(RuleName.NEW_QUESTION).getPoints();
+        RuleQuestionTransaction ruleQuestionTransaction = new RuleQuestionTransaction();
+        ruleQuestionTransaction.setCreatedAt(ZonedDateTime.now());
+        ruleQuestionTransaction.setPoints(points);
+        ruleQuestionTransaction.setQuestionId(question.getId());
+        ruleQuestionTransaction.setRuleName(RuleName.NEW_QUESTION);
+
+        _ruleQuestionTransactionRepository.save(ruleQuestionTransaction);
     }
 
     @Override
