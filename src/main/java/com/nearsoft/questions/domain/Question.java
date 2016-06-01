@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
@@ -21,8 +22,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Formula;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
-
-import java.util.stream.Collectors;
 
 @Entity
 @Document(indexName = "nsquestions", type = "question")
