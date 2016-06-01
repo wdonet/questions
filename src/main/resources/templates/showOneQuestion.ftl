@@ -53,6 +53,12 @@
         </#list>
 
         <div class="add-comment-cont">
+            <div>
+                <form id="question-comment-form" method="post" action="/comments/question/">
+                    <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
+                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
+                </form>
+            </div>
             <a href="#">Add Comment</a>
             <a href="#">Hide Comments</a>
         </div>
@@ -92,7 +98,7 @@
                 <div>
                     <form id="answer-comment-form" method="post" action="/comments/answer/">
                         <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
-                        <textarea name="description" type="textarea" class="answer-comment-textarea" placeholder="Add your comment here"></textarea>
+                        <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
                     </form>
                 </div>
                 <a href="#">Add Comment</a>
