@@ -60,6 +60,7 @@
             <form id="question-comment-form" method="post" action="/comments/question/">
                 <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
                 <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5"></textarea>
+                <button type="submit" class="add-comment-btn">Add Comment</button>
             </form>
         </div>
             <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
@@ -102,6 +103,7 @@
                 <form id="answer-comment-form" method="post" action="/comments/answer/">
                     <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
                     <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5"></textarea>
+                    <button type="submit" class="add-comment-btn">Add Comment</button>
                 </form>
             </div>
         </div>
