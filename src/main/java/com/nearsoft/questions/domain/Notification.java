@@ -8,6 +8,8 @@ import javax.persistence.*;
 public class Notification {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_seq")
+    @SequenceGenerator(name = "notification_seq", sequenceName = "notification_seq")
     private Long id;
 
     private String description;

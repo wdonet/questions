@@ -64,6 +64,9 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
             notification.setDescription(NEW_QUESTION_MSG + question.getDescription());
             notification.setType(NotificationType.ADD);
             notification.setUser(user);
+            notification.setUiNotified(false);
+            notification.setEmailDelivered(false);
+            notification.setQuestion(question);
 
             templateParams.put("userName", user.getFirstName());
 
