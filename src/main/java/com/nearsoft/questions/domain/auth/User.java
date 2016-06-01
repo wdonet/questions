@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -43,6 +44,9 @@ public class User {
 
     private String location;
 
+    @Transient
+    private Integer reputation;
+
     public String getPhotoUri() {
         return photoUri;
     }
@@ -71,6 +75,10 @@ public class User {
         return firstName + " " + lastName;
     }
 
+    public Integer getReputation() {
+        return reputation;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -89,6 +97,10 @@ public class User {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
     }
 
     public static class Builder {
