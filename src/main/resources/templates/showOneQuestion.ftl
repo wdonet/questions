@@ -3,15 +3,19 @@
 
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/general.css">
+    <link rel="stylesheet" type="text/css" href="/css/showQuestion.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/tags.css">
+    <link rel="stylesheet" type="text/css" href="/css/forms.css">
+    <link rel="stylesheet" type="text/css" href="/css/validation.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
 
+    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="/js/linkify.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
     <script src="/js/showOneQuestion.js"></script>
@@ -39,13 +43,22 @@
         <#else>
             <div></div>
         </#if>
-        <div class="coments-question-cont">
-            <div class="owner"><span>${(question.user.fullName)!""}</span></div>
-            <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
-            <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
-        </div>
+        <#list question.comments as comment>
+            <div class="comments-question-cont">
+                <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                <#-- Format Month DD at HH:mm -->
+                <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                <div class="comment-box-question">${(comment.description)!""}</div>
+            </div>
+        </#list>
+
         <div class="add-comment-cont">
+            <div>
+                <form id="question-comment-form" method="post" action="/comments/question/">
+                    <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
+                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
+                </form>
+            </div>
             <a href="#">Add Comment</a>
             <a href="#">Hide Comments</a>
         </div>
@@ -76,13 +89,22 @@
                     </div>
             </div>
             <div class="answers">${answer.description}</div>
-            <div class="coments-question-cont">
-                <div class="owner"><span>${(question.user.fullName)!""}</span></div>
-                <div class="date"><i class="fa fa-clock-o"></i> May 13 at 7:26</div>
-                <div class="comment-box-question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</div>
-            </div>
+            <#list answer.comments as comment>
+                <div class="comments-question-cont">
+                    <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                    <#-- Format Month DD at HH:mm -->
+                    <div class="date"><i class="fa fa-clock-o"></i>${(comment.createdAt)!""}</div>
+                    <div class="comment-box-question">${(comment.description)!""}</div>
+                </div>
+            </#list>
+
             <div class="add-comment-cont">
+                <div>
+                    <form id="answer-comment-form" method="post" action="/comments/answer/">
+                        <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
+                        <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
+                    </form>
+                </div>
                 <a href="#">Add Comment</a>
                 <a href="#">Hide Comments</a>
             </div>

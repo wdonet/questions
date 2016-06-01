@@ -55,6 +55,9 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     @OrderBy("votes_up DESC")
     private List<Answer> answers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<QuestionComment> comments = new ArrayList<>();
+
     @Formula("(select count(a.*) from Answer a where a.question_id = id)")
     private Integer totalAnswers;
 
@@ -124,6 +127,14 @@ public class Question extends AbstractAuditableEntity implements Serializable {
         tags.add(tag);
     }
 
+    public Integer getTotalAnswers() {
+        return totalAnswers;
+    }
+
+    public void setTotalAnswers(Integer totalAnswers) {
+        this.totalAnswers = totalAnswers;
+    }
+
     @JsonIgnore
     public List<Answer> getAnswers() {
         return answers;
@@ -164,4 +175,12 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     public void setTotalAnswers(Integer totalAnswers) {
         this.totalAnswers = totalAnswers;
     }
+
+    public List<QuestionComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<QuestionComment> comments) {
+		this.comments = comments;
+	}
 }
