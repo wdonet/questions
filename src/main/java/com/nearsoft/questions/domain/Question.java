@@ -35,8 +35,11 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<QuestionComment> comments = new ArrayList<>();
 
-    public Question() {
+	public Question() {
     }
 
     public Question(QuestionForm form, List<Tag> persistedTags, User user) {
@@ -110,7 +113,6 @@ public class Question extends AbstractAuditableEntity implements Serializable {
         this.totalAnswers = totalAnswers;
     }
 
-    @JsonIgnore
     public List<Answer> getAnswers() {
         return answers;
     }
@@ -118,4 +120,12 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
+    
+    public List<QuestionComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<QuestionComment> comments) {
+		this.comments = comments;
+	}
 }
