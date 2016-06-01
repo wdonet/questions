@@ -30,7 +30,6 @@
 
 .showquestions input[type="text"], input[type="textarea"],
 .question input[type="text"], input[type="textarea"] {
-    border: 1px solid #e4e4e4;
     height: 38px;
     width: 805px;
 }
@@ -96,7 +95,6 @@ ul.suggestions-cont li:first-child {
     margin: 40px 0 40px;
     color: #5C5C5C;
     font-size: 16px;
-    border-bottom: 1px solid #e4e4e4;
     padding-bottom: 20px;
 }
 
@@ -128,8 +126,13 @@ ul.suggestions-cont li:first-child {
     border: 1px solid #DEDEDE;
     margin: 15px 0 20px;
     color: #4F4F4F;
-    border-radius: 3px;
     background-color: #F5F5F5;
+}
+
+.comment-textarea,
+.answers,
+.add-button {
+    border-radius: 3px;
 }
 
 .author-name {
@@ -167,10 +170,16 @@ ul.suggestions-cont li:first-child {
 .comment-box-question {
     padding: 15px;
     background-color: #FEFCF1;
-    border: 1px solid #e4e4e4;
     color: #5C5C5C;
     font-size: 14px;
     margin-top: 10px;
+}
+
+.showquestions input[type="text"], input[type="textarea"],
+.question input[type="text"], input[type="textarea"],
+.comment-textarea,
+.comment-box-question {
+    border: 1px solid #e4e4e4;
 }
 
 .comments-question-cont {
@@ -199,7 +208,6 @@ ul.suggestions-cont li:first-child {
 
 .add-button {
     height: 45px;
-    border-radius: 3px;
     display: inline-block;
     width: 124px !important;
     background-color: #F25D00;
@@ -211,10 +219,7 @@ ul.suggestions-cont li:first-child {
     cursor: pointer;
 }
 
-.answer-comment-form {
-    width: 100%;
-}
-
+.answer-comment-form,
 .comment-textarea {
     width: 100%;
 }

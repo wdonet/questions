@@ -19,6 +19,10 @@ ul {
     padding: 0;
 }
 
+textarea {
+    resize: none;
+}
+
 p {
     line-height: 23px;
 }

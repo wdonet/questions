@@ -53,14 +53,14 @@
         </#list>
 
         <div class="add-comment-cont">
-            <div>
-                <form id="question-comment-form" method="post" action="/comments/question/">
-                    <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
-                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
-                </form>
-            </div>
             <a href="#">Add Comment</a>
             <a href="#">Hide Comments</a>
+        </div>
+        <div>
+            <form id="question-comment-form" method="post" action="/comments/question/">
+                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
+                <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5"></textarea>
+            </form>
         </div>
             <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
         </div>
@@ -95,14 +95,14 @@
             </#list>
 
             <div class="add-comment-cont">
-                <div>
-                    <form id="answer-comment-form" method="post" action="/comments/answer/">
-                        <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
-                        <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here"></textarea>
-                    </form>
-                </div>
                 <a href="#">Add Comment</a>
                 <a href="#">Hide Comments</a>
+            </div>
+            <div>
+                <form id="answer-comment-form" method="post" action="/comments/answer/">
+                    <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
+                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5"></textarea>
+                </form>
             </div>
         </div>
     <#else>
