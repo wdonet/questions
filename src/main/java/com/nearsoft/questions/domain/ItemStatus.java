@@ -1,1 +1,0 @@
-package com.nearsoft.questions.domain;public enum ItemStatus {    OPEN,    CLOSED,    NOT_ACCEPTED,    ACCEPTED}

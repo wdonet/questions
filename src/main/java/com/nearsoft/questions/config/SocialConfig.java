@@ -1,5 +1,6 @@
 package com.nearsoft.questions.config;
 
+import com.nearsoft.questions.repository.ProfileRepository;
 import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.impl.auth.AccountConnectionSignUpService;
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ public class SocialConfig implements SocialConfigurer {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Autowired
     private Environment environment;
@@ -58,7 +61,7 @@ public class SocialConfig implements SocialConfigurer {
 
         log.info("Setting implicit signing up");
 
-        repository.setConnectionSignUp(new AccountConnectionSignUpService(userRepository, environment));
+        repository.setConnectionSignUp(new AccountConnectionSignUpService(userRepository, profileRepository, environment));
         return repository;
     }
 

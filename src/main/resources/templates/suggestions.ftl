@@ -5,7 +5,7 @@
     <ul class="suggestions-cont">
     <#list questionList as question>
         <li>
-            <a class="answer-title" href="/question/${question.id}">${question.title}</a>
+            <a class="respuesta-titulo" href="/question/${question.id}">${question.title}</a>
             <div class="tags-cont">
                 <div class="tag-icon">
                     <i class="fa fa-tags"></i>
@@ -18,7 +18,7 @@
                 <#else>
                     <span class="tags">No tags</span>
                 </#list>
-                <div class="answers-total">
+                <div class="respuestas-total">
                     <i class="fa fa-comments-o"></i>
                     - <#if question.totalAnswers gt 0 && onlyOneAnswer>1<#else>${question.totalAnswers}</#if> Answer(s)
                 </div>

@@ -1,28 +1,17 @@
 package com.nearsoft.questions.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
-import org.hibernate.annotations.Formula;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Document(indexName = "nsquestions", type = "question")
@@ -38,28 +27,14 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private Integer votesUp = 0;
-
-    @Column(nullable = false)
-    private Integer votesDown = 0;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 35, nullable = false)
-    private ItemStatus status;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
 
+    @Column(nullable = false)
+    private Integer totalAnswers = 0;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    @OrderBy("votes_up DESC")
     private List<Answer> answers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<QuestionComment> comments = new ArrayList<>();
-
-    @Formula("(select count(a.*) from Answer a where a.question_id = id)")
-    private Integer totalAnswers;
 
     public Question() {
     }
@@ -143,44 +118,4 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
-
-    public ItemStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ItemStatus status) {
-        this.status = status;
-    }
-
-    public Integer getTotalAnswers() {
-        return totalAnswers;
-    }
-
-    public Integer getVotesUp() {
-        return votesUp;
-    }
-
-    public void setVotesUp(Integer votesUp) {
-        this.votesUp = votesUp;
-    }
-
-    public Integer getVotesDown() {
-        return votesDown;
-    }
-
-    public void setVotesDown(Integer votesDown) {
-        this.votesDown = votesDown;
-    }
-
-    public void setTotalAnswers(Integer totalAnswers) {
-        this.totalAnswers = totalAnswers;
-    }
-
-    public List<QuestionComment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<QuestionComment> comments) {
-		this.comments = comments;
-	}
 }

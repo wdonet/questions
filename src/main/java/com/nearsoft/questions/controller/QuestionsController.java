@@ -1,7 +1,6 @@
 package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.form.QuestionForm;
-import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
@@ -49,7 +48,6 @@ public class QuestionsController extends BaseController {
             log.debug("Trying to add " + form);
             Question question = new Question(form,
                 tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
-            question.setStatus(ItemStatus.OPEN);
             questionService.save(question);
             questionSearchRepository.save(question);
             redirectAttributes.addAttribute("id", question.getId());

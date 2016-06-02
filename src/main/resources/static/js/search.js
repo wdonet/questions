@@ -32,7 +32,7 @@ $(document).ready(function(){
                     //    });
                     //}
                     var html = '<li>' +
-                        '<a class="answer-title" href="/question/' + e.id + '">' + e.title + '</a>' +
+                        '<a class="respuesta-titulo" href="/question/' + e.id + '">' + e.title + '</a>' +
                         '<div class="tags-cont">' +
                         '    <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>' + spans +
                         '    <div class="respuestas-total"><i class="fa fa-comments-o"></i>- ' + e.totalAnswers + ' Answers</div>' +
