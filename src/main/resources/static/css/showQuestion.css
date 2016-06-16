@@ -231,3 +231,18 @@ ul.suggestions-cont li:first-child {
     border: none;
     padding: 5px 8px;
 }
+
+.edit-question-div{
+    float: right;
+}
+
+.edit-question-btn{
+    background-image:url(../img/edit-icon.png);
+    font-size:0;
+    width:30px;
+    height:30px;
+}
+
+ .tag-div{
+     display:inline;
+ }

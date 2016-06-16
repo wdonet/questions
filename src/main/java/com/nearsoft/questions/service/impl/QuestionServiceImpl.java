@@ -21,6 +21,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -47,6 +49,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void save(Question question) {
 
         questionRepository.save(question);
@@ -59,6 +62,16 @@ public class QuestionServiceImpl implements QuestionService {
         ruleQuestionTransaction.setRuleName(RuleName.NEW_QUESTION);
 
         _ruleQuestionTransactionRepository.save(ruleQuestionTransaction);
+    }
+
+    //TODO add points for updating question
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void update(Question question) {
+
+        questionRepository.save(question);
+
+        log.info("Question created: {}" + question);
     }
 
     @Override
