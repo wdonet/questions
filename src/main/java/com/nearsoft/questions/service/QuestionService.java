@@ -22,4 +22,6 @@ public interface QuestionService {
 
     boolean isOnlyOneAnswer();
 
+    public void update(Question question);
+
 }

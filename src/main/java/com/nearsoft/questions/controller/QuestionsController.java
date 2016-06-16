@@ -3,7 +3,9 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
@@ -117,6 +119,40 @@ public class QuestionsController extends BaseController {
     public List<Question> search(@RequestParam String query) {
         log.debug("Query : " + query);
         return questionService.search(query);
+    }
+
+    @RequestMapping( value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes,
+                         @AuthenticationPrincipal UserDetails details) {
+
+        log.debug("Who's operating ? " + details);
+        log.debug("Update question request with form:" + form);
+
+        if (form == null) {
+            return "redirect:/ask";
+        }
+
+        validateUserOwner(form, details);
+
+        //TODO can closed question be modified? and should I change the status?
+        List<Tag>tagList = tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList());
+        Question question = new Question(form, tagList, getUser(details));
+        question.setStatus(ItemStatus.OPEN);
+
+        //TODO maybe place those two in a transactional method inside questionService?
+        questionService.save(question);
+        questionSearchRepository.save(question);
+
+        redirectAttributes.addAttribute("id", question.getId());
+        return "redirect:/question/{id}";
+
+    }
+
+    private void validateUserOwner(@ModelAttribute QuestionForm form, @AuthenticationPrincipal UserDetails details) {
+        Question question = questionService.get(form.getId());
+        if (!question.getUser().getId().equals(details.getUser().getId())){
+            throw new OperationDeniedException();
+        }
     }
 
 }
