@@ -5,6 +5,10 @@
 
 <html lang="en">
   <head>
+    <link rel="stylesheet" type="text/css" href="/css/general.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/showQuestion.css">
+
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
@@ -20,8 +24,8 @@
   </head>
   <body class="showquestions">
     <#include "header.ftl">
-    <div class="suggestion-wrapper">
       <#include "searchBox.ftl">
+    <div class="suggestion-wrapper">
       <h1 class="unanswered-q">${title}</h1>
       <ul class="suggestions-cont">
       </ul>

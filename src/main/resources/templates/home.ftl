@@ -3,6 +3,10 @@
 
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/general.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchForm.css">
+
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
@@ -46,21 +50,21 @@
 
         <h1>Search Questions</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+        <p>Find out how the most common problems within your project have been solved.</p>
     </div>
     <div class="how-cont">
         <img src="img/crea-img.png" alt="Crea tu pregunta">
 
         <h1>Create Questions</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+        <p>Contribute to your team by creating useful questions that will help others.</p>
     </div>
     <div class="how-cont">
         <img src="img/notifica-img.png" alt="Notifica">
 
         <h1>Notify Questions</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+        <p>Get realtime input regarding questions of your interest.</p>
     </div>
 </div>
 </section>

@@ -1,0 +1,47 @@
+.validation-cont,
+.validation-positive,
+.validation-negative,
+button.val-pos,
+button.val-neg,
+a.val-pos,
+a.val-neg,
+.votes {
+    display: inline-block;
+}
+
+.validation-cont {
+    float: right;
+    padding-right: 20px;
+}
+
+.validation-positive {
+    margin-right: 10px;
+}
+
+button.val-pos,
+button.val-neg,
+a.val-pos,
+a.val-neg {
+    background-color: #2DD660;
+    vertical-align: middle;
+    border-radius: 3px;
+    color: #fff;
+    padding: 7px 10px;
+}
+
+button.val-neg,
+a.val-neg {
+    background-color: #F55363;
+}
+
+.votes {
+    font-size: 18px;
+}
+
+.validation-positive .votes {
+    color: #2DD660;
+}
+
+.validation-negative .votes {
+    color: #F55363;
+}

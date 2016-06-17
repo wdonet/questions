@@ -1,9 +1,14 @@
 package com.nearsoft.questions.service.impl;
 
+import java.time.ZonedDateTime;
+import java.util.List;
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
-import com.nearsoft.questions.repository.AnswerRepository;
+import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.RuleQuestionTransaction;
 import com.nearsoft.questions.repository.QuestionRepository;
+import com.nearsoft.questions.repository.RuleQuestionTransactionRepository;
+import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
@@ -21,19 +26,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class QuestionServiceImpl implements QuestionService {
+
     private final QuestionRepository questionRepository;
+
     private final QuestionSearchRepository questionSearchRepository;
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private RuleQuestionTransactionRepository _ruleQuestionTransactionRepository;
 
     @Autowired
-    private AnswerRepository answerRepository;
+    private RuleRepository _ruleRepository;
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Value("${questions.onlyOneAnswer}")
     private Boolean onlyOneAnswer;
@@ -49,6 +61,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void save(Question question) {
+
         questionRepository.save(question);
 
         NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewQuestionNotifierServiceImpl.class);
@@ -57,27 +70,20 @@ public class QuestionServiceImpl implements QuestionService {
         notificationSettings.put(NewQuestionNotifierServiceImpl.QUESTION_ID_PARAM, "" + question.getId());
 
         delivererService.sendNotification(notificationSettings);
-    }
 
-    @Override
-    public synchronized void updateTotalAnswers(Question question) {
-        int total = answerRepository.countByQuestionId(question.getId());
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("Updating question %d with total answers: %d", question.getId(), total));
-        }
-        question.setTotalAnswers(total);
-        questionRepository.save(question);
+        int points = _ruleRepository.findFirstByRuleName(RuleName.NEW_QUESTION).getPoints();
+        RuleQuestionTransaction ruleQuestionTransaction = new RuleQuestionTransaction();
+        ruleQuestionTransaction.setCreatedAt(ZonedDateTime.now());
+        ruleQuestionTransaction.setPoints(points);
+        ruleQuestionTransaction.setQuestionId(question.getId());
+        ruleQuestionTransaction.setRuleName(RuleName.NEW_QUESTION);
+
+        _ruleQuestionTransactionRepository.save(ruleQuestionTransaction);
     }
 
     @Override
     public Question get(long id) {
-        Question one = questionRepository.findOne(id);
-        if (CollectionUtils.isNotEmpty(one.getAnswers()) && one.getAnswers().size() > 1) {
-            one.getAnswers().sort((first, second) -> first.getId().compareTo(second.getId()));
-            log.info("Show onlyOneAnswer ? " + onlyOneAnswer);
-            adjustNumberOfAnswers(one);
-        }
-        return one;
+        return questionRepository.findOne(id);
     }
 
     @Override
@@ -90,7 +96,6 @@ public class QuestionServiceImpl implements QuestionService {
             Answer firstAnswer = one.getAnswers().stream().findFirst().get();
             one.getAnswers().clear();
             one.getAnswers().add(firstAnswer);
-            one.setTotalAnswers(1);
         }
     }
 
