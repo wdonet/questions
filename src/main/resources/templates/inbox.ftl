@@ -2,7 +2,9 @@
 
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/general.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/showQuestion.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
@@ -18,11 +20,11 @@
 </head>
 <body class="showquestions">
 <#include "header.ftl">
-<div class="suggestion-wrapper">
     <div class="search-container">
         <input class="input-search-question" name="query" type="text" placeholder="What are you looking for?">
         <button type="button" value="" class="search-submit positioning"></button>
     </div>
+<div class="suggestion-wrapper">
     <a href="#" class="back-btn">« BACK </a>
 
     <div class="question-cont">

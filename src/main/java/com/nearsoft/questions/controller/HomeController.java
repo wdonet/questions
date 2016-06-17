@@ -12,6 +12,11 @@ public class HomeController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String publicUser() {
+        return "public";
+    }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home() {
         return "home";
     }

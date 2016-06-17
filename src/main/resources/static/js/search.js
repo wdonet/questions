@@ -11,6 +11,11 @@ $(document).ready(function(){
     });
 
     $('.search-submit').on("click", function(){
+        $('.unanswered-q').toggle(false);
+        $('.category').each(function(index, link){
+            $(link).attr('class', '');
+            $(link).addClass('category unlinked');
+        });
         var query = getQuery();
         var url = '/question/search?query=' + query;
         $.get(url, function(data, status) {
@@ -27,7 +32,7 @@ $(document).ready(function(){
                     //    });
                     //}
                     var html = '<li>' +
-                        '<a class="respuesta-titulo" href="/question/' + e.id + '">' + e.title + '</a>' +
+                        '<a class="answer-title" href="/question/' + e.id + '">' + e.title + '</a>' +
                         '<div class="tags-cont">' +
                         '    <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>' + spans +
                         '    <div class="respuestas-total"><i class="fa fa-comments-o"></i>- ' + e.totalAnswers + ' Answers</div>' +
@@ -39,7 +44,7 @@ $(document).ready(function(){
                 });
             }
             else {
-                $('.suggestions-cont').append('<li><div class="respuestas-total">No matches.</div></li>');
+                $('.suggestions-cont').append('<div class="no-results-cont"><div class="no-results-message">We are sorry you couldnt find what you where looking for...</div><p>Help us grow our database by creating your question </p><input class="add-button" type="submit" value="Ask Question">');
             }
         });
     });

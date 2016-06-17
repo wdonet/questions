@@ -1,11 +1,14 @@
 package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.controller.form.QuestionForm;
+import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ import java.util.List;
 public class QuestionsController extends BaseController {
 
     public static final String SHOW_QUESTIONS = "showQuestions";
+    public static final String TITLE = "title";
+    public static final String PAGE_NAME = "pageName";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -45,6 +50,7 @@ public class QuestionsController extends BaseController {
             log.debug("Trying to add " + form);
             Question question = new Question(form,
                 tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
+            question.setStatus(ItemStatus.OPEN);
             questionService.save(question);
             questionSearchRepository.save(question);
             redirectAttributes.addAttribute("id", question.getId());
@@ -58,6 +64,8 @@ public class QuestionsController extends BaseController {
                                 @RequestParam(required = false, defaultValue = "1") Integer page,
                                 @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute("questionList", questionService.getUnanswered(page, pageSize).getContent());
+        model.addAttribute(TITLE, "Unanswered Questions");
+        model.addAttribute(PAGE_NAME, "unanswered");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
@@ -67,6 +75,8 @@ public class QuestionsController extends BaseController {
                             @RequestParam(required = false, defaultValue = "1") Integer page,
                             @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
         model.addAttribute(questionService.getNewest(page, pageSize).getContent());
+        model.addAttribute(TITLE, "Newest Questions");
+        model.addAttribute(PAGE_NAME, "newest");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
@@ -75,15 +85,29 @@ public class QuestionsController extends BaseController {
     public String getNewestByTag(Model model, @PathVariable long id,
                                  @RequestParam(required = false, defaultValue = "1") Integer page,
                                  @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
-        model.addAttribute(questionService.getNewestByTag(id, page, pageSize).getContent());
+        List<Question> questionList = questionService.getNewestByTag(id, page, pageSize).getContent();
+        model.addAttribute(questionList);
+        if (CollectionUtils.isNotEmpty(questionList)) {
+            String tagName =
+                questionList.stream().findFirst().get().getTags().stream().filter(tag -> tag.getId().equals(id)).findFirst().get().getName();
+            model.addAttribute(TITLE, "Questions for " + tagName);
+        }
+        else {
+            model.addAttribute(TITLE, "");
+        }
+        model.addAttribute(PAGE_NAME, "tagged");
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String get(@PathVariable long id, Model model) {
+    public String get(@PathVariable long id, Model model, @AuthenticationPrincipal UserDetails details) {
         log.info("question with id " + id);
-        model.addAttribute(questionService.get(id));
+
+        Question question = questionService.get(id);
+        model.addAttribute("isQuestionOwner", details.getUser().getId().equals(question.getUser().getId()));
+        model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
+        model.addAttribute(question);
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return "showOneQuestion";
     }
