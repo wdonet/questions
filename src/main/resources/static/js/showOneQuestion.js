@@ -29,11 +29,6 @@ $(document).ready(function(){
         $(child).html(smde.markdown($(child).text()));
     });
 
-    // For Comments
-    $('.comment-box-question').each(function(index, child) {
-        $(child).html(smde.markdown($(child).text()));
-    });
-
     $('form textarea[name="description"]').on('keydown', function(event) {
         if (event.keyCode == 13 && !event.shiftKey && $(this).text()) {
             $(this).parent().submit();
