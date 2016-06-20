@@ -57,8 +57,7 @@
             <a href="#">Hide Comments</a>
         </div>
         <div>
-            <form id="question-comment-form" method="post" action="/comments/question/">
-                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id?c}">
+            <form id="question-comment-form" method="post" action="/comments/question/${question.id?c}">
                 <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
                 <button type="submit" class="add-comment-btn">Add Comment</button>
             </form>
@@ -111,8 +110,7 @@
                 <a href="#">Hide Comments</a>
             </div>
             <div>
-                <form id="answer-comment-form" method="post" action="/comments/answer/">
-                    <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id?c}">
+                <form id="answer-comment-form" method="post" action="/comments/question/${question.id?c}/answer/${answer.id?c}">
                     <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
                     <button type="submit" class="add-comment-btn">Add Comment</button>
                 </form>
@@ -127,7 +125,6 @@
             <textarea class="add-answer-input" name="description" type="textarea"
                     placeholder="Add a detailed answer"></textarea>
             <input name="questionId" type="hidden" value="${question.id?c}">
-        <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
             <input class="add-button" type="submit" value="Add">
         </form>
     </#if>

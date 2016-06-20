@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
-    <script src="/js/askQuestion.js"></script>
+    <script src="/js/markdown.js"></script>
 </head>
 <body>
 <#include "header.ftl">
@@ -24,10 +24,8 @@
 
         <h1 class="tags-title-form">Tags:</h1>
         <input name="tags" type="text" placeholder="Write related tags (separate them by commas)">
-        <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
         <input class="cancel-ask" type="button" value="Cancel" onclick="location.href='/search'">
         <input class="submit-ask" type="submit" value="Submit">
-        <div class="preview"><div class="markdown"></div></div>
     </form>
 </section>
 </body>
