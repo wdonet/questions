@@ -58,7 +58,7 @@
         </div>
         <div>
             <form id="question-comment-form" method="post" action="/comments/question/">
-                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
+                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id?c}">
                 <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
                 <button type="submit" class="add-comment-btn">Add Comment</button>
             </form>
@@ -76,21 +76,21 @@
                     <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
                     <div class="validation-cont">
                         <form action="/answer/voteUp" method="post" class="validation-positive">
-                            <input name="answerId" type="hidden" value="${answer.id}">
-                            <input name="questionId" type="hidden" value="${question.id}">
+                            <input name="answerId" type="hidden" value="${answer.id?c}">
+                            <input name="questionId" type="hidden" value="${question.id?c}">
                             <button class="val-pos fa fa-arrow-up" type="submit"></button>
                             <div class="votes">${answer.votesUp}</div>
                         </form>
                         <form action="/answer/voteDown" method="post" class="validation-negative">
-                            <input name="answerId" type="hidden" value="${answer.id}">
-                            <input name="questionId" type="hidden" value="${question.id}">
+                            <input name="answerId" type="hidden" value="${answer.id?c}">
+                            <input name="questionId" type="hidden" value="${question.id?c}">
                             <button class="val-neg fa fa-arrow-down" type="submit"></button>
                             <div class="votes">${answer.votesDown}</div>
                         </form>
                      <#if isQuestionOwner && answer.status != 'ACCEPTED' >
                         <FORM action="/answer/accepted" method="post" class="validation-negative">
-                            <input name="answerId" type="hidden" value="${answer.id}">
-                            <input name="questionId" type="hidden" value="${question.id}">
+                            <input name="answerId" type="hidden" value="${answer.id?c}">
+                            <input name="questionId" type="hidden" value="${question.id?c}">
                             <button type="submit" class="add-button">Accept</button>
                         </FORM>
                      </#if>
@@ -112,7 +112,7 @@
             </div>
             <div>
                 <form id="answer-comment-form" method="post" action="/comments/answer/">
-                    <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
+                    <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id?c}">
                     <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
                     <button type="submit" class="add-comment-btn">Add Comment</button>
                 </form>
@@ -126,7 +126,7 @@
             <h3 class="leave-answers">Add an answer</h3>
             <textarea class="add-answer-input" name="description" type="textarea"
                     placeholder="Add a detailed answer"></textarea>
-            <input name="questionId" type="hidden" value="${question.id}">
+            <input name="questionId" type="hidden" value="${question.id?c}">
         <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
             <input class="add-button" type="submit" value="Add">
         </form>
