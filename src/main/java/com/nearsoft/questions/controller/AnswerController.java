@@ -11,6 +11,7 @@ import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +79,7 @@ public class AnswerController extends BaseController {
     public String add(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details)
         throws QuestionNotFoundException {
         log.debug("Who's operating ? " + details);
-        if (form != null && form.getQuestionId() != null) {
+        if (form != null && form.getQuestionId() != null && StringUtils.isNotBlank(form.getDescription())) {
             log.debug("Trying to add " + form);
             Question question = getQuestion(form);
             Answer answer = new Answer();
