@@ -16,7 +16,7 @@
                 <div>
                 <#list tagList as tag>
                     <span class="tags">
-                        <a href="/question/tag/${tag.id}">${tag.name}</a>
+                        <a href="/question/tag/${tag.id?c}">${tag.name}</a>
                     </span>
                 <#else>
                     <span class="tags">No tags</span>

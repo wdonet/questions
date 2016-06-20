@@ -5,7 +5,7 @@
     <ul class="suggestions-cont">
     <#list questionList as question>
         <li>
-            <a class="answer-title" href="/question/${question.id}">${question.title}</a>
+            <a class="answer-title" href="/question/${question.id?c}">${question.title}</a>
             <div class="tags-cont">
                 <div class="tag-icon">
                     <i class="fa fa-tags"></i>
@@ -13,7 +13,7 @@
                 </div>
                 <#list question.tags as tag>
                     <span class="tags">
-                        <a href="/question/tag/${tag.id}">${tag.name}</a>
+                        <a href="/question/tag/${tag.id?c}">${tag.name}</a>
                     </span>
                 <#else>
                     <span class="tags">No tags</span>
