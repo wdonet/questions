@@ -37,89 +37,97 @@
     <a href="#" class="back-btn">« BACK </a>
     <div class="question-cont">
         <div class="question-title">${question.title}</div>
-    <#list question.tags as tag>
         <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>
+    <#list question.tags as tag>
         <span class="tags">${tag.name}</span>
-            <div class="owner"><i class="fa fa-user"></i>Asked By ${(question.authorName)!""}</div>
-            <img src="${question.user.photoUri!"#"}">
     <#else>
         <span>No tags</span>
     </#list>
-        <#if question.description?? && question.description?length &gt; 0>
-            <div class="question-description">${question.description}</div>
-        <#else>
-            <div></div>
-        </#if>
+        <div class="owner"><i class="fa fa-user"></i>Asked By
+            <img src="${question.user.photoUri!"/img/user-research-uxteam.jpg"}">
+            <span>${(question.authorName)!""}</span>
+        </div>
+        <div class="date">
+            <i class="fa fa-clock-o"></i>
+            <label class="date-text">${(question.createdAt)!""}</label>
+        </div>
+    <#if question.description?? && question.description?length &gt; 0>
+        <div class="question-description">${question.description}</div>
+    <#else>
+        <div></div>
+    </#if>
+        <div class="all-comments-question">
         <#list question.comments as comment>
             <div class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
-                <#-- Format Month DD at HH:mm -->
-                <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
+                <div class="date">
+                    <i class="fa fa-clock-o"></i>
+                    <label class="date-text">${(comment.createdAt)!""} </label>
+                </div>
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
         </#list>
-
-        <div class="add-comment-cont">
-            <a href="#">Add Comment</a>
-            <a href="#">Hide Comments</a>
         </div>
-        <div>
-            <form id="question-comment-form" method="post" action="/comments/question/">
-                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id}">
+        <div class="add-comment-cont">
+            <a class="open-add-comment">Add Comment</a>
+            <a class="show-hide-comments">Show/Hide Comments</a>
+        </div>
+        <div class="question-comment-cont" style="display: none;">
+            <form id="question-comment-form" method="post" action="/comments/question/${question.id?c}">
                 <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
                 <button type="submit" class="add-comment-btn">Add Comment</button>
             </form>
         </div>
-            <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
         </div>
         <h2 class="answers-title">ANSWERS</h2>
     <#list question.answers as answer>
         <div class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
-                    <img src="${answer.user.photoUri!"#"}">
+                    <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
                     <span>${answer.authorName!""}</span>
                 </div>
-                    <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
-                    <div class="validation-cont">
-                        <form action="/answer/voteUp" method="post" class="validation-positive">
-                            <input name="answerId" type="hidden" value="${answer.id}">
-                            <input name="questionId" type="hidden" value="${question.id}">
-                            <button class="val-pos fa fa-arrow-up" type="submit"></button>
-                            <div class="votes">${answer.votesUp}</div>
-                        </form>
-                        <form action="/answer/voteDown" method="post" class="validation-negative">
-                            <input name="answerId" type="hidden" value="${answer.id}">
-                            <input name="questionId" type="hidden" value="${question.id}">
-                            <button class="val-neg fa fa-arrow-down" type="submit"></button>
-                            <div class="votes">${answer.votesDown}</div>
-                        </form>
-                     <#if isQuestionOwner && answer.status != 'ACCEPTED' >
-                        <FORM action="/answer/accepted" method="post" class="validation-negative">
-                            <input name="answerId" type="hidden" value="${answer.id}">
-                            <input name="questionId" type="hidden" value="${question.id}">
-                            <button type="submit" class="add-button">Accept</button>
-                        </FORM>
-                     </#if>
-                    </div>
+                <div class="date">
+                    <i class="fa fa-clock-o"></i>
+                    <label class="date-text">${(answer.createdAt)!""}</label>
+                </div>
+                <div class="validation-cont">
+                    <form action="/answer/voteUp" method="post" class="validation-positive">
+                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                        <input name="questionId" type="hidden" value="${question.id?c}">
+                        <button class="val-pos fa fa-arrow-up" type="submit"></button>
+                        <div class="votes">${answer.votesUp}</div>
+                    </form>
+                    <form action="/answer/voteDown" method="post" class="validation-negative">
+                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                        <input name="questionId" type="hidden" value="${question.id?c}">
+                        <button class="val-neg fa fa-arrow-down" type="submit"></button>
+                        <div class="votes">${answer.votesDown}</div>
+                    </form>
+                 <#if isQuestionOwner && answer.status != 'ACCEPTED' >
+                    <FORM action="/answer/accepted" method="post" class="validation-negative">
+                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                        <input name="questionId" type="hidden" value="${question.id?c}">
+                        <button type="submit" class="add-button">Accept</button>
+                    </FORM>
+                 </#if>
+                </div>
             </div>
-            <div class="answers">${answer.description}</div>
+        <div class="answers">${answer.description}</div>
+        <div class="all-comments-answer">
             <#list answer.comments as comment>
-                <div class="comments-question-cont">
+                <div class="comments-answer-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
-                    <#-- Format Month DD at HH:mm -->
-                    <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
+                    <div class="date">
+                        <i class="fa fa-clock-o"></i>
+                        <label class="date-text">${(comment.createdAt)!""} </label>
+                    </div>
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>
             </#list>
-
-            <div class="add-comment-cont">
-                <a href="#">Add Comment</a>
-                <a href="#">Hide Comments</a>
-            </div>
-            <div>
-                <form id="answer-comment-form" method="post" action="/comments/answer/">
-                    <input style="visibility: hidden;" name="sourceId" type="number" value="${answer.id}">
+        </div>
+            <div class="answer-comment-cont">
+                <form id="answer-comment-form" method="post" action="/comments/question/${question.id?c}/answer/${answer.id?c}">
                     <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
                     <button type="submit" class="add-comment-btn">Add Comment</button>
                 </form>
@@ -133,8 +141,7 @@
             <h3 class="leave-answers">Add an answer</h3>
             <textarea class="add-answer-input" name="description" type="textarea"
                     placeholder="Add a detailed answer"></textarea>
-            <input name="questionId" type="hidden" value="${question.id}">
-        <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+            <input name="questionId" type="hidden" value="${question.id?c}">
             <input class="add-button" type="submit" value="Add">
         </form>
     </#if>

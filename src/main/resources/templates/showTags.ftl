@@ -30,10 +30,12 @@
                 <div>
                 <#list userTagList as userTag>
                     <span class="tags">
+
                         <input class="tag-checkbox" value="${userTag.tag.id}" type="checkbox"
                          <#if userTag.subscribed>checked</#if>>
                          <a href="/question/tag/${userTag.tag.id}">
                          ${userTag.tag.name}</a>
+
                     </span>
                 <#else>
                     <span class="tags">No tags</span>
