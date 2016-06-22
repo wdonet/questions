@@ -147,6 +147,7 @@ ul.suggestions-cont li:first-child {
 .answer-date {
     display: inline-block;
     color: #b5b5b5;
+    margin-top: 10px;
 }
 
 .author-name img {
@@ -231,3 +232,8 @@ ul.suggestions-cont li:first-child {
     border: none;
     padding: 5px 8px;
 }
+
+.open-add-comment,
+.show-hide-comments {
+    text-decoration: underline;
+ }

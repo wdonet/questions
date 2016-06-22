@@ -49,6 +49,7 @@
     <#else>
         <div></div>
     </#if>
+        <div class="all-comments-question">
         <#list question.comments as comment>
             <div class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
@@ -59,9 +60,10 @@
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
         </#list>
+        </div>
         <div class="add-comment-cont">
-            <a class="add-comment" href="#">Add Comment</a>
-            <a class="show-hide" href="#">Show/Hide Comments</a>
+            <a class="open-add-comment">Add Comment</a>
+            <a class="show-hide-comments">Show/Hide Comments</a>
         </div>
         <div class="question-comment-cont" style="display: none;">
             <form id="question-comment-form" method="post" action="/comments/question/${question.id?c}">
@@ -78,33 +80,34 @@
                     <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
                     <span>${answer.authorName!""}</span>
                 </div>
-                    <div class="date">
-                        <i class="fa fa-clock-o"></i>
-                        <label class="date-text">${(answer.createdAt)!""}</label>
-                    </div>
-                    <div class="validation-cont">
-                        <form action="/answer/voteUp" method="post" class="validation-positive">
-                            <input name="answerId" type="hidden" value="${answer.id?c}">
-                            <input name="questionId" type="hidden" value="${question.id?c}">
-                            <button class="val-pos fa fa-arrow-up" type="submit"></button>
-                            <div class="votes">${answer.votesUp}</div>
-                        </form>
-                        <form action="/answer/voteDown" method="post" class="validation-negative">
-                            <input name="answerId" type="hidden" value="${answer.id?c}">
-                            <input name="questionId" type="hidden" value="${question.id?c}">
-                            <button class="val-neg fa fa-arrow-down" type="submit"></button>
-                            <div class="votes">${answer.votesDown}</div>
-                        </form>
-                     <#if isQuestionOwner && answer.status != 'ACCEPTED' >
-                        <FORM action="/answer/accepted" method="post" class="validation-negative">
-                            <input name="answerId" type="hidden" value="${answer.id?c}">
-                            <input name="questionId" type="hidden" value="${question.id?c}">
-                            <button type="submit" class="add-button">Accept</button>
-                        </FORM>
-                     </#if>
-                    </div>
+                <div class="date">
+                    <i class="fa fa-clock-o"></i>
+                    <label class="date-text">${(answer.createdAt)!""}</label>
+                </div>
+                <div class="validation-cont">
+                    <form action="/answer/voteUp" method="post" class="validation-positive">
+                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                        <input name="questionId" type="hidden" value="${question.id?c}">
+                        <button class="val-pos fa fa-arrow-up" type="submit"></button>
+                        <div class="votes">${answer.votesUp}</div>
+                    </form>
+                    <form action="/answer/voteDown" method="post" class="validation-negative">
+                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                        <input name="questionId" type="hidden" value="${question.id?c}">
+                        <button class="val-neg fa fa-arrow-down" type="submit"></button>
+                        <div class="votes">${answer.votesDown}</div>
+                    </form>
+                 <#if isQuestionOwner && answer.status != 'ACCEPTED' >
+                    <FORM action="/answer/accepted" method="post" class="validation-negative">
+                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                        <input name="questionId" type="hidden" value="${question.id?c}">
+                        <button type="submit" class="add-button">Accept</button>
+                    </FORM>
+                 </#if>
+                </div>
             </div>
-            <div class="answers">${answer.description}</div>
+        <div class="answers">${answer.description}</div>
+        <div class="all-comments-answer">
             <#list answer.comments as comment>
                 <div class="comments-answer-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
@@ -115,6 +118,7 @@
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>
             </#list>
+        </div>
             <div class="answer-comment-cont">
                 <form id="answer-comment-form" method="post" action="/comments/question/${question.id?c}/answer/${answer.id?c}">
                     <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>

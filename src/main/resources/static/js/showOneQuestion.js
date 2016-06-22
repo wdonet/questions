@@ -45,10 +45,10 @@ $(document).ready(function(){
         $(date).text(newDate);
     });
 
-    $('.add-comment-cont > a.show-hide').on('click', function(){
-        $('.comments-question-cont').toggle();
+    $('.add-comment-cont > a.show-hide-comments').on('click', function(){
+        $('.all-comments-question').toggle();
     });
-    $('.add-comment-cont > a.add-comment').on('click', function(){
+    $('.add-comment-cont > a.open-add-comment').on('click', function(){
         $('.question-comment-cont').toggle();
     });
 
