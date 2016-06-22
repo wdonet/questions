@@ -23,8 +23,10 @@
                     - <#if question.totalAnswers gt 0 && onlyOneAnswer>1<#else>${question.totalAnswers}</#if> Answer(s)
                 </div>
                 <div class="owner">
-                    <i class="fa fa-user"></i>
-                    Asked By ${(question.user.fullName)!""}</div>
+                    <i class="fa fa-user"></i>Asked By
+                    <img src="${question.user.photoUri!"/img/user-research-uxteam.jpg"}">
+                    <span> ${(question.user.fullName)!""}</span>
+                </div>
             </div>
         </li>
     <#else>

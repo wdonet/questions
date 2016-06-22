@@ -39,27 +39,30 @@ $(document).ready(function(){
     $('#answer-comment-form').submit(function() {
         location.reload();
     });
-    
-    var dates = $('.date-text');
-    for (x in dates){
-    	oldDate = $('.date')[x].innerText;
-    	if (oldDate){
-	    	currentDate = formatDate(oldDate);
-	    	dates[x].innerText= currentDate;
-    	}
-    }
+
+    $('.date > .date-text').each(function(index, date){
+        var newDate = formatDate($(date).text());
+        $(date).text(newDate);
+    });
+
+    $('.add-comment-cont > a.show-hide').on('click', function(){
+        $('.comments-question-cont').toggle();
+    });
+    $('.add-comment-cont > a.add-comment').on('click', function(){
+        $('.question-comment-cont').toggle();
+    });
 
 });
 
 function formatDate(originalDate){
-	tempDate = originalDate.split('-');
-	tempDate.pop();
-	date = new Date(tempDate.join('-'));
-	date = date.toString().split(" ");
-	var month = date[1];
-	var day = date[2];
-	var time = date[4].split(':');
-	time.pop();
-	time = time.join(':');
-	return " "+month + " " + day + " at " + time;
+    var tempDate = originalDate.split('-');
+    tempDate.pop();
+    var date = new Date(tempDate.join('-'));
+    date = date.toString().split(" ");
+    var month = date[1];
+    var day = date[2];
+    var time = date[4].split(':');
+    time.pop();
+    time = time.join(':');
+    return " " + month + " " + day + " at " + time;
 }
