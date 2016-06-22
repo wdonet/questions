@@ -4,18 +4,19 @@ import com.nearsoft.questions.config.QuestionsApplication;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@Ignore//Requires a DB
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = QuestionsApplication.class)
-@WebAppConfiguration
+@SpringApplicationConfiguration(QuestionsApplication.class)
 public class QuestionsApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+
+    @Test
+    public void contextLoads() {
+
+    }
+
 
 }

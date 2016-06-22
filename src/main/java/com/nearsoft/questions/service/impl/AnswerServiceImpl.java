@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nearsoft.questions.domain.Answer;
+
+import com.nearsoft.questions.domain.Question;
+
 import com.nearsoft.questions.domain.RuleAnswerTransaction;
 import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.ItemStatus;
@@ -12,14 +15,24 @@ import com.nearsoft.questions.domain.RuleAnswerTransaction;
 import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
+
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.service.AnswerService;
+
+import com.nearsoft.questions.service.NotificationDelivererService;
+import com.nearsoft.questions.service.NotificationService;
+import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -33,9 +46,24 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private RuleRepository _ruleRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
     @Override
     public void save(Answer answer) {
         answerRepository.save(answer);
+
+
+        Question question = answer.getQuestion();
+
+        NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewQuestionNotifierServiceImpl.class);
+        Map<String, String> notificationSettings = new HashMap<>();
+
+        notificationSettings.put(NewQuestionNotifierServiceImpl.QUESTION_ID_PARAM, "" + question.getId());
+        notificationSettings.put(NewQuestionNotifierServiceImpl.DESCRIPTION_PARAM, "New answer:" + answer.getDescription());
+
+        delivererService.sendNotification(notificationSettings);
+
         saveWithRuleName(answer, RuleName.NEW_ANSWER);
     }
 
@@ -49,6 +77,7 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setVotesDown(answer.getVotesDown() + 1);
         answerRepository.save(answer);
         saveWithRuleName(answer, RuleName.VOTED_DOWN_ANSWER);
+
     }
 
     @Override

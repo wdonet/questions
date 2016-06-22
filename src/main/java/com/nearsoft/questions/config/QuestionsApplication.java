@@ -9,13 +9,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -28,6 +31,7 @@ import javax.inject.Inject;
 @EntityScan("com.nearsoft.questions.domain")
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
+@EnableAsync
 public class QuestionsApplication extends SpringBootServletInitializer {
 
     @Inject
@@ -50,5 +54,4 @@ public class QuestionsApplication extends SpringBootServletInitializer {
                     applicationContext.getBean(QuestionService.class));
         }
     }
-
 }
