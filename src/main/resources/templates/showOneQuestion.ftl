@@ -30,6 +30,8 @@
     <a href="#" class="back-btn">« BACK </a>
     <div class="question-cont">
         <div class="question-title">${question.title}</div>
+        <div id="edit-title-input-div"> <input name="title" form="editQuestionForm" type="text" id="questionTitleInput"></div>
+    <div id="questionInfo">
     <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>
     <#if question.tags?size gt 0 >
         <div id="tag-div" class="tag-div">
@@ -40,14 +42,24 @@
     <#else>
         <span>No tags</span>
     </#if>
-        <div class="owner"><i class="fa fa-user"></i>Asked By ${(question.authorName)!""}</div>
+        <div class="owner" id="owner"><i class="fa fa-user"></i>Asked By ${(question.authorName)!""}</div>
         <img src="${question.user.photoUri!"#"}">
-        <#if isQuestionOwner >
-            <div class="edit-question-div"><button class="edit-question-btn" id="edit-question-btn" type="submit">Edit</button></div>
+        <#if isQuestionOwner && isNotClosed>
+            <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
         </#if>
+        </div>
         <input name="id" type="hidden" form="editQuestionForm" value="${question.id?c}">
         <#if question.description?? && question.description?length &gt; 0>
             <div class="question-description">${question.description}</div>
+            <div id="edit-question-form-div">
+             <form method="post" id="editQuestionForm" action="/question/update">
+                 <textarea name="description" class="edit-question-input" type="textarea" id="question-description-textarea"></textarea>
+                 <h2 class="tags-title-form">Tags:</h2>
+                 <input name="tags" type="text" id="tag-edit-input" value="">
+                 <input class="add-button" type="button" id="cancelEditBtn" value="Cancel">
+                 <input class="add-button" type="submit" value="Edit">
+             </form>
+            </div>
         <#else>
             <div></div>
         </#if>
@@ -102,9 +114,21 @@
                             <button type="submit" class="add-button">Accept</button>
                         </FORM>
                      </#if>
+
+                         <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
+
                     </div>
             </div>
-            <div class="answers">${answer.description}</div>
+            <div class="answers" id="answer-description-div-${answer?counter}">${answer.description}</div>
+            <div id="edit-answer-form-div-${answer?counter}" class="edit-answer-form-div">
+                <form method="post" id="editAnswerForm-${answer?counter}" action="/answer/update">
+                    <input name="answerId" type="hidden" value="${answer.id?c}">
+                    <input name="questionId" type="hidden" value="${question.id?c}">
+                    <textarea name="description" class="edit-answer-input" type="textarea" id="answer-description-textarea-${answer?counter}"></textarea>
+                    <button class="add-button cancel-edit-answer-btn" type="button" value="${answer?counter}">Cancel</button>
+                    <input class="add-button" type="submit" value="Edit">
+                </form>
+            </div>
             <#list answer.comments as comment>
                 <div class="comments-question-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
