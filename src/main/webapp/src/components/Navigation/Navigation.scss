@@ -1,6 +1,6 @@
 .root {
   float: right;
-  padding-top: 50px;
+  margin-top: 40px;
 }
 
 .link,
@@ -10,11 +10,25 @@
 }
 
 .link {
+  font-size: 13px;
   display: inline-block;
   margin-right: 10px;
   text-decoration: none;
+  color: #fff;
+  text-transform: uppercase;
 
   &:hover {
-    color: rgba(255, 255, 255, 1);
+    text-decoration: underline;
+  }
+}
+
+.login {
+  border: 1px solid #fff;
+  font-size: 14px;
+  padding: 13px;
+  border-radius: 3px;
+  margin-left: 15px;
+  &:hover {
+    text-decoration: none;
   }
 }

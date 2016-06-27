@@ -6,12 +6,13 @@ import s from './TagList.scss';
 
 function TagList({ tags = [], className }) {
   const tagList = tags.map(
-    tag => <li key={tag} className={s.tag}><Link to="/">{tag}</Link></li>);
+    tag => <span key={tag} className={s.tag}> <Link to="/">{tag}</Link></span>);
 
   return (
-    <ul className={cx(s.root, className)}>
+    <section className={cx(s.root, className)}>
+      <span className={s.label}>Categories:</span>
       {tagList}
-    </ul>
+    </section>
   );
 }
 

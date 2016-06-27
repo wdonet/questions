@@ -2,8 +2,10 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Question.scss';
-import TagList from '../../../components/TagList';
 import Answer from '../../../components/Answer';
+import Link from '../../../components/Link';
+import Search from '../../../components/Search';
+import TagList from '../../../components/TagList';
 
 function Question(props, context) {
   const { title, tags, description, authorName, answers, className } = props;
@@ -15,9 +17,14 @@ function Question(props, context) {
 
   return (
     <article className={cx(s.root, className)}>
+      <Search className={s.search} />
       <header>
+        <Link className={s.backLink} to="/">« BACK</Link>
         <h1 className={s.title}>{title}</h1>
-        {!!tags.length && <TagList tags={tags} />}
+        <section className={s.metadata}>
+          {!!tags.length && <TagList tags={tags} />}
+          <span className={s.author}>Asked By {authorName}</span>
+        </section>
       </header>
 
       <section className={s.description}>
@@ -25,19 +32,18 @@ function Question(props, context) {
       </section>
 
       <footer className={s.footer}>
-        <b className={s.author}>asked by {authorName}</b>
       </footer>
 
       <section className={s.answers}>
-        <h3>What people have answered</h3>
+        <h2 className={s.answersTitle}>Answers</h2>
         {answerList}
 
         <section className={s.addAnswer}>
-          <h3>Add an answer</h3>
+          <h3 className={s.addAnswerTitle}>Add an answer</h3>
           <textarea className={s.answerInput}
             placeholder="Add a detailed answer"
           />
-          <button className={cx(s.addButton, 'blue')}>Add</button>
+          <button className={cx(s.addButton, 'orange')}>Add</button>
         </section>
       </section>
     </article>
@@ -50,6 +56,7 @@ Question.contextTypes = {
 
 Question.propTypes = {
   className: PropTypes.string,
+  authorName: PropTypes.string,
   description: PropTypes.string,
   tags: PropTypes.array,
   answers: PropTypes.array,

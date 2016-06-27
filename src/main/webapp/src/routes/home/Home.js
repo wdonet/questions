@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.scss';
 import Feature from '../../components/Feature';
+import Search from '../../components/Search';
 
 const title = 'NSQuestions';
 
@@ -10,25 +11,35 @@ function Home(props, context) {
   return (
     <section className={s.root}>
       <h1 className={s.title}>
-        It's easy to find answers to <strong className={s.hl}>internal</strong>
-         &amp; <strong className={s.hl}>technical</strong> questions
+        Search And Find Questions
       </h1>
+      <section className={s.search}>
+        <Search />
+        <p className={s.quickTip}>
+          Quick Tip On How to Search: ( Ex.- Cómo hacer una declaración de impuestos? ).
+        </p>
+      </section>
       <div className={s.features}>
-        <Feature title="Search Questions"
-          img={require('./busca-img.png')} imgAlt="Busca alguna pregunta"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
-        </Feature>
-        <Feature title="Create Questions"
-          img={require('./crea-img.png')} imgAlt="Crea tu pregunta"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
-        </Feature>
-        <Feature title="Notify Questions"
-          img={require('./notifica-img.png')} imgAlt="Notifica"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
-        </Feature>
+        <h2 className={s.subtitle}>
+          How it works
+        </h2>
+        <section className={s.featuresContainer}>
+          <Feature title="Search Questions"
+            img={require('./busca-img.png')} imgAlt="Busca alguna pregunta"
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+          </Feature>
+          <Feature title="Create Questions"
+            img={require('./crea-img.png')} imgAlt="Crea tu pregunta"
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+          </Feature>
+          <Feature title="Notify Questions"
+            img={require('./notifica-img.png')} imgAlt="Notifica"
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+          </Feature>
+        </section>
       </div>
     </section>
   );

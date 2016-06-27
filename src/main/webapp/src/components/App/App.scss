@@ -16,12 +16,17 @@ html {
   font-size: 1em; /* ~16px; */
   font-family: $font-family-base;
   line-height: 1.375; /* ~22px */
-  background: #e4e4e4;
+  background: #fff;
   height: 100%;
 }
 
 a {
   color: #0074c2;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 /*

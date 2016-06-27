@@ -1,23 +1,36 @@
 @import '../../../components/variables.scss';
 
+.search {
+  border-bottom: 1px solid #e4e4e4;
+  padding-bottom: 50px;
+}
+
+.backLink {
+  color: #f25d00;
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-block;
+  margin: 35px 0;
+}
+
 .title {
-  color: #595b67;
-  margin-bottom: 5px;
-  font-size: 30px;
+  color: #595B67;
+  margin: 0 0 12px;
+  font-weight: 500;
+  font-size: 32px;
 }
 
 .description {
-  border: 2px solid #f1f1f1;
-  padding: 15px;
-  margin: 25px 0 15px;
-  border-radius: 3px;
-  background-color: #f9f9f9;
-  color: #4f4f4f;
+  margin: 55px 0 20px;
+  padding-bottom: 20px;
+  color: #5c5c5c;
+  border-bottom: 1px solid #e4e4e4;
 }
 
 .author {
-  color: #536c8f;
-  font-weight: 700;
+  margin-left: 10px;
+  font-size: 14px;
+  color: #4f5d73;
 }
 
 .answer {
@@ -26,8 +39,21 @@
 
 .answers,
 .addAnswer {
-  border-top: 1px solid #f1f1f1;
-  margin-top: 25px;
+  margin-top: 50px;
+}
+
+.answersTitle {
+  color: #4F5D73;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.addAnswerTitle {
+  font-size: 14px;
+  color: #4F5D73;
+  margin-bottom: 25px;
+  text-transform: uppercase;
 }
 
 .answerInput {
@@ -38,6 +64,6 @@
 }
 
 .addButton {
-  padding-left: 30px;
-  padding-right: 30px;
+  font-size: 16px;
+  width: 124px;
 }
