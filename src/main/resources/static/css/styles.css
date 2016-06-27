@@ -13,6 +13,7 @@ body {
 
 .body-home {
     background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;
+    background-size: cover;
 }
 
 .body-home header {
@@ -27,6 +28,10 @@ header {
     width: 100% margin : 0 auto;
     height: 115px;
     background-color: #595B67;
+}
+
+p {
+    line-height: 23px;
 }
 
 .header-wrapper {
@@ -61,7 +66,71 @@ form#go_signin > input:hover {
 
 .menu {
     float: right;
-    padding-top: 50px;
+    padding-top: 45px;
+    position: relative;
+}
+
+a.notifications-icon {
+    font-size: 21px;
+    color: #fff;
+}
+
+a.notifications-icon:after {
+    content: '';
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background-color: #FC4800;
+    border-radius: 100%;
+    right: 127px;
+    top: 44px;
+}
+
+.notifications-li {
+    color: #4F5D73;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.no-results-cont {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.accepted-answer {
+    background-color: #F2F7FF;
+    border: 1px solid #BAD4E0;
+}
+
+.no-results-cont p {
+    color: #4F5D73;
+}
+
+.no-results-message {
+    display: inline-block;
+    background-color: #FFF0F0;
+    padding: 25px;
+    border: 1px solid #FFC2BF;
+    font-size: 20px;
+    color: #F56E67;
+}
+
+.close-improvement {
+    color: #F55363;
+}
+
+.improvement {
+    color: #2DD660;
+}
+
+.added-tag {
+    color: #0D9AFF;
+}
+
+li.notifications-li i {
+    margin-right: 5px;
 }
 
 .menu li {
@@ -124,9 +193,17 @@ li {
     margin-left: 5px;
 }
 
+.owner img {
+    border-radius: 100%;
+    vertical-align: middle;
+    height: 40px;
+    margin: 0 5px;
+}
+
 .owner i {
     color: #4F5D73;
     margin-right: 5px;
+    margin-left: 5px;
 }
 
 .owner span {
@@ -251,7 +328,7 @@ button.search-submit {
 
 .unanswered-q {
     text-align: center;
-    padding: 55px 0 65px;
+    padding: 55px 0 64px;
     font-size: 26px;
     text-transform: uppercase;
     color: #4F5D73;
@@ -280,6 +357,7 @@ button.search-submit {
 .question input[type="text"], input[type="textarea"] {
     border: 1px solid #e4e4e4;
     height: 38px;
+    width: 805px;
 }
 
 .how-it-works h1 {
@@ -311,7 +389,6 @@ button.search-submit {
 }
 
 .suggestions-cont {
-    position: absolute;
     background-color: #fff;
 }
 
@@ -341,17 +418,17 @@ a.respuesta-titulo {
 
 a.respuesta-titulo:hover {
     text-decoration: underline;
+    color: #FF5E00;
 }
 
 .suggestion-wrapper {
     width: 933px;
     display: block;
-    margin: 60px auto 95px auto;
+    margin: 15px auto 95px auto;
 }
 
 ul.suggestions-cont,
 .question-cont {
-    width: 865px;
     margin-bottom: 50px;
 }
 
@@ -615,7 +692,7 @@ div[class^='editor-preview'] a,
 div.preview div.markdown a {
     text-decoration: underline;
     font-weight: 400;
-    color: #65758C;
+    color: #2C83FF;
 }
 
 div.question-description a:hover,
@@ -623,7 +700,6 @@ div.answers a:hover,
 div[class^='editor-preview'] a:hover,
 div.preview div.markdown a:hover {
     text-decoration: none;
-    font-weight: 600;
     color: #8595AC;
 }
 
@@ -652,7 +728,7 @@ input[type="textarea"] {
 }
 
 .question-description {
-    margin: 55px 0 20px;
+    margin: 40px 0 40px;
     color: #5C5C5C;
     font-size: 16px;
     border-bottom: 1px solid #e4e4e4;
@@ -685,7 +761,7 @@ input[type="textarea"] {
 .answers {
     padding: 15px;
     border: 1px solid #DEDEDE;
-    margin: 15px 0 80px;
+    margin: 15px 0 20px;
     color: #4F4F4F;
     border-radius: 3px;
     background-color: #F5F5F5;
@@ -721,6 +797,51 @@ input[type="textarea"] {
     font-size: 14px;
     margin-bottom: 10px;
     margin-top: -15px;
+}
+
+.comment-box-question {
+    padding: 15px;
+    background-color: #FEFCF1;
+    border: 1px solid #e4e4e4;
+    color: #5C5C5C;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.date {
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 5px;
+    color: #5C5C5C;
+    margin-top: 10px;
+}
+
+.coments-question-cont {
+    padding-left: 35px;
+}
+
+.add-comment-cont {
+    border-top: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+    padding: 15px;
+    margin: 35px 0 20px;
+}
+
+.answers-cont {
+    margin-bottom: 70px;
+}
+
+.date i {
+    color: #4F5D73;
+}
+
+.add-comment-cont a {
+    color: #4F5D73;
+    font-size: 14px;
+}
+
+.add-comment-cont a + a {
+    float: right;
 }
 
 .add-button {
@@ -774,11 +895,28 @@ input[type="textarea"] {
 }
 
 .search-container{
-    font-size: 17px;
-    display: block;
-    margin: 30px auto 0;
-    padding: 0 50px;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 52px;
+    background-color: #595B67;
+    padding-top: 39px;
+    margin-top: 0;
     text-align: center;
+}
+
+.body-home .search-container {
+    background-color: transparent;
+    border: 0;
+}
+
+h1.title.public {
+    font-size: 40px;
+    width: 54%;
+    margin: 91px auto 120px auto;
+}
+
+h1.title.public span {
+    color: #00D8FF;
+    text-decoration: none;
 }
 
 p.nuuk-tip {
@@ -786,5 +924,61 @@ p.nuuk-tip {
     font-size: 14px;
     font-family: 'Lato', sans-serif;
     font-weight: 400;
+}
+
+.validation-cont,
+.validation-positive,
+.validation-negative,
+a.val-pos,
+a.val-neg,
+.votes {
+    display: inline-block;
+}
+
+.validation-cont {
+    float: right;
+    padding-right: 20px;
+}
+
+.validation-positive {
+    margin-right: 10px;
+}
+
+a.val-pos,
+a.val-neg {
+    background-color: #2DD660;
+    vertical-align: middle;
+    border-radius: 3px;
+    color: #fff;
+    padding: 7px 10px;
+}
+
+a.val-neg {
+    background-color: #F55363;
+}
+
+.votes {
+    font-size: 18px;
+}
+
+.validation-positive .votes {
+    color: #2DD660;
+}
+
+.validation-negative .votes {
+    color: #F55363;
+}
+
+.unanswered .unanswered-link {
+    color: blue;
+}
+
+.newest .newest-link {
+    color: blue;
+}
+
+.newest .unlinked,
+.unanswered .unlinked {
+    color: white;
 }
 
