@@ -19,29 +19,29 @@ import java.io.IOException;
 import java.util.*;
 
 @Service
-public class MailSenderServiceImpl  {
-//
-//    @Autowired
-//    JavaMailSender javaMailSender;
-//
-//    @Autowired
-//    TemplateGeneratorService templateGeneratorService;
-//
-//
-//    @Override
-//    @Async
-//    public void sendEmail(NotificationType notificationType, String subject, Object object, String... mailList) throws MessagingException {
-//        MimeMessage mail = javaMailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-//        try {
-//            helper.setText(templateGeneratorService.getTemplate(notificationType.getMailTemplateName(), object));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (TemplateException e) {
-//            e.printStackTrace();
-//        }
-//        helper.setTo(mailList);
-//        helper.setSubject(subject);
-//        javaMailSender.send(mail);
-//    }
+public class MailSenderServiceImpl implements MailSenderService {
+
+    @Autowired
+    JavaMailSender javaMailSender;
+
+    @Autowired
+    TemplateGeneratorService templateGeneratorService;
+
+
+    @Override
+    @Async
+    public void sendEmail(NotificationType notificationType, String subject, Object object, String... mailList) throws MessagingException {
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+        try {
+            helper.setText(templateGeneratorService.getTemplate(notificationType.getMailTemplateName(), object));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        helper.setTo(mailList);
+        helper.setSubject(subject);
+        javaMailSender.send(mail);
+    }
 }
