@@ -47,11 +47,11 @@ public class QuestionsApplication extends SpringBootServletInitializer {
         elasticsearchReindexerService.reindex();
 
         //TODO move new service
-        Environment environment = applicationContext.getEnvironment();
-        String slackApiToken = environment.getProperty("bot.slack.api_token", (String) null);
-        if (StringUtils.isNotBlank(slackApiToken)) {
-            new SlackBot(slackApiToken, environment.getRequiredProperty("application.site"),
-                    applicationContext.getBean(QuestionService.class));
-        }
+//        Environment environment = applicationContext.getEnvironment();
+//        String slackApiToken = environment.getProperty("bot.slack.api_token", (String) null);
+//        if (StringUtils.isNotBlank(slackApiToken)) {
+//            new SlackBot(slackApiToken, environment.getRequiredProperty("application.site"),
+//                    applicationContext.getBean(QuestionService.class));
+//        }
     }
 }
