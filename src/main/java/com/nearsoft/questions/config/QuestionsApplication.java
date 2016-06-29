@@ -43,8 +43,8 @@ public class QuestionsApplication extends SpringBootServletInitializer {
 
     @PostConstruct
     public void initApplication() throws Exception {
-        ElasticSearchReindexerService elasticsearchReindexerService = applicationContext.getBean(ElasticSearchReindexerService.class);
-        elasticsearchReindexerService.reindex();
+//        ElasticSearchReindexerService elasticsearchReindexerService = applicationContext.getBean(ElasticSearchReindexerService.class);
+//        elasticsearchReindexerService.reindex();
 
         //TODO move new service
 //        Environment environment = applicationContext.getEnvironment();
