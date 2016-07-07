@@ -9,15 +9,22 @@
     <link rel="stylesheet" type="text/css" href="/css/tags.css">
     <link rel="stylesheet" type="text/css" href="/css/forms.css">
     <link rel="stylesheet" type="text/css" href="/css/validation.css">
+
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-basic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-arrows.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 
     <script src="https://use.fontawesome.com/4eda52b947.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"></script>
     <script src="/js/showOneQuestion.js"></script>
 </head>
 <body class="question">
@@ -42,8 +49,14 @@
     <#else>
         <span>No tags</span>
     </#if>
-        <div class="owner" id="owner"><i class="fa fa-user"></i>Asked By ${(question.authorName)!""}</div>
-        <img src="${question.user.photoUri!"#"}">
+        <div class="owner" id="owner"><i class="fa fa-user"></i>Asked By
+            <img src="${question.user.photoUri!"#"}">
+            <span>${(question.authorName)!""}</span>
+        </div>
+        <div class="date">
+            <i class="fa fa-clock-o"></i>
+            <label class="date-text">${(question.createdAt)!""}</label>
+        </div>
         <#if isQuestionOwner && isNotClosed>
             <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
         </#if>
@@ -63,25 +76,28 @@
         <#else>
             <div></div>
         </#if>
-        <#list question.comments as comment>
-            <div class="comments-question-cont">
-                <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
-                <#-- Format Month DD at HH:mm -->
-                <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
-                <div class="comment-box-question">${(comment.description)!""}</div>
-            </div>
-        </#list>
-
+        <div class="all-comments-question">
+            <#list question.comments as comment>
+                <div class="comments-question-cont">
+                    <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                    <#-- Format Month DD at HH:mm -->
+                    <div class="date"><i class="fa fa-clock-o"></i><label class="date-text">${(comment.createdAt)!""} </label></div>
+                    <div class="comment-box-question">${(comment.description)!""}</div>
+                </div>
+            </#list>
+        </div>
         <div class="add-comment-cont">
-            <a href="#">Add Comment</a>
-            <a href="#">Hide Comments</a>
+            <a class="open-add-comment">Add Comment</a>
+            <a class="show-hide-comments">Show/Hide Comments</a>
         </div>
         <div>
-            <form id="question-comment-form" method="post" action="/comments/question/">
-                <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id?c}">
-                <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
-                <button type="submit" class="add-comment-btn">Add Comment</button>
-            </form>
+            <div class="question-comment-cont" style="display: none;">
+                <form id="question-comment-form" method="post" action="/comments/question/">
+                    <input style="visibility: hidden;" name="sourceId" type="number" value="${question.id?c}">
+                    <textarea name="description" type="textarea" class="comment-textarea" placeholder="Add your comment here" rows="5" required></textarea>
+                    <button type="submit" class="add-comment-btn">Add Comment</button>
+                </form>
+            </div>
         </div>
             <div class="answer-date">${(question.createdAt[0..9] + ", " + question.createdAt[11..15] + " hrs.")!""}</div>
         </div>
@@ -90,10 +106,13 @@
         <div class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
-                    <img src="${answer.user.photoUri!"#"}">
+                    <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
                     <span>${answer.authorName!""}</span>
                 </div>
-                    <div class="answer-date">${(answer.createdAt[0..9] + ", " + answer.createdAt[11..15] + " hrs.")!""}</div>
+                <div class="date">
+                    <i class="fa fa-clock-o"></i>
+                    <label class="date-text">${(answer.createdAt)!""}</label>
+                </div>
                     <div class="validation-cont">
                         <form action="/answer/voteUp" method="post" class="validation-positive">
                             <input name="answerId" type="hidden" value="${answer.id?c}">
@@ -129,6 +148,7 @@
                     <input class="add-button" type="submit" value="Edit">
                 </form>
             </div>
+        <div class="all-comments-answer">
             <#list answer.comments as comment>
                 <div class="comments-question-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
@@ -137,6 +157,7 @@
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>
             </#list>
+        </div>
 
             <div class="add-comment-cont">
                 <a href="#">Add Comment</a>
@@ -165,6 +186,7 @@
     </#if>
     </div>
 </div>
+<script src="/js/header.js"></script>
 </body>
 
 </html>
