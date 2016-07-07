@@ -114,9 +114,9 @@
                             <button type="submit" class="add-button">Accept</button>
                         </FORM>
                      </#if>
-
-                         <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
-
+                    <#if userId == answer.user.id>
+                        <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
+                    </#if>
                     </div>
             </div>
             <div class="answers" id="answer-description-div-${answer?counter}">${answer.description}</div>
