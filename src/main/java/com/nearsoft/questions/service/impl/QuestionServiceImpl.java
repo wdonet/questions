@@ -69,9 +69,18 @@ public class QuestionServiceImpl implements QuestionService {
     public void update(Question question) {
 
         validateQuestionStatus(question);
+        addUserToNewTags(question);
+
         questionRepository.save(question);
         questionSearchRepository.save(question);
         log.info("Question updated: {}" + question);
+
+    }
+
+    private void addUserToNewTags(Question question) {
+        question.getTags().stream().filter(tag -> tag.getId() == null).forEach(tag -> {
+            tag.setUser(question.getUser());
+        });
     }
 
     @Override
