@@ -8,12 +8,16 @@ import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.RuleQuestionTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
+import com.nearsoft.questions.service.NotificationDelivererService;
+import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.QuestionService;
+import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.crossstore.HashMapChangeSet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +25,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -41,6 +51,9 @@ public class QuestionServiceImpl implements QuestionService {
     private Boolean onlyOneAnswer;
 
     @Autowired
+    NotificationService notificationService;
+
+    @Autowired
     public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
@@ -52,6 +65,13 @@ public class QuestionServiceImpl implements QuestionService {
 
         questionRepository.save(question);
         questionSearchRepository.save(question);
+
+        NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewQuestionNotifierServiceImpl.class);
+        Map<String, String> notificationSettings = new HashMap<>();
+
+        notificationSettings.put(NewQuestionNotifierServiceImpl.QUESTION_ID_PARAM, "" + question.getId());
+
+        delivererService.sendNotification(notificationSettings);
 
         int points = _ruleRepository.findFirstByRuleName(RuleName.NEW_QUESTION).getPoints();
         RuleQuestionTransaction ruleQuestionTransaction = new RuleQuestionTransaction();

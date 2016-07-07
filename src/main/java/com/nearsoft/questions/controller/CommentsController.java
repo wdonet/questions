@@ -1,5 +1,6 @@
 package com.nearsoft.questions.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nearsoft.questions.controller.form.CommentForm;
-import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.auth.UserDetails;
-import com.nearsoft.questions.service.AnswerCommentService;
 import com.nearsoft.questions.service.AnswerService;
-import com.nearsoft.questions.service.QuestionCommentService;
+import com.nearsoft.questions.service.CommentService;
 
 @Controller
 @RequestMapping("/comments")
 public class CommentsController extends BaseController {
 
     @Autowired
-    private QuestionCommentService questionCommentService;
-
-    @Autowired
-    private AnswerCommentService answerCommentService;
-
+    private CommentService commentService;
 
     @Autowired
     private AnswerService answerService;
@@ -41,16 +36,17 @@ public class CommentsController extends BaseController {
         return "commentForm";
     }
 
-    @RequestMapping(value = {"/question/{id}", "/question"}, method = RequestMethod.POST)
-    public String saveQuestionComment(@ModelAttribute CommentForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
+    @RequestMapping(value = {"/question/{id}"}, method = RequestMethod.POST)
+    public String saveQuestionComment(RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details,
+        @ModelAttribute CommentForm form, @PathVariable("id") Long questionId) {
         log.debug("Who's operating ? " + details);
-        if (form != null) {
-            log.debug("Trying to add " + form);
-            questionCommentService.save(form, getUser(details));
-            redirectAttributes.addAttribute("id", form.getSourceId());
-            return "redirect:/question/{id}";
+        if (form != null && questionId > 0 && StringUtils.isNotBlank(form.getDescription())) {
+            log.debug("Trying to add comment for question " + questionId );
+            form.setSourceId(questionId);
+            commentService.addToQuestion(form, getUser(details));
         }
-        return "redirect:/ask";
+        redirectAttributes.addAttribute("id", questionId);
+        return "redirect:/question/{id}";
     }
 
     @RequestMapping(value = "answer/{id}", method = RequestMethod.GET)
@@ -59,16 +55,16 @@ public class CommentsController extends BaseController {
         return "commentForm";
     }
 
-    @RequestMapping(value = {"/answer/{id}", "/answer"}, method = RequestMethod.POST)
-    public String saveAnswerComment(@ModelAttribute CommentForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
+    @RequestMapping(value = {"/question/{questionId}/answer/{answerId}", "/answer"}, method = RequestMethod.POST)
+    public String saveAnswerComment(RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details,
+        @ModelAttribute CommentForm form, @PathVariable("questionId") Long questionId, @PathVariable("answerId") Long answerId) {
         log.debug("Who's operating ? " + details);
-        if (form != null) {
-            log.debug("Trying to add " + form);
-            answerCommentService.save(form, getUser(details));
-            Answer answer = answerService.get(form.getSourceId());
-            redirectAttributes.addAttribute("id", answer.getQuestion().getId());
-            return "redirect:/question/" + answer.getQuestion().getId();
+        if (form != null && answerId > 0 && StringUtils.isNotBlank(form.getDescription())) {
+            log.debug("Trying to add comment for answer " + answerId);
+            form.setSourceId(answerId);
+            commentService.addToAnswer(form, getUser(details));
         }
-        return "redirect:/ask";
+        redirectAttributes.addAttribute("id", questionId);
+        return "redirect:/question/" + questionId;
     }
 }

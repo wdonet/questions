@@ -4,7 +4,7 @@ html {
 
 body {
     /*background: url(/img/bg.jpg) no-repeat center top, url(/img/bg.jpg) no-repeat center bottom;*/
-    background-color:#fff;
+    background-color: #fff;
     height: 100%;
     padding: 0;
     margin: 0;
@@ -57,7 +57,7 @@ form#go_signin > input,
     margin-left: 15px;
     margin-top: -13px;
     cursor: pointer;
-    background-color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
 form#go_signin > input:hover {
@@ -70,12 +70,62 @@ form#go_signin > input:hover {
     position: relative;
 }
 
-a.notifications-icon {
+div.notifications-icon {
     font-size: 21px;
     color: #fff;
 }
 
-a.notifications-icon:after {
+.notification-unseen {
+    background-color: #E3EEF5;
+}
+
+.drop-content .notifications-header {
+    border-bottom: 1px #CACACA solid;
+}
+
+.drop-content {
+    background-color: #fff !important;
+    font-size: 0.9em !important;
+    max-width: 250px;
+}
+
+.drop-content ul {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.drop-content:before {
+    border-bottom-color: #fff !important;
+    border-width: 9px !important;
+    left: 52.5% !important;
+}
+
+.drop-content li {
+    display: list-item;
+    list-style: none;
+    color: #444;
+    border-bottom: 1px #CACACA solid;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.drop-content .fa {
+    margin-right: 5px;
+}
+
+.drop-content li:hover {
+    background-color: #F7F7F7;
+}
+
+.drop-content ul:last-child {
+    border-bottom: none;
+}
+
+.show-more-notifications {
+    padding-top: 5px;
+}
+
+div.notifications-icon:after {
     content: '';
     position: absolute;
     height: 10px;
@@ -84,6 +134,11 @@ a.notifications-icon:after {
     border-radius: 100%;
     right: 127px;
     top: 44px;
+    display: none;
+}
+
+div.notifications-icon.new-notification:after {
+    display:block;
 }
 
 .notifications-li {
@@ -92,6 +147,15 @@ a.notifications-icon:after {
     padding-bottom: 25px;
     margin-bottom: 25px;
     width: 100%;
+}
+
+
+.notification-remove-anchor-style:link,
+.notification-remove-anchor-style:hover,
+.notification-remove-anchor-style:active,
+.notification-remove-anchor-style:visited {
+    color: black;
+    text-decoration: none;
 }
 
 .no-results-cont {
@@ -196,7 +260,7 @@ li {
     color: #fff;
     text-decoration: none;
     margin-left: 15px;
-    background-color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
 .ask-question:hover {
@@ -204,14 +268,14 @@ li {
 }
 
 .user-info {
-/*    background-color: #fff;
-    border-radius: 3px;
-    padding: 13px 13px;*/
+    /*    background-color: #fff;
+        border-radius: 3px;
+        padding: 13px 13px;*/
     color: #FFF;
-/*    text-decoration: none;
-    margin-left: 15px;*/
+    /*    text-decoration: none;
+        margin-left: 15px;*/
     text-decoration: none;
-    background-color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
 .user-info:hover {
@@ -579,7 +643,7 @@ div.preview {
     width: 870px;
     padding: 25px;
     border: 1px dotted #595B67;
-    margin: 30px auto 0 ;
+    margin: 30px auto 0;
 }
 
 div.question-description h1,
@@ -618,30 +682,35 @@ div[class^='editor-preview'] h1,
 div.preview div.markdown h1 {
     font-size: 20px;
 }
+
 div.question-description h2,
 div.answers h2,
 div[class^='editor-preview'] h2,
 div.preview div.markdown h2 {
     font-size: 18px;
 }
+
 div.question-description h3,
 div.answers h3,
 div[class^='editor-preview'] h3,
 div.preview div.markdown h3 {
     font-size: 16px;
 }
+
 div.question-description h4,
 div.answers h4,
 div[class^='editor-preview'] h4,
 div.preview div.markdown h4 {
     font-size: 14px;
 }
+
 div.question-description h5,
 div.answers h5,
 div[class^='editor-preview'] h5,
 div.preview div.markdown h5 {
     font-size: 12px;
 }
+
 div.question-description h6,
 div.answers h6,
 div[class^='editor-preview'] h6,
@@ -931,6 +1000,7 @@ input[type="textarea"] {
     border: 1px solid #8ed9f6;
 }
 
+
 .search-container{
     border-bottom: 1px solid #e4e4e4;
     padding-bottom: 52px;
@@ -1006,6 +1076,11 @@ a.val-neg {
     color: #F55363;
 }
 
+
+.center-text {
+    text-align: center;
+}
+
 .unanswered .unanswered-link {
     color: #F25D00;;
 }
@@ -1013,4 +1088,5 @@ a.val-neg {
 .newest .newest-link {
     color: #F25D00;;
 }
+
 

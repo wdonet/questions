@@ -170,3 +170,44 @@ CREATE TABLE question_tags
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT question_tags_uk UNIQUE (question_id, tags_id)
 );
+
+CREATE TABLE tag_subscription
+(
+  id      BIGINT NOT NULL,
+  tag_id  BIGINT NOT NULL,
+  user_id INT8   NOT NULL,
+  CONSTRAINT tag_subscription_tag_fk FOREIGN KEY (tag_id)
+  REFERENCES tag (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT tag_subscription_user_fk FOREIGN KEY (user_id)
+  REFERENCES PUBLIC.user (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE SEQUENCE question_subscription_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 7
+CACHE 1;
+
+
+CREATE TABLE notification
+(
+  id                BIGINT                  NOT NULL,
+  description       CHARACTER VARYING(2048) NOT NULL,
+  email_delivered   BOOLEAN                 NOT NULL,
+  ui_notified       BOOLEAN                 NOT NULL,
+  user_id           INT8                    NOT NULL,
+  question_id       INT8                    NOT NULL,
+  notification_type INT8                    NOT NULL,
+  CONSTRAINT notification_user_fk FOREIGN KEY (user_id) REFERENCES public.user,
+  CONSTRAINT notification_question_fk FOREIGN KEY (question_id) REFERENCES public.question
+);
+
+CREATE SEQUENCE notification_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 7
+CACHE 1;

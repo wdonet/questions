@@ -56,11 +56,6 @@ $(document).ready(function(){
         $(child).html(smde.markdown($(child).text()));
     });
 
-    // For Comments
-    $('.comment-box-question').each(function(index, child) {
-        $(child).html(smde.markdown($(child).text()));
-    });
-
     $('form textarea[name="description"]').on('keydown', function(event) {
         if (event.keyCode == 13 && !event.shiftKey && $(this).text()) {
             $(this).parent().submit();
@@ -138,6 +133,18 @@ $(document).ready(function(){
     	}
     }
 
+    $('.date > .date-text').each(function(index, date){
+        var newDate = formatDate($(date).text());
+        $(date).text(newDate);
+    });
+
+    $('.add-comment-cont > a.show-hide-comments').on('click', function(){
+        $('.all-comments-question').toggle();
+    });
+    $('.add-comment-cont > a.open-add-comment').on('click', function(){
+        $('.question-comment-cont').toggle();
+    });
+
 });
 
 function hideQuestionInfoDiv() {
@@ -159,14 +166,14 @@ function showDescriptionInput() {
 }
 
 function formatDate(originalDate){
-	tempDate = originalDate.split('-');
-	tempDate.pop();
-	date = new Date(tempDate.join('-'));
-	date = date.toString().split(" ");
-	var month = date[1];
-	var day = date[2];
-	var time = date[4].split(':');
-	time.pop();
-	time = time.join(':');
-	return " "+month + " " + day + " at " + time;
+    var tempDate = originalDate.split('-');
+    tempDate.pop();
+    var date = new Date(tempDate.join('-'));
+    date = date.toString().split(" ");
+    var month = date[1];
+    var day = date[2];
+    var time = date[4].split(':');
+    time.pop();
+    time = time.join(':');
+    return " " + month + " " + day + " at " + time;
 }
