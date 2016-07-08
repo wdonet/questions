@@ -5,9 +5,8 @@ import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.error.QuestionNotFoundException;
-import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
-import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
@@ -39,7 +38,7 @@ public class AnswerController extends BaseController {
 
     @RequestMapping(value = "/accepted", method = RequestMethod.POST)
     public String markAsAccepted(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes,
-                                 @AuthenticationPrincipal UserDetails details) throws UserNotOwnerOfQuestionException {
+                                 @AuthenticationPrincipal UserDetails details) {
 
         log.debug("Marking as accepted " + form);
         if (form == null || form.getAnswerId() == null) {
@@ -93,6 +92,33 @@ public class AnswerController extends BaseController {
             return "redirect:/question/{id}";
         }
         return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes,
+                         @AuthenticationPrincipal UserDetails details) throws QuestionNotFoundException {
+
+        log.debug("Who's operating ? " + details);
+        log.debug("Trying to add " + form);
+        if (form == null && form.getQuestionId() == null) {
+            return "redirect:/search";
+        }
+
+        Answer answer = answerRepository.findOne(form.getAnswerId());
+        validateUserOwner(answer,details);
+
+        answer.setDescription(form.getDescription());
+        answerService.update(answer);
+
+        redirectAttributes.addAttribute("id", form.getQuestionId());
+        return "redirect:/question/{id}";
+    }
+
+    private void validateUserOwner(Answer answer, UserDetails details) {
+        if (!answer.getUser().getId().equals(details.getUser().getId())){
+            log.error("The user is not the owner of the answer, userid: {}", answer.getUser().getId());
+            throw new OperationDeniedException();
+        }
     }
 
     private Question getQuestion(AnswerForm form) throws QuestionNotFoundException {
