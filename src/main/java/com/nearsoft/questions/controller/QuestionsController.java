@@ -3,8 +3,9 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.auth.UserDetails;
-import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
+import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
@@ -35,7 +36,7 @@ public class QuestionsController extends BaseController {
     QuestionService questionService;
 
     @Autowired
-    QuestionSearchRepository questionSearchRepository;
+    private  QuestionSearchRepository questionSearchRepository;
 
     @Autowired
     TagService tagService;
@@ -52,7 +53,6 @@ public class QuestionsController extends BaseController {
                 tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
             question.setStatus(ItemStatus.OPEN);
             questionService.save(question);
-            questionSearchRepository.save(question);
             redirectAttributes.addAttribute("id", question.getId());
             return "redirect:/question/{id}";
         }
@@ -106,7 +106,9 @@ public class QuestionsController extends BaseController {
 
         Question question = questionService.get(id);
         model.addAttribute("isQuestionOwner", details.getUser().getId().equals(question.getUser().getId()));
+        model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
+        model.addAttribute("userId", details.getUser().getId());
         model.addAttribute(question);
         model.addAttribute("onlyOneAnswer", onlyOneAnswer);
         return "showOneQuestion";
@@ -117,6 +119,35 @@ public class QuestionsController extends BaseController {
     public List<Question> search(@RequestParam String query) {
         log.debug("Query : " + query);
         return questionService.search(query);
+    }
+
+    @RequestMapping( value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes,
+                         @AuthenticationPrincipal UserDetails details) {
+
+        log.debug("Update question request with form:" + form);
+        if (form == null) {
+            return "redirect:/ask";
+        }
+
+        Question questionRegister = questionService.get(form.getId());
+        validateUserOwner(questionRegister, details);
+
+        Question question = new Question(
+                form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
+        question.setStatus(questionRegister.getStatus());
+        questionService.update(question);
+
+        redirectAttributes.addAttribute("id", question.getId());
+        return "redirect:/question/{id}";
+    }
+
+
+    private void validateUserOwner(Question question, UserDetails details) {
+        if (!question.getUser().getId().equals(details.getUser().getId())){
+            log.error("The user is not the owner of the question, userid: {}", question.getUser().getId());
+            throw new OperationDeniedException();
+        }
     }
 
 }

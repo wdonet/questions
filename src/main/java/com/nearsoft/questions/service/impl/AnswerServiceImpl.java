@@ -1,36 +1,21 @@
 package com.nearsoft.questions.service.impl;
 
-import java.time.ZonedDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.nearsoft.questions.domain.Answer;
-
-import com.nearsoft.questions.domain.Question;
-
-import com.nearsoft.questions.domain.RuleAnswerTransaction;
-import com.nearsoft.questions.domain.RuleName;
-import com.nearsoft.questions.domain.ItemStatus;
-import com.nearsoft.questions.domain.RuleAnswerTransaction;
-import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.*;
 import com.nearsoft.questions.domain.auth.User;
-import com.nearsoft.questions.error.UserNotOwnerOfQuestionException;
-
+import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.service.AnswerService;
-
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +53,11 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    public void update(Answer answer) {
+        answerRepository.save(answer);
+    }
+
+    @Override
     public Answer get(final Long id){
     	return answerRepository.findOne(id);
     }
@@ -88,11 +78,11 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void markAsAccepted(Long answerId, User user) throws UserNotOwnerOfQuestionException{
+    public void markAsAccepted(Long answerId, User user){
 
         Answer answer = answerRepository.findOne(answerId);
         if (!answer.getQuestion().getUser().getId().equals(user.getId())) {
-            throw new UserNotOwnerOfQuestionException(user.getId(), answer.getQuestion().getUser().getId());
+            throw new OperationDeniedException();
         }
 
         for (Answer otherAnswer :answer.getQuestion().getAnswers()) {

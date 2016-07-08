@@ -68,6 +68,7 @@ public class Question extends AbstractAuditableEntity implements Serializable {
         this.title = form.getTitle();
         this.description = form.getDescription();
         this.user = user;
+        this.id = form.getId();
         List<String> requestedTagNames = form.getNormalizedTagList();
 
         if (CollectionUtils.isNotEmpty(persistedTags)) {

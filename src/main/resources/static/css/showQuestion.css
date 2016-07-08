@@ -233,6 +233,33 @@ ul.suggestions-cont li:first-child {
     padding: 5px 8px;
 }
 
+.edit-question-div{
+    float: right;
+}
+
+.edit-btn{
+    background-image:url(../img/edit-icon.png);
+    font-size:0;
+    width:30px;
+    height:30px;
+}
+
+.edit-btn.answer{
+}
+
+.add-button.cancel-edit-answer-btn{
+}
+
+.edit-answer-form-div{
+    padding: 15px;
+    border: 1px solid #DEDEDE;
+    margin: 15px 0 20px;
+}
+
+ .tag-div{
+     display:inline;
+ }
+
 .open-add-comment,
 .show-hide-comments {
     text-decoration: underline;

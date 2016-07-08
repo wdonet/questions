@@ -2,10 +2,8 @@ package com.nearsoft.questions.service.impl;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import com.nearsoft.questions.domain.Answer;
-import com.nearsoft.questions.domain.Question;
-import com.nearsoft.questions.domain.RuleName;
-import com.nearsoft.questions.domain.RuleQuestionTransaction;
+
+import com.nearsoft.questions.domain.*;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.RuleQuestionTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
@@ -25,6 +23,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.HashMap;
@@ -60,9 +60,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void save(Question question) {
 
         questionRepository.save(question);
+        questionSearchRepository.save(question);
 
         NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewQuestionNotifierServiceImpl.class);
         Map<String, String> notificationSettings = new HashMap<>();
@@ -79,6 +81,26 @@ public class QuestionServiceImpl implements QuestionService {
         ruleQuestionTransaction.setRuleName(RuleName.NEW_QUESTION);
 
         _ruleQuestionTransactionRepository.save(ruleQuestionTransaction);
+    }
+
+    //TODO add points for updating question
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void update(Question question) {
+
+        validateQuestionStatus(question);
+        addUserToNewTags(question);
+
+        questionRepository.save(question);
+        questionSearchRepository.save(question);
+        log.info("Question updated: {}" + question);
+
+    }
+
+    private void addUserToNewTags(Question question) {
+        question.getTags().stream().filter(tag -> tag.getId() == null).forEach(tag -> {
+            tag.setUser(question.getUser());
+        });
     }
 
     @Override
@@ -138,5 +160,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> search(String query) {
         return questionSearchRepository.findByTitleOrDescription(query, query, new PageRequest(0, 9999)).getContent();
+    }
+
+    private void validateQuestionStatus(Question questionRegister) {
+        if (questionRegister.getStatus() == ItemStatus.CLOSED){
+            throw new IllegalStateException("The question cannot be modified if it is closed");
+        }
     }
 }

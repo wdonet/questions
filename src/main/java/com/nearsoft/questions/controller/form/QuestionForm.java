@@ -6,6 +6,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang3.StringUtils;
 
 public class QuestionForm {
+
+    private Long _id;
     private String _title;
     private String _description;
     private String _tags;
@@ -26,6 +28,10 @@ public class QuestionForm {
     public void setDescription(String description) {
         _description = description;
     }
+
+    public Long getId() {return _id;}
+
+    public void setId(Long _id) {this._id = _id;}
 
     /**
      * This is only for the Form Binding in Spring MVC.
@@ -57,6 +63,7 @@ public class QuestionForm {
     @Override
     public String toString() {
         return "QuestionForm {" +
+            "_id='" + _id + '\'' +
             ", _title='" + _title + '\'' +
             ", _description='" + _description + '\'' +
             ", _tags='" + _tags + '\'' +
