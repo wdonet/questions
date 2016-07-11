@@ -11,7 +11,7 @@ $(document).ready(function(){
     });
 
     $('.search-submit').on("click", function(){
-        $('.unanswered-q').toggle(false);
+        $('.to-hide-when-searching').toggle(false);
         $('.category').each(function(index, link){
             $(link).attr('class', '');
             $(link).addClass('category unlinked');

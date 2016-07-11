@@ -166,14 +166,17 @@ function showDescriptionInput() {
 }
 
 function formatDate(originalDate){
-    var tempDate = originalDate.split('-');
-    tempDate.pop();
-    var date = new Date(tempDate.join('-'));
-    date = date.toString().split(" ");
-    var month = date[1];
-    var day = date[2];
-    var time = date[4].split(':');
-    time.pop();
-    time = time.join(':');
-    return " " + month + " " + day + " at " + time;
+    if (!!originalDate) {
+        var tempDate = originalDate.split('-');
+        tempDate.pop();
+        var date = new Date(tempDate.join('-'));
+        date = date.toString().split(" ");
+        var month = date[1];
+        var day = date[2];
+        var time = date[4].split(':');
+        time.pop();
+        time = time.join(':');
+        return " " + month + " " + day + " at " + time;
+    }
+    return '-';
 }
