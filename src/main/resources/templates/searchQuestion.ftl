@@ -26,7 +26,7 @@
     <#include "header.ftl">
       <#include "searchBox.ftl">
     <div class="suggestion-wrapper">
-      <h1 class="unanswered-q">${title}</h1>
+      <h1 class="unanswered-q to-hide-when-searching">${title}</h1>
       <ul class="suggestions-cont">
       </ul>
     </div>
