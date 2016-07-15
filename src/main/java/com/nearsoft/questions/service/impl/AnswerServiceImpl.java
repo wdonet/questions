@@ -2,7 +2,9 @@ package com.nearsoft.questions.service.impl;
 
 import com.nearsoft.questions.domain.*;
 import com.nearsoft.questions.domain.auth.User;
+import com.nearsoft.questions.error.AnswerNotFoundException;
 import com.nearsoft.questions.error.OperationDeniedException;
+import com.nearsoft.questions.error.QuestionNotFoundException;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
@@ -10,6 +12,7 @@ import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,25 +93,35 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public void markAsAccepted(Long answerId, User user){
-
         Answer answer = answerRepository.findOne(answerId);
-        boolean isQuestionOwner = answer.getQuestion().getUser().getId().equals(user.getId());
+        if (answer == null) {
+            log.error("Answer not found");
+            throw new AnswerNotFoundException(answerId);
+        }
+        if (!answer.getStatus().equals(ItemStatus.ACCEPTED) && !questionHasAnyAcceptedAnswer(answer.getQuestion())) {
 //        boolean acceptingOwnAnswer = answer.getUser().getId().equals(user.getId());  //todo should we accept own answers?
-        if (!isQuestionOwner) {
-            throw new OperationDeniedException();
-        }
-
-        for (Answer otherAnswer : answer.getQuestion().getAnswers()) {
-            if (otherAnswer.getId().equals(answerId)) {
-                continue;
+            boolean isQuestionOwner = answer.getQuestion().getUser().getId().equals(user.getId());
+            if (!isQuestionOwner) {
+                throw new OperationDeniedException();
             }
-            otherAnswer.setStatus(ItemStatus.NOT_ACCEPTED);
-            answerRepository.save(otherAnswer);
-        }
 
-        answer.setStatus(ItemStatus.ACCEPTED);
-        answerRepository.save(answer);
-        savePointsByRuleName(answer, RuleName.ACCEPTED_ANSWER);
+            for (Answer otherAnswer : answer.getQuestion().getAnswers()) {
+                if (otherAnswer.getId().equals(answerId)) {
+                    continue;
+                }
+                otherAnswer.setStatus(ItemStatus.NOT_ACCEPTED);
+                answerRepository.save(otherAnswer);
+            }
+
+            answer.setStatus(ItemStatus.ACCEPTED);
+            answerRepository.save(answer);
+            savePointsByRuleName(answer, RuleName.ACCEPTED_ANSWER);
+        }
+    }
+
+    private boolean questionHasAnyAcceptedAnswer(Question question) {
+        return CollectionUtils.isNotEmpty(question.getAnswers()) &&
+            question.getAnswers().stream().filter(answer -> answer.getStatus().equals(ItemStatus.ACCEPTED)).count() > 0;
     }
 
     private void savePointsByRuleName(Answer answer, RuleName ruleName) {

@@ -129,10 +129,13 @@
                         <button class="val-neg fa fa-arrow-down" type="submit"></button>
                         <div class="votes">${answer.votesDown}</div>
                     </form>
-                 <#if isQuestionOwner && answer.status != 'ACCEPTED' >
+                 <#if isQuestionOwner && answer.status != 'ACCEPTED' && !question.hasAnyAcceptedAnswer()>
                     <form action="/question/${question.id?c}/answer/${answer.id?c}/accept" method="post" class="validation-negative">
                         <button type="submit" class="add-button">Accept</button>
                     </form>
+                 </#if>
+                 <#if answer.status == 'ACCEPTED'>
+                     <button class="val-pos fa fa-thumbs-up" type="submit" aria-hidden="true" disabled="disabled">WORKED</button>
                  </#if>
                  <#if userId?c == answer.user.id?c>
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
