@@ -176,4 +176,9 @@ public class Question extends AbstractAuditableEntity implements Serializable {
 	public void setComments(List<QuestionComment> comments) {
 		this.comments = comments;
 	}
+
+    public boolean hasAnyAcceptedAnswer() {
+        return CollectionUtils.isNotEmpty(getAnswers()) &&
+            getAnswers().stream().filter(answer -> answer.getStatus().equals(ItemStatus.ACCEPTED)).count() > 0;
+    }
 }
