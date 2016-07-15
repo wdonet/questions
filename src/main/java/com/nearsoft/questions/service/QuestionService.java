@@ -10,6 +10,10 @@ public interface QuestionService {
 
     void save(Question question);
 
+    void downVote(Long questionId);
+
+    void upVote(Long questionId);
+
     Question get(long id);
 
     List<Question> search(String query);

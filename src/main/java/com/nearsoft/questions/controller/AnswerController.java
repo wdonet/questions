@@ -28,51 +28,10 @@ public class AnswerController extends BaseController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    AnswerRepository answerRepository;
-
-    @Autowired
     AnswerService answerService;
 
     @Autowired
     QuestionService questionService;
-
-    @RequestMapping(value = "/accepted", method = RequestMethod.POST)
-    public String markAsAccepted(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes,
-                                 @AuthenticationPrincipal UserDetails details) {
-
-        log.debug("Marking as accepted " + form);
-        if (form == null || form.getAnswerId() == null) {
-            return "redirect:/search";
-        }
-
-        answerService.markAsAccepted(form.getAnswerId(), details.getUser());
-        redirectAttributes.addAttribute("id", form.getQuestionId());
-        return "redirect:/question/{id}";
-    }
-
-    @RequestMapping(value = "/voteDown", method = RequestMethod.POST)
-    public String voteDown(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes) {
-        log.debug("Trying to vote down " + form);
-        if (form != null && form.getAnswerId() != null) {
-            Answer answer = answerRepository.findOne(form.getAnswerId());
-            answerService.downvote(answer);
-            redirectAttributes.addAttribute("id", answer.getQuestion().getId());
-            return "redirect:/question/{id}";
-        }
-        return "redirect:/search";
-    }
-
-    @RequestMapping(value = "/voteUp", method = RequestMethod.POST)
-    public String voteUp(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes) {
-        log.debug("Trying to vote up " + form);
-        if (form != null && form.getAnswerId() != null) {
-            Answer answer = answerRepository.findOne(form.getAnswerId());
-            answerService.upvote(answer);
-            redirectAttributes.addAttribute("id", answer.getQuestion().getId());
-            return "redirect:/question/{id}";
-        }
-        return "redirect:/search";
-    }
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details)
@@ -100,11 +59,11 @@ public class AnswerController extends BaseController {
 
         log.debug("Who's operating ? " + details);
         log.debug("Trying to add " + form);
-        if (form == null && form.getQuestionId() == null) {
+        if (form == null || form.getQuestionId() == null) {
             return "redirect:/search";
         }
 
-        Answer answer = answerRepository.findOne(form.getAnswerId());
+        Answer answer = answerService.get(form.getAnswerId());
         validateUserOwner(answer,details);
 
         answer.setDescription(form.getDescription());

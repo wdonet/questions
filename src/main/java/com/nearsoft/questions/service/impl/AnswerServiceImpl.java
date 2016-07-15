@@ -29,7 +29,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private RuleAnswerTransactionRepository ruleAnswerTransactionRepository;
     @Autowired
-    private RuleRepository _ruleRepository;
+    private RuleRepository ruleRepository;
 
     @Autowired
     NotificationService notificationService;
@@ -49,7 +49,7 @@ public class AnswerServiceImpl implements AnswerService {
 
         delivererService.sendNotification(notificationSettings);
 
-        saveWithRuleName(answer, RuleName.NEW_ANSWER);
+        savePointsByRuleName(answer, RuleName.NEW_ANSWER);
     }
 
     @Override
@@ -63,45 +63,61 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void downvote(Answer answer) {
-        answer.setVotesDown(answer.getVotesDown() + 1);
-        answerRepository.save(answer);
-        saveWithRuleName(answer, RuleName.VOTED_DOWN_ANSWER);
-
+    public void downVote(Long answerId) {
+        Answer answer = get(answerId);
+        if (answer != null ) {
+            answer.setVotesDown(answer.getVotesDown() + 1);
+            answerRepository.save(answer);
+            savePointsByRuleName(answer, RuleName.VOTED_DOWN_ANSWER);
+        }
+        else {
+            log.warn("Answer " + answerId + " not found when voting down");
+        }
     }
 
     @Override
-    public void upvote(Answer answer) {
-        answer.setVotesUp(answer.getVotesUp() + 1);
-        answerRepository.save(answer);
-        saveWithRuleName(answer, RuleName.VOTED_UP_ANSWER);
+    public void upVote(Long answerId) {
+        Answer answer = get(answerId);
+        if (answer != null ) {
+            answer.setVotesUp(answer.getVotesUp() + 1);
+            answerRepository.save(answer);
+            savePointsByRuleName(answer, RuleName.VOTED_UP_ANSWER);
+        }
+        else {
+            log.warn("Answer " + answerId + " not found when voting up");
+        }
     }
 
     @Override
     public void markAsAccepted(Long answerId, User user){
 
         Answer answer = answerRepository.findOne(answerId);
-        if (!answer.getQuestion().getUser().getId().equals(user.getId())) {
+        boolean isQuestionOwner = answer.getQuestion().getUser().getId().equals(user.getId());
+//        boolean acceptingOwnAnswer = answer.getUser().getId().equals(user.getId());  //todo should we accept own answers?
+        if (!isQuestionOwner) {
             throw new OperationDeniedException();
         }
 
-        for (Answer otherAnswer :answer.getQuestion().getAnswers()) {
+        for (Answer otherAnswer : answer.getQuestion().getAnswers()) {
+            if (otherAnswer.getId().equals(answerId)) {
+                continue;
+            }
             otherAnswer.setStatus(ItemStatus.NOT_ACCEPTED);
             answerRepository.save(otherAnswer);
         }
 
         answer.setStatus(ItemStatus.ACCEPTED);
         answerRepository.save(answer);
+        savePointsByRuleName(answer, RuleName.ACCEPTED_ANSWER);
     }
 
-    private void saveWithRuleName(Answer answer, RuleName ruleName) {
-        int points = _ruleRepository.findFirstByRuleName(ruleName).getPoints();
+    private void savePointsByRuleName(Answer answer, RuleName ruleName) {
+        int points = ruleRepository.findFirstByRuleName(ruleName).getPoints();
         RuleAnswerTransaction transaction = new RuleAnswerTransaction();
         transaction.setPoints(points);
         transaction.setRuleName(ruleName);
         transaction.setAnswerId(answer.getId());
         transaction.setCreatedAt(ZonedDateTime.now());
-
         ruleAnswerTransactionRepository.save(transaction);
     }
 }

@@ -3,10 +3,9 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
-import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.OperationDeniedException;
-import com.nearsoft.questions.repository.search.QuestionSearchRepository;
+import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.TagService;
 import org.apache.commons.collections.CollectionUtils;
@@ -29,6 +28,7 @@ public class QuestionsController extends BaseController {
     public static final String SHOW_QUESTIONS = "showQuestions";
     public static final String TITLE = "title";
     public static final String PAGE_NAME = "pageName";
+    public static final String ONLY_ONE_ANSWER = "onlyOneAnswer";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -36,13 +36,71 @@ public class QuestionsController extends BaseController {
     QuestionService questionService;
 
     @Autowired
-    private  QuestionSearchRepository questionSearchRepository;
+    AnswerService answerService;
 
     @Autowired
     TagService tagService;
 
     @Value("${questions.onlyOneAnswer}")
     private Boolean onlyOneAnswer;
+
+    @RequestMapping(value = "/{id}/voteDown", method = RequestMethod.POST)
+    public String voteDown(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes) {
+        log.debug("Trying to vote down Question " + questionId);
+        if (questionId != null && questionId > 0) {
+            questionService.downVote(questionId);
+            redirectAttributes.addAttribute("id", questionId);
+            return "redirect:/question/{id}";
+        }
+        return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/{id}/voteUp", method = RequestMethod.POST)
+    public String voteUp(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes) {
+        log.debug("Trying to vote up Question " + questionId);
+        if (questionId != null && questionId > 0) {
+            questionService.upVote(questionId);
+            redirectAttributes.addAttribute("id", questionId);
+            return "redirect:/question/{id}";
+        }
+        return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/{id}/answer/{answerId}/voteDown", method = RequestMethod.POST)
+    public String voteDown(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes) {
+        log.debug(String.format("Trying to vote down Answer %d of Question %d", answerId, questionId));
+        if (answerId != null && answerId > 0) {
+            answerService.downVote(answerId);
+            redirectAttributes.addAttribute("id", questionId);
+            return "redirect:/question/{id}";
+        }
+        return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/{id}/answer/{answerId}/voteUp", method = RequestMethod.POST)
+    public String voteUp(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes) {
+        log.debug(String.format("Trying to vote up Answer %d of Question %d", answerId, questionId));
+        if (answerId != null && answerId > 0) {
+            answerService.upVote(answerId);
+            redirectAttributes.addAttribute("id", questionId);
+            return "redirect:/question/{id}";
+        }
+        return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/{id}/answer/{answerId}/accept", method = RequestMethod.POST)
+    public String markAsAccepted(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes,
+        @AuthenticationPrincipal UserDetails details) {
+
+        log.debug("Accepting answer " + answerId);
+        if (answerId == null || answerId <= 0) {
+            return "redirect:/search";
+        }
+
+        answerService.markAsAccepted(answerId, details.getUser());
+        redirectAttributes.addAttribute("id", questionId);
+        return "redirect:/question/{id}";
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute QuestionForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details) {
@@ -66,7 +124,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute("questionList", questionService.getUnanswered(page, pageSize).getContent());
         model.addAttribute(TITLE, "Unanswered Questions");
         model.addAttribute(PAGE_NAME, "unanswered");
-        model.addAttribute("onlyOneAnswer", onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
 
@@ -77,7 +135,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute(questionService.getNewest(page, pageSize).getContent());
         model.addAttribute(TITLE, "Newest Questions");
         model.addAttribute(PAGE_NAME, "newest");
-        model.addAttribute("onlyOneAnswer", onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
 
@@ -96,7 +154,7 @@ public class QuestionsController extends BaseController {
             model.addAttribute(TITLE, "");
         }
         model.addAttribute(PAGE_NAME, "tagged");
-        model.addAttribute("onlyOneAnswer", onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
         return SHOW_QUESTIONS;
     }
 
@@ -110,7 +168,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
         model.addAttribute("userId", details.getUser().getId());
         model.addAttribute(question);
-        model.addAttribute("onlyOneAnswer", onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
         return "showOneQuestion";
     }
 
