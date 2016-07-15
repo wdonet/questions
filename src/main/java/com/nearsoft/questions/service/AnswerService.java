@@ -9,9 +9,9 @@ public interface AnswerService {
 
     public void update(Answer answer);
 
-    void downvote(Answer answer);
+    void downVote(Long answerId);
 
-    void upvote(Answer answer);
+    void upVote(Long answerId);
 
     void markAsAccepted(Long answerId, User user);
 

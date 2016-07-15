@@ -56,9 +56,19 @@
                 <i class="fa fa-clock-o"></i>
                 <label class="date-text">${(question.createdAt)!""}</label>
             </div>
-        <#if isQuestionOwner && isNotClosed>
-            <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
-        </#if>
+            <div class="validation-cont">
+                <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">
+                    <button class="val-pos fa fa-arrow-up" type="submit"></button>
+                    <div class="votes">${question.votesUp}</div>
+                </form>
+                <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
+                    <button class="val-neg fa fa-arrow-down" type="submit"></button>
+                    <div class="votes">${question.votesDown}</div>
+                </form>
+            <#if isQuestionOwner && isNotClosed>
+                <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
+            </#if>
+            </div>
         </div>
         <input name="id" type="hidden" form="editQuestionForm" value="${question.id?c}">
     <#if question.description?? && question.description?length &gt; 0>
@@ -110,24 +120,19 @@
                     <label class="date-text">${(answer.createdAt)!""}</label>
                 </div>
                 <div class="validation-cont">
-                    <form action="/answer/voteUp" method="post" class="validation-positive">
-                        <input name="answerId" type="hidden" value="${answer.id?c}">
-                        <input name="questionId" type="hidden" value="${question.id?c}">
+                    <form action="/question/${question.id?c}/answer/${answer.id?c}/voteUp" method="post" class="validation-positive">
                         <button class="val-pos fa fa-arrow-up" type="submit"></button>
                         <div class="votes">${answer.votesUp}</div>
                     </form>
-                    <form action="/answer/voteDown" method="post" class="validation-negative">
-                        <input name="answerId" type="hidden" value="${answer.id?c}">
+                    <form action="/question/${question.id?c}/answer/${answer.id?c}/voteDown" method="post" class="validation-negative">
                         <input name="questionId" type="hidden" value="${question.id?c}">
                         <button class="val-neg fa fa-arrow-down" type="submit"></button>
                         <div class="votes">${answer.votesDown}</div>
                     </form>
                  <#if isQuestionOwner && answer.status != 'ACCEPTED' >
-                    <FORM action="/answer/accepted" method="post" class="validation-negative">
-                        <input name="answerId" type="hidden" value="${answer.id?c}">
-                        <input name="questionId" type="hidden" value="${question.id?c}">
+                    <form action="/question/${question.id?c}/answer/${answer.id?c}/accept" method="post" class="validation-negative">
                         <button type="submit" class="add-button">Accept</button>
-                    </FORM>
+                    </form>
                  </#if>
                  <#if userId?c == answer.user.id?c>
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
