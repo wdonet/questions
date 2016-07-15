@@ -10,6 +10,7 @@ public class ProfileForm {
     private String location;
     private MultipartFile photo;
     private Integer reputation;
+    private String photoUri;
 
 
     public String getFirstName() {
@@ -40,6 +41,14 @@ public class ProfileForm {
         this.location = location;
     }
 
+    public String getPhotoUri() {
+        return photoUri;
+    }
+
+    public void setPhotoUri(String photoUri) {
+        this.photoUri = photoUri;
+    }
+
     public ProfileForm() {
     }
 
@@ -48,6 +57,7 @@ public class ProfileForm {
         this.lastName = user.getLastName();
         this.location = user.getLocation();
         this.reputation = user.getReputation();
+        this.photoUri = user.getPhotoUri();
     }
 
     public void setReputation(Integer reputation) {

@@ -57,7 +57,29 @@ header,
     padding-top: 45px;
 }
 
-.menu,
+.menu-logout {
+    padding-top: 50px;
+}
+
+.menu-profile-photo {
+    padding-top: 40px;
+}
+
+.profile-header-photo {
+    border-radius: 100%;
+    vertical-align: middle;
+    height: 40px;
+    margin: 0px 5px;
+}
+
+.profile-profile-photo {
+    border-radius: 100%;
+    vertical-align: middle;
+    height: 50px;
+    margin: 0px 20px;
+}
+
+.menu, .menu-logout,
 .unanswered-q {
     position: relative;
 }
@@ -66,7 +88,7 @@ header,
     font-size: 13px;
 }
 
-.menu li,
+.menu li, .menu-logout li,
 .title,
 .unanswered-q {
     font-family: 'Lato', sans-serif;
@@ -74,7 +96,7 @@ header,
 
 .positioning:after,
 li,
-.menu li,
+.menu li, .menu-logout li,
 .ask-question,
 .title,
 .title span,
@@ -91,7 +113,7 @@ a.user-info,
     margin-top: 50px;
 }
 
-.menu,
+.menu, .menu-logout, .menu-profile-photo,
 #go_signin {
     float: right;
 }
@@ -99,7 +121,8 @@ a.user-info,
 .unanswered-q,
 #go_signin > input,
 .logout,
-.menu li {
+.menu li,
+.menu-logout, {
     text-transform: uppercase;
 }
 

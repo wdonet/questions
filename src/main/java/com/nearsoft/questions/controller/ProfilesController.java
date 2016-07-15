@@ -33,11 +33,9 @@ public class ProfilesController {
     @RequestMapping(method = RequestMethod.GET)
     @Secured({"ROLE_USER"})
     public String seeMyProfile(Model model) {
-        log.info("Rendering My Profile view");
-
-        model.addAttribute("form", new ProfileForm(userService.getUserFromDetails(
-            (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-        ));
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.debug("Rendering profile view for " + userDetails);
+        model.addAttribute("form", new ProfileForm(userService.getUserFromDetails(userDetails)));
 
         return "auth/profile";
     }

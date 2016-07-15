@@ -31,13 +31,11 @@
 <section class="form-cont-ask">
 
     <form name="update_profile" id="form_update_profile" action="/profile" method="POST" enctype="multipart/form-data">
-    <@spring.message "auth.profile.firstname"/>: <input type="text" name="firstName"
-                                                        value="${form.firstName}"><br/><br/>
+    <@spring.message "auth.profile.photo"/>: <img class="profile-profile-photo" src="${form.photoUri}"><br/><br/>
+    <@spring.message "auth.profile.firstname"/>: <input type="text" name="firstName" value="${form.firstName}"><br/><br/>
     <@spring.message "auth.profile.lastname"/>: <input type="text" name="lastName" value="${form.lastName}"/><br/><br/>
-    <@spring.message "auth.profile.location"/>: <input type="text" name="location"
-                                                       value="${form.location!""}"/><br/><br/>
-    <@spring.message "auth.profile.points"/>: <input type="text" name="reputation" disabled
-                                                       value="${form.reputation!""}"/><br/><br/>
+    <@spring.message "auth.profile.location"/>: <input type="text" name="location" value="${form.location!""}"/><br/><br/>
+    <@spring.message "auth.profile.points"/>: <input type="text" name="reputation" disabled value="${form.reputation!""}"/><br/><br/>
 
         <input class="submit-ask" type="submit" value="<@spring.message "update"/>">
 
