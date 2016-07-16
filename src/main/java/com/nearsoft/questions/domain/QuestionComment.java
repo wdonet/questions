@@ -21,7 +21,7 @@ import com.nearsoft.questions.domain.auth.User;
 public class QuestionComment extends AbstractAuditableEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_comments_seq")
-	@SequenceGenerator(name = "question_comments_seq", sequenceName = "question_comments_seq")
+	@SequenceGenerator(name = "question_comments_seq", sequenceName = "question_comments_seq", allocationSize = 1)
 	private Long id;
 
 	@Column(nullable = false)

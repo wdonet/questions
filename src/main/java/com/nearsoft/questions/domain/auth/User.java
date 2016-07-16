@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "email", length = 100, nullable = false, unique = true)
@@ -139,6 +139,11 @@ public class User {
 
         public Builder location(String location) {
             user.location = location;
+            return this;
+        }
+
+        public Builder reputation(Integer reputation) {
+            user.reputation = reputation;
             return this;
         }
 
