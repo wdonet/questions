@@ -12,7 +12,7 @@ public class TagSubscription implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_subscription_seq")
-    @SequenceGenerator(name = "question_subscription_seq", sequenceName = "question_subscription_seq")
+    @SequenceGenerator(name = "question_subscription_seq", sequenceName = "question_subscription_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne(optional = false)

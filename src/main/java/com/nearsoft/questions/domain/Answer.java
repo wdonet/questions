@@ -13,7 +13,7 @@ public class Answer extends AbstractAuditableEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_seq")
-    @SequenceGenerator(name = "answer_seq", sequenceName = "answer_seq")
+    @SequenceGenerator(name = "answer_seq", sequenceName = "answer_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne(optional = false)

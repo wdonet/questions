@@ -22,7 +22,7 @@ public class AnswerComment extends AbstractAuditableEntity implements Serializab
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_comments_seq")
-    @SequenceGenerator(name = "answer_comments_seq", sequenceName = "answer_comments_seq")
+    @SequenceGenerator(name = "answer_comments_seq", sequenceName = "answer_comments_seq", allocationSize = 1)
 	private Long id;
     
     @Column(nullable = false)

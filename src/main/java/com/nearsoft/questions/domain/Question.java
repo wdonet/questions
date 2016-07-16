@@ -29,7 +29,7 @@ import org.springframework.util.StringUtils;
 public class Question extends AbstractAuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
-    @SequenceGenerator(name = "question_seq", sequenceName = "question_seq")
+    @SequenceGenerator(name = "question_seq", sequenceName = "question_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
