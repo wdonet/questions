@@ -25,11 +25,9 @@ public class TagsController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public String getAllTags(Model model, @AuthenticationPrincipal UserDetails details) {
         User user = getUser(details);
-
         List<UserTag> tags = tagsSubscriptionService.getAllTagsWithSubscriptionFlagSortedByName(user);
-
         model.addAttribute(tags);
-
+        model.addAttribute("userPermissions", user.getPermissions());
         return "showTags";
     }
 }
