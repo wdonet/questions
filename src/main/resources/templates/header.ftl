@@ -7,7 +7,7 @@
             </ul>
         </nav>
         <nav class="menu-profile-photo">
-            <a href="/profile"><img class="profile-header-photo" src="${user.imageUrl}"></a>
+            <a href="/profile"><img class="profile-header-photo" src="${(user.imageUrl)!"/img/no-photo.png"}"></a>
         </nav>
         <nav class="menu">
             <ul>

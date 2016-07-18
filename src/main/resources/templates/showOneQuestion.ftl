@@ -57,14 +57,18 @@
                 <label class="date-text">${(question.createdAt)!""}</label>
             </div>
             <div class="validation-cont">
-                <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">
-                    <button class="val-pos fa fa-arrow-up" type="submit"></button>
-                    <div class="votes">${question.votesUp}</div>
-                </form>
-                <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
-                    <button class="val-neg fa fa-arrow-down" type="submit"></button>
-                    <div class="votes">${question.votesDown}</div>
-                </form>
+                <#if userPermissions?seq_contains("VOTED_UP_QUESTION")>
+                    <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">
+                        <button class="val-pos fa fa-arrow-up" type="submit"></button>
+                        <div class="votes">${question.votesUp}</div>
+                    </form>
+                </#if>
+                <#if userPermissions?seq_contains("VOTED_DOWN_QUESTION")>
+                    <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
+                        <button class="val-neg fa fa-arrow-down" type="submit"></button>
+                        <div class="votes">${question.votesDown}</div>
+                    </form>
+                </#if>
             <#if isQuestionOwner && isNotClosed>
                 <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
             </#if>
@@ -120,15 +124,19 @@
                     <label class="date-text">${(answer.createdAt)!""}</label>
                 </div>
                 <div class="validation-cont">
+        <#if userPermissions?seq_contains("VOTED_UP_ANSWER")>
                     <form action="/question/${question.id?c}/answer/${answer.id?c}/voteUp" method="post" class="validation-positive">
                         <button class="val-pos fa fa-arrow-up" type="submit"></button>
                         <div class="votes">${answer.votesUp}</div>
                     </form>
+        </#if>
+        <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER")>
                     <form action="/question/${question.id?c}/answer/${answer.id?c}/voteDown" method="post" class="validation-negative">
                         <input name="questionId" type="hidden" value="${question.id?c}">
                         <button class="val-neg fa fa-arrow-down" type="submit"></button>
                         <div class="votes">${answer.votesDown}</div>
                     </form>
+        </#if>
                  <#if isQuestionOwner && answer.status != 'ACCEPTED' && !question.hasAnyAcceptedAnswer()>
                     <form action="/question/${question.id?c}/answer/${answer.id?c}/accept" method="post" class="validation-negative">
                         <button type="submit" class="add-button">Accept</button>

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
+import com.nearsoft.questions.domain.RuleName;
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -46,6 +48,9 @@ public class User {
 
     @Transient
     private Integer reputation;
+
+    @Transient
+    private List<RuleName> permissions;
 
     public String getPhotoUri() {
         return photoUri;
@@ -101,6 +106,14 @@ public class User {
 
     public void setReputation(Integer reputation) {
         this.reputation = reputation;
+    }
+
+    public void setPermissions(List<RuleName> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<RuleName> getPermissions() {
+        return permissions;
     }
 
     public static class Builder {

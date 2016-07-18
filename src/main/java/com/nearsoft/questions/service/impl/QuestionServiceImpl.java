@@ -1,16 +1,15 @@
 package com.nearsoft.questions.service.impl;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.nearsoft.questions.domain.*;
+import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.QuestionRepository;
-import com.nearsoft.questions.repository.RuleQuestionTransactionRepository;
-import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.QuestionService;
+import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +34,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionSearchRepository questionSearchRepository;
 
-    @Autowired
-    private RuleQuestionTransactionRepository ruleQuestionTransactionRepository;
-
-    @Autowired
-    private RuleRepository ruleRepository;
+    private RuleService ruleService;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -50,9 +45,10 @@ public class QuestionServiceImpl implements QuestionService {
     NotificationService notificationService;
 
     @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
+        this.ruleService = ruleService;
     }
 
     @Override
@@ -69,16 +65,16 @@ public class QuestionServiceImpl implements QuestionService {
 
         delivererService.sendNotification(notificationSettings);
 
-        savePointsByRuleName(question, RuleName.NEW_QUESTION);
+        ruleService.savePointsForQuestion(question, RuleName.NEW_QUESTION);
     }
 
     @Override
-    public void downVote(Long questionId) {
+    public void downVote(Long questionId, User currentUser) {
         Question question = get(questionId);
-        if (question != null) {
+        if (question != null && ruleService.isValidUserPermission(RuleName.VOTED_DOWN_QUESTION, currentUser)) {
             question.setVotesDown(question.getVotesDown() + 1);
             questionRepository.save(question);
-            savePointsByRuleName(question, RuleName.VOTED_DOWN_QUESTION);
+            ruleService.savePointsForQuestion(question, RuleName.VOTED_DOWN_QUESTION);
         }
         else {
             log.warn("Question " + questionId + " not found when voting down");
@@ -86,26 +82,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void upVote(Long questionId) {
+    public void upVote(Long questionId, User currentUser) {
         Question question = get(questionId);
-        if (question != null) {
+        if (question != null && ruleService.isValidUserPermission(RuleName.VOTED_UP_QUESTION, currentUser)) {
             question.setVotesUp(question.getVotesUp() + 1);
             questionRepository.save(question);
-            savePointsByRuleName(question, RuleName.VOTED_UP_QUESTION);
+            ruleService.savePointsForQuestion(question, RuleName.VOTED_UP_QUESTION);
         }
         else {
             log.warn("Question " + questionId + " not found when voting up");
         }
-    }
-
-    private void savePointsByRuleName(Question question, RuleName ruleName) {
-        int points = ruleRepository.findFirstByRuleName(ruleName).getPoints();
-        RuleQuestionTransaction ruleQuestionTransaction = new RuleQuestionTransaction();
-        ruleQuestionTransaction.setCreatedAt(ZonedDateTime.now());
-        ruleQuestionTransaction.setPoints(points);
-        ruleQuestionTransaction.setQuestionId(question.getId());
-        ruleQuestionTransaction.setRuleName(ruleName);
-        ruleQuestionTransactionRepository.save(ruleQuestionTransaction);
     }
 
     @Override

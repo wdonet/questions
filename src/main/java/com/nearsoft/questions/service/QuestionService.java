@@ -2,6 +2,7 @@ package com.nearsoft.questions.service;
 
 import java.util.List;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.auth.User;
 import org.springframework.data.domain.Page;
 
 public interface QuestionService {
@@ -10,9 +11,9 @@ public interface QuestionService {
 
     void save(Question question);
 
-    void downVote(Long questionId);
+    void downVote(Long questionId, User user);
 
-    void upVote(Long questionId);
+    void upVote(Long questionId, User user);
 
     Question get(long id);
 
