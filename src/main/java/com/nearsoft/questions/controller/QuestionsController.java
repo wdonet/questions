@@ -3,6 +3,7 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.service.AnswerService;
@@ -45,10 +46,12 @@ public class QuestionsController extends BaseController {
     private Boolean onlyOneAnswer;
 
     @RequestMapping(value = "/{id}/voteDown", method = RequestMethod.POST)
-    public String voteDown(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes) {
+    public String voteDown(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes,
+        @AuthenticationPrincipal UserDetails details) {
         log.debug("Trying to vote down Question " + questionId);
         if (questionId != null && questionId > 0) {
-            questionService.downVote(questionId);
+            User user = userService.getUserFromDetails(details);
+            questionService.downVote(questionId, user);
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -56,10 +59,12 @@ public class QuestionsController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}/voteUp", method = RequestMethod.POST)
-    public String voteUp(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes) {
+    public String voteUp(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes,
+        @AuthenticationPrincipal UserDetails details) {
         log.debug("Trying to vote up Question " + questionId);
         if (questionId != null && questionId > 0) {
-            questionService.upVote(questionId);
+            User user = userService.getUserFromDetails(details);
+            questionService.upVote(questionId, user);
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -67,10 +72,11 @@ public class QuestionsController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}/answer/{answerId}/voteDown", method = RequestMethod.POST)
-    public String voteDown(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes) {
+    public String voteDown(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes,
+        @AuthenticationPrincipal UserDetails details) {
         log.debug(String.format("Trying to vote down Answer %d of Question %d", answerId, questionId));
         if (answerId != null && answerId > 0) {
-            answerService.downVote(answerId);
+            answerService.downVote(answerId, userService.getUserFromDetails(details));
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -78,10 +84,11 @@ public class QuestionsController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}/answer/{answerId}/voteUp", method = RequestMethod.POST)
-    public String voteUp(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes) {
+    public String voteUp(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes,
+        @AuthenticationPrincipal UserDetails details) {
         log.debug(String.format("Trying to vote up Answer %d of Question %d", answerId, questionId));
         if (answerId != null && answerId > 0) {
-            answerService.upVote(answerId);
+            answerService.upVote(answerId, userService.getUserFromDetails(details));
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -163,10 +170,12 @@ public class QuestionsController extends BaseController {
         log.info("question with id " + id);
 
         Question question = questionService.get(id);
-        model.addAttribute("isQuestionOwner", details.getUser().getId().equals(question.getUser().getId()));
+        User user = userService.getUserFromDetails(details);
+        model.addAttribute("isQuestionOwner", user.getId().equals(question.getUser().getId()));
         model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
-        model.addAttribute("userId", details.getUser().getId());
+        model.addAttribute("userId", user.getId());
+        model.addAttribute("userPermissions", user.getPermissions());
         model.addAttribute(question);
         model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
         return "showOneQuestion";

@@ -4,13 +4,11 @@ import com.nearsoft.questions.domain.*;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.error.AnswerNotFoundException;
 import com.nearsoft.questions.error.OperationDeniedException;
-import com.nearsoft.questions.error.QuestionNotFoundException;
 import com.nearsoft.questions.repository.AnswerRepository;
-import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
-import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
+import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -18,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,15 +24,18 @@ public class AnswerServiceImpl implements AnswerService {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
     private AnswerRepository answerRepository;
-    @Autowired
-    private RuleAnswerTransactionRepository ruleAnswerTransactionRepository;
-    @Autowired
-    private RuleRepository ruleRepository;
+
+    private RuleService ruleService;
+
+    NotificationService notificationService;
 
     @Autowired
-    NotificationService notificationService;
+    public AnswerServiceImpl(AnswerRepository answerRepository, RuleService ruleService, NotificationService notificationService) {
+        this.answerRepository = answerRepository;
+        this.ruleService = ruleService;
+        this.notificationService = notificationService;
+    }
 
     @Override
     public void save(Answer answer) {
@@ -52,7 +52,7 @@ public class AnswerServiceImpl implements AnswerService {
 
         delivererService.sendNotification(notificationSettings);
 
-        savePointsByRuleName(answer, RuleName.NEW_ANSWER);
+        ruleService.savePointsForAnswer(answer, RuleName.NEW_ANSWER);
     }
 
     @Override
@@ -66,12 +66,12 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void downVote(Long answerId) {
+    public void downVote(Long answerId, User currentUser) {
         Answer answer = get(answerId);
-        if (answer != null ) {
+        if (answer != null && ruleService.isValidUserPermission(RuleName.VOTED_DOWN_ANSWER, currentUser)) {
             answer.setVotesDown(answer.getVotesDown() + 1);
             answerRepository.save(answer);
-            savePointsByRuleName(answer, RuleName.VOTED_DOWN_ANSWER);
+            ruleService.savePointsForAnswer(answer, RuleName.VOTED_DOWN_ANSWER);
         }
         else {
             log.warn("Answer " + answerId + " not found when voting down");
@@ -79,12 +79,12 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void upVote(Long answerId) {
+    public void upVote(Long answerId, User currentUser) {
         Answer answer = get(answerId);
-        if (answer != null ) {
+        if (answer != null && ruleService.isValidUserPermission(RuleName.VOTED_UP_ANSWER, currentUser)) {
             answer.setVotesUp(answer.getVotesUp() + 1);
             answerRepository.save(answer);
-            savePointsByRuleName(answer, RuleName.VOTED_UP_ANSWER);
+            ruleService.savePointsForAnswer(answer, RuleName.VOTED_UP_ANSWER);
         }
         else {
             log.warn("Answer " + answerId + " not found when voting up");
@@ -115,22 +115,12 @@ public class AnswerServiceImpl implements AnswerService {
 
             answer.setStatus(ItemStatus.ACCEPTED);
             answerRepository.save(answer);
-            savePointsByRuleName(answer, RuleName.ACCEPTED_ANSWER);
+            ruleService.savePointsForAnswer(answer, RuleName.ACCEPTED_ANSWER);
         }
     }
 
     private boolean questionHasAnyAcceptedAnswer(Question question) {
         return CollectionUtils.isNotEmpty(question.getAnswers()) &&
             question.getAnswers().stream().filter(answer -> answer.getStatus().equals(ItemStatus.ACCEPTED)).count() > 0;
-    }
-
-    private void savePointsByRuleName(Answer answer, RuleName ruleName) {
-        int points = ruleRepository.findFirstByRuleName(ruleName).getPoints();
-        RuleAnswerTransaction transaction = new RuleAnswerTransaction();
-        transaction.setPoints(points);
-        transaction.setRuleName(ruleName);
-        transaction.setAnswerId(answer.getId());
-        transaction.setCreatedAt(ZonedDateTime.now());
-        ruleAnswerTransactionRepository.save(transaction);
     }
 }
