@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class InboxController {
 
     @Autowired
-    NotificationRepository notificationRepository;
+    private NotificationRepository notificationRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public String inboxHome(Model model, @AuthenticationPrincipal UserDetails activeUser) {

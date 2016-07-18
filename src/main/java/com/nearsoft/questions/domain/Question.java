@@ -21,6 +21,9 @@ import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Formula;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
 
@@ -61,6 +64,9 @@ public class Question extends AbstractAuditableEntity implements Serializable {
     @Formula("(select count(a.*) from Answer a where a.question_id = id)")
     private Integer totalAnswers;
 
+    @Transient
+    private static final Logger log = LoggerFactory.getLogger(Question.class);
+
     public Question() {
     }
 
@@ -81,7 +87,12 @@ public class Question extends AbstractAuditableEntity implements Serializable {
                 return false;
             });
         }
-        this.tags.addAll(requestedTagNames.stream().map(Tag::new).collect(Collectors.toList()));
+        if (user.getPermissions().contains(RuleName.NEW_TAG)) {
+            this.tags.addAll(requestedTagNames.stream().map(Tag::new).collect(Collectors.toList()));
+        }
+        else {
+            log.warn(String.format("Unable to add tags [%s] when building questions for user %s", requestedTagNames, user));
+        }
     }
 
     public Question withTitle(String title) {

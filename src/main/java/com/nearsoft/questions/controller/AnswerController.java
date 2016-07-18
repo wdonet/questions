@@ -7,7 +7,6 @@ import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.error.QuestionNotFoundException;
-import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
 import org.apache.commons.lang.StringUtils;
@@ -28,10 +27,10 @@ public class AnswerController extends BaseController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    AnswerService answerService;
+    private AnswerService answerService;
 
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     @RequestMapping(method = RequestMethod.POST)
     public String add(@ModelAttribute AnswerForm form, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details)

@@ -20,7 +20,7 @@ import java.util.List;
 public class TagsController extends BaseController {
 
     @Autowired
-    TagsSubscriptionService tagsSubscriptionService;
+    private TagsSubscriptionService tagsSubscriptionService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getAllTags(Model model, @AuthenticationPrincipal UserDetails details) {
