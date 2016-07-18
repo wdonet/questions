@@ -13,12 +13,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"></script>
+    <#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
         <script src="/js/tags.js"></script>
+    </#if>
 
         <link rel="stylesheet" type="text/css" href="/css/general.css">
-<#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
         <link rel="stylesheet" type="text/css" href="/css/tags.css">
-</#if>
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
         <script src="https://use.fontawesome.com/4eda52b947.js"></script>
