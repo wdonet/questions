@@ -41,14 +41,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Value("${questions.onlyOneAnswer}")
     private Boolean onlyOneAnswer;
 
-    @Autowired
-    NotificationService notificationService;
+    private NotificationService notificationService;
 
     @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService,
+        NotificationService notificationService) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
         this.ruleService = ruleService;
+        this.notificationService = notificationService;
     }
 
     @Override

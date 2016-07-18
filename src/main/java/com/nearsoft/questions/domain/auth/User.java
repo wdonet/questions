@@ -164,4 +164,14 @@ public class User {
             return user;
         }
     }
+
+    @Override
+    public String toString() {
+        return "User(" + id +
+            " - " + email + ") {" +
+            "name='" + getFullName() + '\'' +
+            ", reputation=" + reputation +
+            ", permissions=" + permissions +
+            '}';
+    }
 }

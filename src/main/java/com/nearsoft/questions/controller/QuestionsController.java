@@ -34,13 +34,13 @@ public class QuestionsController extends BaseController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     @Autowired
-    AnswerService answerService;
+    private AnswerService answerService;
 
     @Autowired
-    TagService tagService;
+    private TagService tagService;
 
     @Value("${questions.onlyOneAnswer}")
     private Boolean onlyOneAnswer;
@@ -50,8 +50,7 @@ public class QuestionsController extends BaseController {
         @AuthenticationPrincipal UserDetails details) {
         log.debug("Trying to vote down Question " + questionId);
         if (questionId != null && questionId > 0) {
-            User user = userService.getUserFromDetails(details);
-            questionService.downVote(questionId, user);
+            questionService.downVote(questionId, getUser(details));
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -63,8 +62,7 @@ public class QuestionsController extends BaseController {
         @AuthenticationPrincipal UserDetails details) {
         log.debug("Trying to vote up Question " + questionId);
         if (questionId != null && questionId > 0) {
-            User user = userService.getUserFromDetails(details);
-            questionService.upVote(questionId, user);
+            questionService.upVote(questionId, getUser(details));
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -76,7 +74,7 @@ public class QuestionsController extends BaseController {
         @AuthenticationPrincipal UserDetails details) {
         log.debug(String.format("Trying to vote down Answer %d of Question %d", answerId, questionId));
         if (answerId != null && answerId > 0) {
-            answerService.downVote(answerId, userService.getUserFromDetails(details));
+            answerService.downVote(answerId, getUser(details));
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -88,7 +86,7 @@ public class QuestionsController extends BaseController {
         @AuthenticationPrincipal UserDetails details) {
         log.debug(String.format("Trying to vote up Answer %d of Question %d", answerId, questionId));
         if (answerId != null && answerId > 0) {
-            answerService.upVote(answerId, userService.getUserFromDetails(details));
+            answerService.upVote(answerId, getUser(details));
             redirectAttributes.addAttribute("id", questionId);
             return "redirect:/question/{id}";
         }
@@ -170,7 +168,7 @@ public class QuestionsController extends BaseController {
         log.info("question with id " + id);
 
         Question question = questionService.get(id);
-        User user = userService.getUserFromDetails(details);
+        User user = getUser(details);
         model.addAttribute("isQuestionOwner", user.getId().equals(question.getUser().getId()));
         model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
