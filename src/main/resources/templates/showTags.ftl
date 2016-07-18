@@ -16,7 +16,9 @@
         <script src="/js/tags.js"></script>
 
         <link rel="stylesheet" type="text/css" href="/css/general.css">
+<#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
         <link rel="stylesheet" type="text/css" href="/css/tags.css">
+</#if>
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
         <script src="https://use.fontawesome.com/4eda52b947.js"></script>
@@ -30,9 +32,10 @@
                 <div>
                 <#list userTagList as userTag>
                     <span class="tags">
-
+                    <#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
                         <input class="tag-checkbox" value="${userTag.tag.id}" type="checkbox"
                          <#if userTag.subscribed>checked</#if>>
+                    </#if>
                          <a href="/question/tag/${userTag.tag.id}">
                          ${userTag.tag.name}</a>
 
