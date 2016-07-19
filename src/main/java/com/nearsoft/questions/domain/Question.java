@@ -30,6 +30,9 @@ import org.springframework.util.StringUtils;
 @Entity
 @Document(indexName = "nsquestions", type = "question")
 public class Question extends AbstractAuditableEntity implements Serializable {
+
+    public static final Tag NO_TAG = new Tag("notag");
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq")
     @SequenceGenerator(name = "question_seq", sequenceName = "question_seq", allocationSize = 1)
@@ -75,23 +78,29 @@ public class Question extends AbstractAuditableEntity implements Serializable {
         this.description = form.getDescription();
         this.user = user;
         this.id = form.getId();
-        List<String> requestedTagNames = form.getNormalizedTagList();
+        List<String> requestedTagNames = form.getNormalizedTagList(false);
 
-        if (CollectionUtils.isNotEmpty(persistedTags)) {
-            this.tags.addAll(persistedTags);
-            requestedTagNames.removeIf(tagName -> {
-                if (tagName != null) {
-                    String requestedTagName = StringUtils.trimWhitespace(tagName);
-                    return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
-                }
-                return false;
-            });
-        }
-        if (user.getPermissions().contains(RuleName.NEW_TAG)) {
-            this.tags.addAll(requestedTagNames.stream().map(Tag::new).collect(Collectors.toList()));
+        if (CollectionUtils.isEmpty(persistedTags)) {
+            this.tags.add(NO_TAG);
         }
         else {
-            log.warn(String.format("Unable to add tags [%s] when building questions for user %s", requestedTagNames, user));
+            this.tags.addAll(persistedTags);
+            if (user.getPermissions().contains(RuleName.NEW_TAG)) {
+                requestedTagNames.removeIf(tagName -> {
+                    if (tagName != null) {
+                        String requestedTagName = StringUtils.trimWhitespace(tagName);
+                        return persistedTags.contains(new Tag(requestedTagName.toLowerCase()));
+                    }
+                    return false;
+                });
+                this.tags.addAll(requestedTagNames.stream().map(Tag::new).collect(Collectors.toList()));
+            }
+            else {
+                log.warn(String.format("Unable to add tags [%s] when building questions for user %s", requestedTagNames, user));
+            }
+            if (this.tags.size() > 1 && this.tags.contains(NO_TAG)) {
+                this.tags.removeIf(tag -> NO_TAG.equals(tag));
+            }
         }
     }
 
