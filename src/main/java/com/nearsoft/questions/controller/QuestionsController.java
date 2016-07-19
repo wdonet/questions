@@ -113,7 +113,7 @@ public class QuestionsController extends BaseController {
         if (form != null) {
             log.debug("Trying to add " + form);
             Question question = new Question(form,
-                tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
+                tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList(true)), getUser(details));
             question.setStatus(ItemStatus.OPEN);
             questionService.save(question);
             redirectAttributes.addAttribute("id", question.getId());
@@ -199,7 +199,7 @@ public class QuestionsController extends BaseController {
         validateUserOwner(questionRegister, details);
 
         Question question = new Question(
-                form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList()), getUser(details));
+                form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList(true)), getUser(details));
         question.setStatus(questionRegister.getStatus());
         questionService.update(question);
 

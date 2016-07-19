@@ -7,66 +7,67 @@ import org.apache.commons.lang3.StringUtils;
 
 public class QuestionForm {
 
-    private Long _id;
-    private String _title;
-    private String _description;
-    private String _tags;
-    private List<String> _normalizedTagList;
+    private Long id;
+    private String title;
+    private String description;
+    private String tags;
+    private List<String> normalizedTagList = new ArrayList<>();
 
     public String getTitle() {
-        return _title;
+        return title;
     }
 
     public void setTitle(String title) {
-        _title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     public void setDescription(String description) {
-        _description = description;
+        this.description = description;
     }
 
-    public Long getId() {return _id;}
+    public Long getId() {return id;}
 
-    public void setId(Long _id) {this._id = _id;}
+    public void setId(Long id) {this.id = id;}
 
     /**
      * This is only for the Form Binding in Spring MVC.
-     * Use #getNormalizedTagList instead.
+     * Use #getNormalizedTagList instead which automatically adds the "notag" Tag by default.
      * @return comma delimited tag list as a String
      */
     public String getTags() {
-        return _tags;
+        return tags;
     }
 
     public void setTags(String tags) {
-        _tags = tags;
+        this.tags = tags;
     }
 
-    public List<String> getNormalizedTagList() {
-        if (_normalizedTagList == null) {
-            StringTokenizer tokenizer = new StringTokenizer(_tags, ",");
-            _normalizedTagList = new ArrayList<>();
-            while (tokenizer.hasMoreTokens()) {
-                String normalized = StringUtils.trimToNull(tokenizer.nextToken());
-                if (normalized != null) {
-                    _normalizedTagList.add(normalized.toLowerCase());
-                }
+    public List<String> getNormalizedTagList(boolean withNoTagElement) {
+        StringTokenizer tokenizer = new StringTokenizer(tags, ",");
+        normalizedTagList.clear();
+        while (tokenizer.hasMoreTokens()) {
+            String normalized = StringUtils.trimToNull(tokenizer.nextToken());
+            if (normalized != null) {
+                normalizedTagList.add(normalized.toLowerCase());
             }
         }
-        return _normalizedTagList;
+        if (withNoTagElement) {
+            normalizedTagList.add("notag");
+        }
+        return normalizedTagList;
     }
 
     @Override
     public String toString() {
         return "QuestionForm {" +
-            "_id='" + _id + '\'' +
-            ", _title='" + _title + '\'' +
-            ", _description='" + _description + '\'' +
-            ", _tags='" + _tags + '\'' +
+            "_id='" + id + '\'' +
+            ", _title='" + title + '\'' +
+            ", _description='" + description + '\'' +
+            ", _tags='" + tags + '\'' +
             '}';
     }
 }
