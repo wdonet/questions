@@ -1,0 +1,27 @@
+@import '../../components/variables.scss';
+
+.root {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.tag {
+  background-color: #cae1fa;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 14px;
+  margin-left: 5px;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  a {
+    color: #476c8f;
+    display: block;
+    padding: 5px 15px;
+    text-decoration: none;
+  }
+}

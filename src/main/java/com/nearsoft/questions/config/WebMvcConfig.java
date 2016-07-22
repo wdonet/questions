@@ -1,12 +1,10 @@
 package com.nearsoft.questions.config;
 
 
-import com.nearsoft.questions.controller.converters.ZonedDateTimeToString;
 import com.nearsoft.questions.controller.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -49,10 +47,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(localeChangeInterceptor);
         registry.addInterceptor(userInterceptor);
     }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new ZonedDateTimeToString());
-    }
-
 }

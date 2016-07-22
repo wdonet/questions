@@ -2,40 +2,30 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/css/general.css">
+    <link rel="stylesheet" type="text/css" href="/css/showQuestion.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchResults.css">
+    <link rel="stylesheet" type="text/css" href="/css/tags.css">
+
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
-</head>
-<body>
-<#include "header.ftl">
-<div class="suggestion-wrapper">
-    <h1 class="unanswered-questions-title"><img src="/img/question-icon.png" class="question-icon"> Questions</h1>
-    <ul class="suggestions-cont">
-    <#if questionList?has_content>
-        <#list questionList as question>
-            <li>
-                <a class="respuesta-titulo" href="/question/${question.id}">${question.title}</a>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-basic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-arrows.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 
-                <div class="respuestas-total">- ${question.totalAnswers} Answers</div>
-                <div class="tags-cont">
-                    <div class="tag-icon"><img src="/img/tag-icon.png" alt="">Tags:</div>
-                    <#list question.tags as tag>
-                        <span class="tags"><a href="/question/tag/${tag.id}">${tag.name}</a></span>
-                    <#else>
-                        <span class="tags">No tags</span>
-                    </#list>
-                    <div class="owner">asked by &nbsp; <span>${(question.user.fullName)!""}</span></div>
-                </div>
-            </li>
-        </#list>
-    </#if>
-    <#if !questionList?has_content>
-        <div><@spring.message "questions.empty"/></div>
-    </#if>
-    </ul>
-</div>
-
-
-</body>
-
+    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"></script>
+    <script src="/js/search.js"></script>
+  </head>
+  <body class="showquestions ${pageName}">
+    <#include "header.ftl">
+    <#include "searchBox.ftl">
+    <#include "suggestions.ftl">
+    <script src="/js/header.js"></script>
+  </body>
 </html>

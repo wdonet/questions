@@ -1,24 +1,35 @@
+<#assign no_results="No Results" >
+<#assign title="Search Results" >
+
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="/js/search.js"></script>
-</head>
-<body>
-<#include "header.ftl">
-<section class="form-cont">
-    <h1>looking for ?</h1>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/css/general.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchForm.css">
+    <link rel="stylesheet" type="text/css" href="/css/showQuestion.css">
 
-    <div class="search-container">
-        <input class="input-search-question" name="query" type="text" placeholder="What are you looking for?">
-        <input type="button" value="" class="search-submit">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-basic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-arrows.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+    <script src="https://use.fontawesome.com/4eda52b947.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"></script>
+    <script src="/js/search.js"></script>
+  </head>
+  <body class="showquestions">
+    <#include "header.ftl">
+      <#include "searchBox.ftl">
+    <div class="suggestion-wrapper">
+      <h1 class="unanswered-q to-hide-when-searching">${title}</h1>
+      <ul class="suggestions-cont">
+      </ul>
     </div>
-</section>
-<div class="suggestion-list">
-<#include "suggestions.ftl">
-</div>
-</body>
+    <script src="/js/header.js"></script>
+  </body>
 </html>

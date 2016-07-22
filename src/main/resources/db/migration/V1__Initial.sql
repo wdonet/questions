@@ -1,11 +1,3 @@
-CREATE TABLE profiles
-(
-  id         BIGINT NOT NULL,
-  location   CHARACTER VARYING(255),
-  photo_uri  CHARACTER VARYING(255),
-  reputation INTEGER,
-  CONSTRAINT profiles_pkey PRIMARY KEY (id)
-);
 
 CREATE TABLE userconnection
 (
@@ -33,9 +25,11 @@ CREATE TABLE public.user
   id               BIGINT                 NOT NULL,
   email            CHARACTER VARYING(100) NOT NULL,
   first_name       CHARACTER VARYING(100) NOT NULL,
-  last_name        CHARACTER VARYING(100) NOT NULL,
+  last_name        CHARACTER VARYING(100) not NULL,
   role             CHARACTER VARYING(20)  NOT NULL,
   sign_in_provider CHARACTER VARYING(20),
+  location   CHARACTER VARYING(255),
+  photo_uri  CHARACTER VARYING(255),
   CONSTRAINT user_pkey PRIMARY KEY (id),
   CONSTRAINT user_email_ukey UNIQUE (email)
 );
@@ -47,15 +41,69 @@ MAXVALUE 9223372036854775807
 START 2
 CACHE 1;
 
+
+CREATE TABLE public.rule
+(
+  id               BIGINT                 NOT NULL,
+  rule_name CHARACTER VARYING(35),
+  points INTEGER NOT NULL,
+  CONSTRAINT rule_pkey PRIMARY KEY (id),
+  CONSTRAINT rule_name_ukey UNIQUE (rule_name)
+);
+
+CREATE SEQUENCE rule_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 2
+CACHE 1;
+
+
+
+CREATE TABLE public.rule_question_transaction
+(
+  id               bigint         NOT NULL,
+  question_id               bigint         NOT NULL,
+  rule_name CHARACTER VARYING(35) NOT NULL,
+  created_at    TIMESTAMP WITHOUT TIME ZONE,
+  points INTEGER NOT NULL
+);
+
+CREATE SEQUENCE rule_question_transaction_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 2
+CACHE 1;
+
+CREATE TABLE public.rule_answer_transaction
+(
+  id               bigint         NOT NULL,
+  answer_id               bigint         NOT NULL,
+  rule_name CHARACTER VARYING(35) NOT NULL,
+  created_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
+  points INTEGER NOT NULL
+);
+
+CREATE SEQUENCE rule_answer_transaction_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 2
+CACHE 1;
+
+
 CREATE TABLE question
 (
   id            BIGINT                  NOT NULL,
   description   CHARACTER VARYING(2048) NOT NULL,
   title         CHARACTER VARYING(255)  NOT NULL,
-  total_answers INTEGER                 NOT NULL,
   user_id       INT8                    NOT NULL,
-  created_at    TIMESTAMP WITHOUT TIME ZONE,
-  updated_at    TIMESTAMP WITHOUT TIME ZONE,
+  created_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
+  updated_at    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_DATE,
+  status CHARACTER VARYING(35) NOT NULL DEFAULT 'OPEN',
+  votes_up INTEGER NOT NULL DEFAULT 0,
+  votes_down INTEGER NOT NULL DEFAULT 0,
   CONSTRAINT question_pkey PRIMARY KEY (id),
   CONSTRAINT FK_os8bn3xr2x2owjn69es4hcxgs FOREIGN KEY (user_id) REFERENCES public.user
 );
@@ -75,6 +123,9 @@ CREATE TABLE answer
   user_id     INT8                    NOT NULL,
   created_at  TIMESTAMP WITHOUT TIME ZONE,
   updated_at  TIMESTAMP WITHOUT TIME ZONE,
+  status CHARACTER VARYING(35) DEFAULT 'OPEN',
+  votes_up INTEGER NOT NULL DEFAULT 0,
+  votes_down INTEGER NOT NULL DEFAULT 0,
   CONSTRAINT answer_pkey PRIMARY KEY (id),
   CONSTRAINT FK_ilrlwe1trc8dyqaius89vprop FOREIGN KEY (user_id) REFERENCES public.user,
   CONSTRAINT answer__question_question_fk FOREIGN KEY (question_id)
@@ -119,3 +170,44 @@ CREATE TABLE question_tags
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT question_tags_uk UNIQUE (question_id, tags_id)
 );
+
+CREATE TABLE tag_subscription
+(
+  id      BIGINT NOT NULL,
+  tag_id  BIGINT NOT NULL,
+  user_id INT8   NOT NULL,
+  CONSTRAINT tag_subscription_tag_fk FOREIGN KEY (tag_id)
+  REFERENCES tag (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT tag_subscription_user_fk FOREIGN KEY (user_id)
+  REFERENCES PUBLIC.user (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE SEQUENCE question_subscription_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 7
+CACHE 1;
+
+
+CREATE TABLE notification
+(
+  id                BIGINT                  NOT NULL,
+  description       CHARACTER VARYING(2048) NOT NULL,
+  email_delivered   BOOLEAN                 NOT NULL,
+  ui_notified       BOOLEAN                 NOT NULL,
+  user_id           INT8                    NOT NULL,
+  question_id       INT8                    NOT NULL,
+  notification_type INT8                    NOT NULL,
+  CONSTRAINT notification_user_fk FOREIGN KEY (user_id) REFERENCES public.user,
+  CONSTRAINT notification_question_fk FOREIGN KEY (question_id) REFERENCES public.question
+);
+
+CREATE SEQUENCE notification_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 7
+CACHE 1;

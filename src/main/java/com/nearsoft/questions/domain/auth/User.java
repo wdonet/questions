@@ -1,7 +1,18 @@
 package com.nearsoft.questions.domain.auth;
 
-import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
+import com.nearsoft.questions.domain.RuleName;
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -10,7 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "email", length = 100, nullable = false, unique = true)
@@ -30,9 +41,24 @@ public class User {
     @Column(name = "sign_in_provider", length = 20)
     private SocialMediaService signInProvider;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonIgnore
-    private Profile profile;
+    @Column(name = "photo_uri")
+    private String photoUri;
+
+    private String location;
+
+    @Transient
+    private Integer reputation;
+
+    @Transient
+    private List<RuleName> permissions;
+
+    public String getPhotoUri() {
+        return photoUri;
+    }
+
+    public String getLocation() {
+        return location;
+    }
 
     public Long getId() {
         return id;
@@ -54,6 +80,10 @@ public class User {
         return firstName + " " + lastName;
     }
 
+    public Integer getReputation() {
+        return reputation;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -62,20 +92,28 @@ public class User {
         return signInProvider;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
+    }
+
+    public void setPermissions(List<RuleName> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<RuleName> getPermissions() {
+        return permissions;
     }
 
     public static class Builder {
@@ -107,10 +145,33 @@ public class User {
             return this;
         }
 
+        public Builder photoUri(String photoUri) {
+            user.photoUri = photoUri;
+            return this;
+        }
+
+        public Builder location(String location) {
+            user.location = location;
+            return this;
+        }
+
+        public Builder reputation(Integer reputation) {
+            user.reputation = reputation;
+            return this;
+        }
+
         public User build() {
             return user;
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "User(" + id +
+            " - " + email + ") {" +
+            "name='" + getFullName() + '\'' +
+            ", reputation=" + reputation +
+            ", permissions=" + permissions +
+            '}';
+    }
 }

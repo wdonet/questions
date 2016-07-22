@@ -1,0 +1,266 @@
+.owner {
+    color: #5C5C5C;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.owner img {
+    border-radius: 100%;
+    vertical-align: middle;
+    height: 40px;
+    margin: 0 5px;
+}
+
+.owner i {
+    color: #4F5D73;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.owner span {
+    color: #FF5E00;
+}
+
+.showquestions .search-container,
+.question .search-container {
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 52px;
+}
+
+.showquestions input[type="text"], input[type="textarea"],
+.question input[type="text"], input[type="textarea"] {
+    height: 38px;
+    width: 805px;
+}
+
+.suggestions-cont {
+    background-color: #fff;
+}
+
+a.answer-title {
+    font-size: 26px;
+    color: #5C5C5C;
+    text-decoration: none;
+}
+
+a.answer-title:hover {
+    text-decoration: underline;
+    color: #FF5E00;
+}
+
+ul.suggestions-cont,
+.question-cont {
+    margin-bottom: 50px;
+}
+
+.question-cont {
+    background-color: #fff;
+}
+
+a.back-btn {
+    margin: 35px 0;
+    display: inline-block;
+    color: #F25D00;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+a.back-btn:hover {
+    text-decoration: underline;
+}
+
+ul.suggestions-cont li {
+    width: 100%;
+    text-align: left;
+    margin-top: 35px;
+    border-top: 1px solid #e4e4e4;
+    padding-top: 35px;
+}
+
+ul.suggestions-cont li:first-child {
+    margin-top: 0;
+    border-top-width: 0;
+    padding-top: 0;
+}
+
+.answers-total {
+    display: inline-block;
+    color: #B1B1B1;
+    margin-left: 5px;
+}
+
+.question-description {
+    margin: 40px 0 40px;
+    color: #5C5C5C;
+    font-size: 16px;
+    padding-bottom: 20px;
+}
+
+.question-title {
+    font-size: 32px;
+    color: #595B67;
+    margin-bottom: 12px;
+    font-family: 'Lato', sans-serif;
+}
+
+.answers-title {
+    font-size: 20px;
+    color: #4F5D73;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    font-family: 'Lato', sans-serif;
+}
+
+.leave-answers {
+    font-size: 14px;
+    color: #4F5D73;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    font-family: 'Lato', sans-serif;
+}
+
+.answers {
+    padding: 15px;
+    border: 1px solid #DEDEDE;
+    margin: 15px 0 20px;
+    color: #4F4F4F;
+    background-color: #F5F5F5;
+}
+
+.answers,
+.add-button {
+    border-radius: 3px;
+}
+
+.author-name {
+    color: #536C8F;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.answer-author {
+    color: #FF5E00;
+}
+
+.answer-date {
+    display: inline-block;
+    color: #b5b5b5;
+    margin-top: 10px;
+}
+
+.author-name img {
+    height: 35px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.add-answer-input {
+    padding: 15px;
+    border: 2px solid #F1F1F1;
+    display: block;
+    width: 96%;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-top: -15px;
+}
+
+.comment-box-question {
+    padding: 15px;
+    background-color: #FEFCF1;
+    color: #5C5C5C;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.showquestions input[type="text"], input[type="textarea"],
+.question input[type="text"], input[type="textarea"],
+.comment-textarea,
+.comment-box-question {
+    border: 1px solid #e4e4e4;
+}
+
+.comments-question-cont {
+    padding-left: 35px;
+}
+
+.add-comment-cont {
+    border-top: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+    padding: 15px;
+    margin: 35px 0 20px;
+}
+
+.answers-cont {
+    margin-bottom: 70px;
+}
+
+.add-comment-cont a {
+    color: #4F5D73;
+    font-size: 14px;
+}
+
+.add-comment-cont a + a {
+    float: right;
+}
+
+.add-button {
+    height: 45px;
+    display: inline-block;
+    width: 124px !important;
+    border: 0 !important;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.add-button,
+.add-comment-btn {
+    color: #fff;
+    background-color: #F25D00;
+}
+
+.answer-comment-form,
+.comment-textarea {
+    width: 100%;
+}
+
+.add-comment-btn {
+    border: none;
+    padding: 5px 8px;
+}
+
+.edit-question-div{
+    float: right;
+}
+
+.edit-btn{
+    background-image:url(../img/edit-icon.png);
+    font-size:0;
+    width:30px;
+    height:30px;
+}
+
+.edit-btn.answer{
+}
+
+.add-button.cancel-edit-answer-btn{
+}
+
+.edit-answer-form-div{
+    padding: 15px;
+    border: 1px solid #DEDEDE;
+    margin: 15px 0 20px;
+}
+
+ .tag-div{
+     display:inline;
+ }
+
+.open-add-comment,
+.show-hide-comments {
+    text-decoration: underline;
+ }

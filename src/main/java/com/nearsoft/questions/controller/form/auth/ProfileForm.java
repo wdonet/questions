@@ -1,6 +1,5 @@
 package com.nearsoft.questions.controller.form.auth;
 
-import com.nearsoft.questions.domain.auth.Profile;
 import com.nearsoft.questions.domain.auth.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,10 +9,16 @@ public class ProfileForm {
     private String lastName;
     private String location;
     private MultipartFile photo;
+    private Integer reputation;
+    private String photoUri;
 
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public Integer getReputation() {
+        return reputation;
     }
 
     public void setFirstName(String firstName) {
@@ -36,21 +41,26 @@ public class ProfileForm {
         this.location = location;
     }
 
+    public String getPhotoUri() {
+        return photoUri;
+    }
+
+    public void setPhotoUri(String photoUri) {
+        this.photoUri = photoUri;
+    }
+
     public ProfileForm() {
     }
 
     public ProfileForm(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
-        this.location = user.getProfile().getLocation();
+        this.location = user.getLocation();
+        this.reputation = user.getReputation();
+        this.photoUri = user.getPhotoUri();
     }
 
-    public void merge(Profile profile) {
-        User user = profile.getUser();
-        user.setFirstName(this.getFirstName());
-        user.setLastName(this.getLastName());
-        profile.setLocation(this.getLocation());
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
     }
-
-
 }

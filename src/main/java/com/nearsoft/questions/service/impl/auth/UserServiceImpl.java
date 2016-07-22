@@ -3,6 +3,7 @@ package com.nearsoft.questions.service.impl.auth;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.UserRepository;
+import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +13,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private Logger log = LoggerFactory.getLogger(getClass());
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+
+    private RuleService ruleService;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RuleService ruleService) {
         this.userRepository = userRepository;
+        this.ruleService = ruleService;
     }
 
     @Override
@@ -35,7 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        final User user = userRepository.findByEmail(email);
+        user.setReputation(userRepository.getPointsForUserId(user.getId()));
+        user.setPermissions(ruleService.getUserPermissions(user.getReputation()));
+        return user;
     }
 
 }

@@ -2,8 +2,27 @@
 
 <html lang="en">
     <head>
-        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/css/tether.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-basic.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/css/drop-theme-arrows.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+        <script src="https://use.fontawesome.com/4eda52b947.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"></script>
+    <#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
+        <script src="/js/tags.js"></script>
+    </#if>
+
+        <link rel="stylesheet" type="text/css" href="/css/general.css">
+        <link rel="stylesheet" type="text/css" href="/css/tags.css">
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+        <script src="https://use.fontawesome.com/4eda52b947.js"></script>
+
     </head>
     <body>
     <#include "header.ftl">
@@ -11,9 +30,15 @@
             <h1 class="unanswered-questions-title"><img src="/img/tag-icon.png"> Tags</h1>
             <div class="tags-cont">
                 <div>
-                <#list tagList as tag>
+                <#list userTagList as userTag>
                     <span class="tags">
-                        <a href="/question/tag/${tag.id}">${tag.name}</a>
+                    <#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
+                        <input class="tag-checkbox" value="${userTag.tag.id}" type="checkbox"
+                         <#if userTag.subscribed>checked</#if>>
+                    </#if>
+                         <a href="/question/tag/${userTag.tag.id}">
+                         ${userTag.tag.name}</a>
+
                     </span>
                 <#else>
                     <span class="tags">No tags</span>
@@ -21,5 +46,6 @@
                 </div>
             </div>
         </div>
+    <script src="/js/header.js"></script>
     </body>
 </html>

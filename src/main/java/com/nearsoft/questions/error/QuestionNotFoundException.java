@@ -1,10 +1,10 @@
 package com.nearsoft.questions.error;
 
-public class QuestionNotFoundException extends Throwable {
+public class QuestionNotFoundException extends ElementNotFoundException {
 
-    public static final String MESSAGE = "Not able to find question with id %d";
+    public static final String QUESTION = "Question";
 
     public QuestionNotFoundException(Long questionId) {
-        super(String.format(MESSAGE, questionId));
+        super(QUESTION, questionId);
     }
 }

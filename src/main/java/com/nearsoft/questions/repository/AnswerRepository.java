@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, Long> {
 
+    @RestResource(exported = false)
     int countByQuestionId(long questionId);
 
     @Override

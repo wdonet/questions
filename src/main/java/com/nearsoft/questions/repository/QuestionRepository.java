@@ -13,14 +13,17 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends PagingAndSortingRepository<Question, Long> {
 
-    @Query(nativeQuery = true, value =
-            "SELECT * FROM question WHERE title ILIKE '%?1%' limit 10")
-    List<Question> findByTitleILike(String query);
+    @RestResource(exported = false)
+    @Query(nativeQuery = true, value = "SELECT * FROM question WHERE title ILIKE '%?1%' limit 10")
+    List<Question> findByTitle(String query);
 
+    @RestResource(exported = false)
     Page<Question> findByAnswersIsNull(Pageable pageable);
 
+    @RestResource(exported = false)
     Page<Question> findByTagsId(long tagId, Pageable pageable);
 
+    @RestResource(exported = false)
     long countByAnswersIsNull();
 
     @Override

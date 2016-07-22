@@ -22,12 +22,23 @@ target/*
 
 # emacs temp files #
 *~
+*.elc
+*#
+.#*
+!.#
 
 # log files #
 *.log
 
-#hibernate search
+# OS X dummy files #
+.DS_Store
+._*
 
-/var/*
+# Node.js files #
+node_modules
+
+# React files #
+**/webapp/build/
 
 /data/*
+/var
