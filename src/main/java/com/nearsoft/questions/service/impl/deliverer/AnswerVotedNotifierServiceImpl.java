@@ -7,7 +7,6 @@ import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.NotificationRepository;
-import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 

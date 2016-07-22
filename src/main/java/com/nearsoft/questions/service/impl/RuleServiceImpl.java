@@ -1,11 +1,5 @@
 package com.nearsoft.questions.service.impl;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.Rule;
@@ -20,7 +14,6 @@ import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.impl.deliverer.AnswerVotedNotifierServiceImpl;
-import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
 import com.nearsoft.questions.service.impl.deliverer.QuestionVotedNotifierServiceImpl;
 
 import org.slf4j.Logger;
@@ -28,6 +21,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class RuleServiceImpl implements RuleService {
@@ -56,7 +55,7 @@ public class RuleServiceImpl implements RuleService {
 
     @Autowired
     public RuleServiceImpl(RuleRepository ruleRepository, RuleQuestionTransactionRepository ruleQuestionTransactionRepository,
-        RuleAnswerTransactionRepository ruleAnswerTransactionRepository, NotificationService notificationService) {
+                           RuleAnswerTransactionRepository ruleAnswerTransactionRepository, NotificationService notificationService) {
         this.ruleRepository = ruleRepository;
         this.ruleQuestionTransactionRepository = ruleQuestionTransactionRepository;
         this.ruleAnswerTransactionRepository = ruleAnswerTransactionRepository;
@@ -98,7 +97,7 @@ public class RuleServiceImpl implements RuleService {
         Map<String, String> notificationSettings = new HashMap<>();
 
         notificationSettings.put(QuestionVotedNotifierServiceImpl.QUESTION_ID_PARAM, "" + question.getId());
-        notificationSettings.put(AnswerVotedNotifierServiceImpl.DESCRIPTION_PARAM, affectedPointsMessage + ": " + points );
+        notificationSettings.put(QuestionVotedNotifierServiceImpl.DESCRIPTION_PARAM, affectedPointsMessage + ": " + points);
         notificationSettings.put(QuestionVotedNotifierServiceImpl.SUBJECT_PARAM, points > 0 ? subjectQuestionVotedUp : subjectQuestionVotedDown);
         notificationSettings.put(QuestionVotedNotifierServiceImpl.POINTS_PARAM, "" + points);
 
@@ -120,8 +119,8 @@ public class RuleServiceImpl implements RuleService {
         Map<String, String> notificationSettings = new HashMap<>();
 
         notificationSettings.put(AnswerVotedNotifierServiceImpl.ANSWER_ID_PARAM, "" + answer.getId());
-        notificationSettings.put(AnswerVotedNotifierServiceImpl.DESCRIPTION_PARAM, affectedPointsMessage + ": " + points );
-        notificationSettings.put(AnswerVotedNotifierServiceImpl.SUBJECT_PARAM, points > 0 ? subjectAnswerVotedUp: subjectAnswerVotedDown);
+        notificationSettings.put(AnswerVotedNotifierServiceImpl.DESCRIPTION_PARAM, affectedPointsMessage + ": " + points);
+        notificationSettings.put(AnswerVotedNotifierServiceImpl.SUBJECT_PARAM, points > 0 ? subjectAnswerVotedUp : subjectAnswerVotedDown);
         notificationSettings.put(AnswerVotedNotifierServiceImpl.POINTS_PARAM, "" + points);
 
         delivererService.sendNotification(notificationSettings);
