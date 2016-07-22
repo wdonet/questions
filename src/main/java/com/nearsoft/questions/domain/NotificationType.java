@@ -1,17 +1,21 @@
 package com.nearsoft.questions.domain;
 
 
-import org.springframework.beans.factory.annotation.Value;
-
 public enum NotificationType {
 
 
-    IMPROVEMENT("mail/improvement.ftl"), ADD("mail/newQuestion.ftl"), CLOSE("mail/close.ftl");
+    IMPROVEMENT("mail/improvement.ftl"),
+    ADD("mail/newQuestion.ftl"),
+    CLOSE("mail/close.ftl"),
+    QUESTION_VOTED_UP("mail/questionVotedUp.ftl"),
+    QUESTION_VOTED_DOWN("mail/questionVotedDown.ftl"),
+    ANSWER_VOTED_UP("mail/answerVotedUp.ftl"),
+    ANSWER_VOTED_DOWN("mail/answerVotedDown.ftl");
 
     private String mailTemplateName;
 
 
-    private NotificationType(String mailTemplateName) {
+    NotificationType(String mailTemplateName) {
         this.mailTemplateName = mailTemplateName;
     }
 
