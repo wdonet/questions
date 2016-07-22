@@ -25,7 +25,7 @@ CREATE TABLE public.user
   id               BIGINT                 NOT NULL,
   email            CHARACTER VARYING(100) NOT NULL,
   first_name       CHARACTER VARYING(100) NOT NULL,
-  last_name        CHARACTER VARYING(100) not NULL,
+  last_name        CHARACTER VARYING(100) NOT NULL,
   role             CHARACTER VARYING(20)  NOT NULL,
   sign_in_provider CHARACTER VARYING(20),
   location   CHARACTER VARYING(255),
