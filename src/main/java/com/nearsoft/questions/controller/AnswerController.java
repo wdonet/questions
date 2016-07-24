@@ -44,10 +44,11 @@ public class AnswerController extends BaseController {
             answer.setDescription(form.getDescription());
             answer.setQuestion(question);
             answer.setStatus(ItemStatus.NOT_ACCEPTED);
-            answerService.save(answer);
+            answer = answerService.save(answer);
 
             redirectAttributes.addAttribute("id", form.getQuestionId());
-            return "redirect:/question/{id}";
+            redirectAttributes.addAttribute("answerId", answer.getId());
+            return "redirect:/question/{id}#a-{answerId}";
         }
         return "redirect:/search";
     }
