@@ -175,8 +175,6 @@ public class QuestionsController extends BaseController {
         Question question = questionService.get(id);
         User user = getUser(details);
         model.addAttribute("isQuestionOwner", user.getId().equals(question.getUser().getId()));
-        model.addAttribute("canEditQuestion", canEditQuestion( question, user ) );
-        model.addAttribute("canUserEditAnswers", ruleService.isValidUserPermission( RuleName.EDIT_OTHER_ANSWERS, user ) );
         model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
         model.addAttribute("userId", user.getId());
