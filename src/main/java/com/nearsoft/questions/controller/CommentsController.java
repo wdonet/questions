@@ -40,13 +40,15 @@ public class CommentsController extends BaseController {
     public String saveQuestionComment(RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details,
         @ModelAttribute CommentForm form, @PathVariable("id") Long questionId) {
         log.debug("Who's operating ? " + details);
+        Long commentId = 0l;
         if (form != null && questionId > 0 && StringUtils.isNotBlank(form.getDescription())) {
             log.debug("Trying to add comment for question " + questionId );
             form.setSourceId(questionId);
-            commentService.addToQuestion(form, getUser(details));
+            commentId = commentService.addToQuestion(form, getUser(details)).getId();
         }
         redirectAttributes.addAttribute("id", questionId);
-        return "redirect:/question/{id}";
+        redirectAttributes.addAttribute("commentId", commentId);
+        return "redirect:/question/{id}#qc-{commentId}";
     }
 
     @RequestMapping(value = "answer/{id}", method = RequestMethod.GET)
@@ -59,12 +61,14 @@ public class CommentsController extends BaseController {
     public String saveAnswerComment(RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails details,
         @ModelAttribute CommentForm form, @PathVariable("questionId") Long questionId, @PathVariable("answerId") Long answerId) {
         log.debug("Who's operating ? " + details);
+        Long commentId = 0l;
         if (form != null && answerId > 0 && StringUtils.isNotBlank(form.getDescription())) {
             log.debug("Trying to add comment for answer " + answerId);
             form.setSourceId(answerId);
-            commentService.addToAnswer(form, getUser(details));
+            commentId = commentService.addToAnswer(form, getUser(details)).getId();
         }
         redirectAttributes.addAttribute("id", questionId);
-        return "redirect:/question/" + questionId;
+        redirectAttributes.addAttribute("commentId", commentId);
+        return "redirect:/question/{id}#ac-{commentId}";
     }
 }
