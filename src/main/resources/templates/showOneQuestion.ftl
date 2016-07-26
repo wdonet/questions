@@ -91,7 +91,7 @@
     </#if>
         <div class="all-comments-question">
         <#list question.comments as comment>
-            <div class="comments-question-cont">
+            <div id="qc-${comment.id}" class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                 <div class="date">
                     <i class="fa fa-clock-o"></i>
@@ -113,7 +113,7 @@
         </div>
         <h2 class="answers-title">ANSWERS</h2>
     <#list question.answers as answer>
-        <div class="answers-cont">
+        <div id="a-${answer.id}" class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
                     <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
@@ -162,7 +162,7 @@
             </div>
             <div class="all-comments-answer">
             <#list answer.comments as comment>
-                <div class="comments-answer-cont">
+                <div id="ac-${comment.id}" class="comments-answer-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                     <div class="date">
                         <i class="fa fa-clock-o"></i>

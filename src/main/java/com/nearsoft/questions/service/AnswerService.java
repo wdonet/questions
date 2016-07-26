@@ -5,7 +5,7 @@ import com.nearsoft.questions.domain.auth.User;
 
 public interface AnswerService {
 
-    void save(Answer answer);
+    Answer save(Answer answer);
 
     public void update(Answer answer);
 
