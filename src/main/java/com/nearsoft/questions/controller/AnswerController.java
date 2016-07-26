@@ -70,7 +70,8 @@ public class AnswerController extends BaseController {
         answerService.update(answer);
 
         redirectAttributes.addAttribute("id", form.getQuestionId());
-        return "redirect:/question/{id}";
+        redirectAttributes.addAttribute("answerId", answer.getId());
+        return "redirect:/question/{id}#a-{answerId}";
     }
 
     private void validateUserOwner(Answer answer, UserDetails details) {
