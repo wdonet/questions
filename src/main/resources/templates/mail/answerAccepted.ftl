@@ -1,6 +1,6 @@
 Congratulations ${userName!}!,
 
-Your answer has been voted up.
+Your answer has been accepted.
 
 Keep your work up and don't stop being awesome!
 
@@ -12,10 +12,6 @@ Your answer:
 
 ${answerText!}
 
-Points Up: ${votesUp!}
-Points Down: ${votesDown!}
-
 Your reputation: ${reputation!}
-
 
 Thank you.

@@ -6,12 +6,14 @@ import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
+import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -26,12 +28,19 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
 
     public static final String QUESTION_ID_PARAM = "com.nsquestions.question.id";
 
-    public static final String DESCRIPTION_PARAM = "com.nsquestions.notification.description";
-    public static final String SUBJECT_PARAM = "com.nsquestions.notification.subject";
+    @Value("${com.nsquestions.notification.question-voted-up.subject:Question voted up}")
+    private String subjectQuestionVotedUp;
+
+    @Value("${com.nsquestions.notification.question-voted-down.subject:Question voted down}")
+    private String subjectQuestionVotedDown;
+
     public static final String POINTS_PARAM = "com.nsquestions.notification.voted.points";
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private NotificationRepository notificationRepository;
@@ -46,8 +55,8 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
         int points = parameterReader.getInteger(parametersMap, POINTS_PARAM);
-        String description = parameterReader.getString(parametersMap, DESCRIPTION_PARAM);
-        String subject = parameterReader.getString(parametersMap, SUBJECT_PARAM);
+        String description = points > 0 ? subjectQuestionVotedUp : subjectQuestionVotedDown;
+        String subject = description;
         Question question = questionRepository.findOne(parameterReader.getLong(parametersMap, QUESTION_ID_PARAM));
         NotificationType notificationType = points > 0 ? NotificationType.QUESTION_VOTED_UP : NotificationType.QUESTION_VOTED_DOWN;
 
@@ -56,7 +65,10 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         Map<String, String> templateParams = new HashMap<>();
 
         templateParams.put("description", description);
-        templateParams.put("points", parameterReader.getString(parametersMap, POINTS_PARAM));
+        templateParams.put("questionTitle", question.getTitle());
+        templateParams.put("votesUp", "" + question.getVotesUp());
+        templateParams.put("votesDown", "" + question.getVotesDown());
+        templateParams.put("reputation", "" + userRepository.getPointsForUserId(user.getId()));
 
         Notification notification = new Notification();
 

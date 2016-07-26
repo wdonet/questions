@@ -14,7 +14,6 @@ import com.nearsoft.questions.service.NotificationDelivererService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,27 +22,21 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 @Service
-public class AnswerVotedNotifierServiceImpl implements NotificationDelivererService {
+public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     public static final String ANSWER_ID_PARAM = "com.nsquestions.answer.id";
 
-    @Value("${com.nsquestions.notification.answer-voted-up.subject:Answer voted up}")
-    private String subjectAnswerVotedUp;
-
-    @Value("${com.nsquestions.notification.answer-voted-down.subject:Answer voted down}")
-    private String subjectAnswerVotedDown;
-
-    public static final String POINTS_PARAM = "com.nsquestions.notification.voted.points";
+    public static final String DESCRIPTION_PARAM = "Accepted answer";
 
     @Autowired
     private AnswerRepository answerRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private NotificationRepository notificationRepository;
 
     @Autowired
-    private NotificationRepository notificationRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private MailSenderService mailSenderService;
@@ -54,11 +47,9 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
 
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
-        int points = parameterReader.getInteger(parametersMap, POINTS_PARAM);
-        String description = points > 0 ? subjectAnswerVotedUp : subjectAnswerVotedDown;
-        String subject = description;
+        String description = DESCRIPTION_PARAM;
+        String subject = DESCRIPTION_PARAM;
         Answer answer = answerRepository.findOne(parameterReader.getLong(parametersMap, ANSWER_ID_PARAM));
-        NotificationType notificationType = points > 0 ? NotificationType.ANSWER_VOTED_UP : NotificationType.ANSWER_VOTED_DOWN;
         Question question = answer.getQuestion();
 
         User user = answer.getUser();
@@ -68,14 +59,12 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
         templateParams.put("description", description);
         templateParams.put("questionTitle", question.getTitle());
         templateParams.put("answerText", answer.getDescription());
-        templateParams.put("votesUp", "" + answer.getVotesUp());
-        templateParams.put("votesDown", "" + answer.getVotesDown());
         templateParams.put("reputation", "" + userRepository.getPointsForUserId(user.getId()));
 
         Notification notification = new Notification();
 
         notification.setDescription(description);
-        notification.setType(notificationType);
+        notification.setType(NotificationType.ANSWER_ACCEPTED);
         notification.setUser(user);
         notification.setUiNotified(false);
         notification.setEmailDelivered(false);
@@ -86,7 +75,7 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
         notificationRepository.save(notification);
 
         try {
-            mailSenderService.sendEmail(notificationType, subject, templateParams, user.getEmail());
+            mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, subject, templateParams, user.getEmail());
         } catch (MessagingException e) {
             log.error("Can't deliver notification by email", e);
         }
