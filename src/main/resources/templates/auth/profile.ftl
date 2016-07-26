@@ -31,7 +31,7 @@
 <section class="form-cont-ask">
 
     <form name="update_profile" id="form_update_profile" action="/profile" method="POST" enctype="multipart/form-data">
-    <@spring.message "auth.profile.photo"/>: <img class="profile-profile-photo" src="${form.photoUri}"><br/><br/>
+    <@spring.message "auth.profile.photo"/>: <img class="profile-profile-photo" src="${(form.photoUri)!"/img/no-photo.png"}"><br/><br/>
     <@spring.message "auth.profile.firstname"/>: <input type="text" name="firstName" value="${form.firstName}"><br/><br/>
     <@spring.message "auth.profile.lastname"/>: <input type="text" name="lastName" value="${form.lastName}"/><br/><br/>
     <@spring.message "auth.profile.location"/>: <input type="text" name="location" value="${form.location!""}"/><br/><br/>
