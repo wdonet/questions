@@ -69,7 +69,7 @@
                         <div class="votes">${question.votesDown}</div>
                     </form>
                 </#if>
-            <#if isQuestionOwner && isNotClosed>
+            <#if canEditQuestion && isNotClosed>
                 <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
             </#if>
             </div>
@@ -145,7 +145,7 @@
                  <#if answer.status == 'ACCEPTED'>
                      <button class="val-pos fa fa-thumbs-up" type="submit" aria-hidden="true" disabled="disabled">WORKED</button>
                  </#if>
-                 <#if userId?c == answer.user.id?c>
+                 <#if userId?c == answer.user.id?c || canUserEditAnswers >
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
                  </#if>
                 </div>
