@@ -32,9 +32,9 @@
 <body class="question">
 <#include "header.ftl">
 <#include "searchBox.ftl">
-<div class="suggestion-wrapper to-hide-when-searching">
+<div class="suggestion-wrapper">
     <a onclick="window.history.back()" class="back-btn">« BACK </a>
-    <div class="question-cont">
+    <div class="question-cont to-hide-when-searching">
         <div class="question-title">${question.title}</div>
         <div id="edit-title-input-div"> <input name="title" form="editQuestionForm" type="text" id="questionTitleInput"></div>
         <div id="questionInfo">
@@ -91,7 +91,7 @@
     </#if>
         <div class="all-comments-question">
         <#list question.comments as comment>
-            <div class="comments-question-cont">
+            <div id="qc-${comment.id}" class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                 <div class="date">
                     <i class="fa fa-clock-o"></i>
@@ -113,7 +113,7 @@
         </div>
         <h2 class="answers-title">ANSWERS</h2>
     <#list question.answers as answer>
-        <div class="answers-cont">
+        <div id="a-${answer.id}" class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
                     <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
@@ -137,17 +137,17 @@
                         <div class="votes">${answer.votesDown}</div>
                     </form>
         </#if>
-                 <#if isQuestionOwner && answer.status != 'ACCEPTED' && !question.hasAnyAcceptedAnswer()>
+        <#if isQuestionOwner && answer.status != 'ACCEPTED' && !question.hasAnyAcceptedAnswer()>
                     <form action="/question/${question.id?c}/answer/${answer.id?c}/accept" method="post" class="validation-negative">
                         <button type="submit" class="add-button">Accept</button>
                     </form>
-                 </#if>
-                 <#if answer.status == 'ACCEPTED'>
+        </#if>
+        <#if answer.status == 'ACCEPTED'>
                      <button class="val-pos fa fa-thumbs-up" type="submit" aria-hidden="true" disabled="disabled">WORKED</button>
-                 </#if>
-                 <#if userId?c == answer.user.id?c || canUserEditAnswers >
+        </#if>
+        <#if userId?c == answer.user.id?c || canUserEditAnswers >
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
-                 </#if>
+        </#if>
                 </div>
             </div>
             <div class="answers" id="answer-description-div-${answer?counter}">${answer.description}</div>
@@ -162,7 +162,7 @@
             </div>
             <div class="all-comments-answer">
             <#list answer.comments as comment>
-                <div class="comments-answer-cont">
+                <div id="ac-${comment.id}" class="comments-answer-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                     <div class="date">
                         <i class="fa fa-clock-o"></i>
