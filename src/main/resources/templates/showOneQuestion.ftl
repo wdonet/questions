@@ -63,13 +63,13 @@
                         <div class="votes">${question.votesUp}</div>
                     </form>
                 </#if>
-                <#if userPermissions?seq_contains("VOTED_DOWN_QUESTION")>
+                <#if userPermissions?seq_contains("EDIT_OTHER_QUESTIONS")>
                     <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
                         <button class="val-neg fa fa-arrow-down" type="submit"></button>
                         <div class="votes">${question.votesDown}</div>
                     </form>
                 </#if>
-            <#if canEditQuestion && isNotClosed>
+            <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER") && isNotClosed>
                 <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
             </#if>
             </div>
@@ -145,7 +145,7 @@
         <#if answer.status == 'ACCEPTED'>
                      <button class="val-pos fa fa-thumbs-up" type="submit" aria-hidden="true" disabled="disabled">WORKED</button>
         </#if>
-        <#if userId?c == answer.user.id?c || canUserEditAnswers >
+        <#if userId?c == answer.user.id?c || userPermissions?seq_contains("EDIT_OTHER_ANSWERS") >
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
         </#if>
                 </div>
