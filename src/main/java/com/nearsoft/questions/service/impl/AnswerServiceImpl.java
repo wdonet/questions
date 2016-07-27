@@ -45,8 +45,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void save(Answer answer) {
-        answerRepository.save(answer);
+    public Answer save(Answer answer) {
+        Answer savedAnswer = answerRepository.save(answer);
 
         NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewAnswerNotifierServiceImpl.class);
         Map<String, String> notificationSettings = new HashMap<>();
@@ -56,6 +56,8 @@ public class AnswerServiceImpl implements AnswerService {
         delivererService.sendNotification(notificationSettings);
 
         ruleService.savePointsForAnswer(answer, RuleName.NEW_ANSWER);
+
+        return savedAnswer;
     }
 
     @Override
