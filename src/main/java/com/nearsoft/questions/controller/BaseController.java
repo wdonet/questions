@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public abstract class BaseController {
 
     @Autowired
-    private UserService userService;
+    protected UserService userService;
 
     protected User getUser(UserDetails details) {
         if (details == null || StringUtils.isBlank(details.getUsername())) {
