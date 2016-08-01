@@ -3,11 +3,13 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.OperationDeniedException;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
+import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.TagService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -41,6 +43,9 @@ public class QuestionsController extends BaseController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private RuleService ruleService;
 
     @Value("${questions.onlyOneAnswer}")
     private Boolean onlyOneAnswer;
@@ -196,10 +201,11 @@ public class QuestionsController extends BaseController {
         }
 
         Question questionRegister = questionService.get(form.getId());
-        validateUserOwner(questionRegister, details);
+        User user = userService.getUserByEmail(questionRegister.getUser().getEmail());
+        validateAuthorizedUser(questionRegister, user);
 
         Question question = new Question(
-                form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList(true)), getUser(details));
+                form, tagService.getPersistedTagsFromTagNameList(form.getNormalizedTagList(true)), user);
         question.setStatus(questionRegister.getStatus());
         questionService.update(question);
 
@@ -208,11 +214,23 @@ public class QuestionsController extends BaseController {
     }
 
 
-    private void validateUserOwner(Question question, UserDetails details) {
-        if (!question.getUser().getId().equals(details.getUser().getId())){
-            log.error("The user is not the owner of the question, userid: {}", question.getUser().getId());
-            throw new OperationDeniedException();
+    private void validateAuthorizedUser(Question question, User user) {
+
+        if ( canEditQuestion(question, user) ){
+           return;
         }
+
+        log.error("The user is not authorized for performing this operation, userid: {}", question.getUser().getId());
+        throw new OperationDeniedException();
+    }
+
+    private boolean canEditQuestion(Question question, User user) {
+        return isUserOwner(question, user) ||
+                ruleService.isValidUserPermission( RuleName.EDIT_OTHER_QUESTIONS, user );
+    }
+
+    private boolean isUserOwner(Question question, User user) {
+        return question.getUser().getId().equals(user.getId());
     }
 
 }

@@ -63,13 +63,13 @@
                         <div class="votes">${question.votesUp}</div>
                     </form>
                 </#if>
-                <#if userPermissions?seq_contains("VOTED_DOWN_QUESTION")>
+                <#if userPermissions?seq_contains("EDIT_OTHER_QUESTIONS")>
                     <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
                         <button class="val-neg fa fa-arrow-down" type="submit"></button>
                         <div class="votes">${question.votesDown}</div>
                     </form>
                 </#if>
-            <#if isQuestionOwner && isNotClosed>
+            <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER") && isNotClosed>
                 <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
             </#if>
             </div>
@@ -91,7 +91,7 @@
     </#if>
         <div class="all-comments-question">
         <#list question.comments as comment>
-            <div class="comments-question-cont">
+            <div id="qc-${comment.id}" class="comments-question-cont">
                 <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                 <div class="date">
                     <i class="fa fa-clock-o"></i>
@@ -113,7 +113,7 @@
         </div>
         <h2 class="answers-title">ANSWERS</h2>
     <#list question.answers as answer>
-        <div class="answers-cont">
+        <div id="a-${answer.id}" class="answers-cont">
             <div class="author-cont">
                 <div class="owner">Answered By
                     <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
@@ -145,7 +145,7 @@
         <#if answer.status == 'ACCEPTED'>
                      <button class="val-pos fa fa-thumbs-up" type="submit" aria-hidden="true" disabled="disabled">WORKED</button>
         </#if>
-        <#if userId?c == answer.user.id?c>
+        <#if userId?c == answer.user.id?c || userPermissions?seq_contains("EDIT_OTHER_ANSWERS") >
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
         </#if>
                 </div>
@@ -162,7 +162,7 @@
             </div>
             <div class="all-comments-answer">
             <#list answer.comments as comment>
-                <div class="comments-answer-cont">
+                <div id="ac-${comment.id}" class="comments-answer-cont">
                     <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
                     <div class="date">
                         <i class="fa fa-clock-o"></i>

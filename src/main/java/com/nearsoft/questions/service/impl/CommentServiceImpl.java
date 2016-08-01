@@ -31,16 +31,16 @@ public class CommentServiceImpl implements CommentService {
     private AnswerService answerService;
 
     @Override
-    public void addToQuestion(final CommentForm form, final User userDetails) {
+    public QuestionComment addToQuestion(final CommentForm form, final User userDetails) {
         Question question = questionService.get(form.getSourceId());
         QuestionComment comment = new QuestionComment(form, question, userDetails);
-        questionCommentRepository.save(comment);
+        return questionCommentRepository.save(comment);
     }
 
     @Override
-    public void addToAnswer(CommentForm form, User userDetails) {
+    public AnswerComment addToAnswer(CommentForm form, User userDetails) {
         Answer answer = answerService.get(form.getSourceId());
         AnswerComment comment = new AnswerComment(form, answer, userDetails);
-        answerCommentRepository.save(comment);
+        return answerCommentRepository.save(comment);
     }
 }
