@@ -43,7 +43,7 @@ public class RuleServiceImpl implements RuleService {
         List<RuleName> permissions = new ArrayList<>();
         if (userReputation != null && userReputation > 0) {
             for (Rule rule : ruleRepository.findAll()) {
-                if (userReputation > rule.getReputationNeeded()) {
+                if (userReputation >= rule.getReputationNeeded()) {
                     permissions.add(rule.getRuleName());
                 }
             }
@@ -53,10 +53,11 @@ public class RuleServiceImpl implements RuleService {
 
     @Override
     public boolean isValidUserPermission(RuleName ruleName, User currentUser) {
+        log.info("this is the null user " + currentUser);
         int reputationNeeded = ruleRepository.findFirstByRuleName(ruleName).getReputationNeeded();
         int userReputation = currentUser.getReputation();
         log.info(String.format("Validating %s if points needed [%d] and user have [%d]", ruleName, reputationNeeded, userReputation));
-        return userReputation > reputationNeeded;
+        return userReputation >= reputationNeeded;
     }
 
     @Override
