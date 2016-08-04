@@ -8,15 +8,22 @@ import java.util.Map;
 @Component
 public class ParameterReader {
 
-    public Long getLong(Map<String, String> parametersMap, String parameterName) {
+    public long getLong(Map<String, String> parametersMap, String parameterName) {
 
         if(!parametersMap.containsKey(parameterName)){
             throw new ParameterMissingException(parameterName);
         }
 
-        Long longValue = Long.parseLong(parametersMap.get(parameterName));
+        return Long.parseLong(parametersMap.get(parameterName));
+    }
 
-        return longValue;
+    public int getInteger(Map<String, String> parametersMap, String parameterName) {
+
+        if(!parametersMap.containsKey(parameterName)){
+            throw new ParameterMissingException(parameterName);
+        }
+
+        return Integer.parseInt(parametersMap.get(parameterName));
     }
 
     public String getString(Map<String, String> parametersMap, String parameterName) {

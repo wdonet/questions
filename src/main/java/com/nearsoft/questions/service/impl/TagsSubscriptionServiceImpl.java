@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 public class TagsSubscriptionServiceImpl implements TagsSubscriptionService {
@@ -94,6 +95,10 @@ public class TagsSubscriptionServiceImpl implements TagsSubscriptionService {
     public List<User> findByTagsIsIn(List<Tag> tags) {
 
         return tagsSubscriptionRepository.findByTagsIsIn(tags);
+    }
+
+    public Stream<TagSubscription> findByTagIsInOrderByUserAsc(List<Tag> tags){
+        return tagsSubscriptionRepository.findByTagIsInOrderByUserAsc(tags);
     }
 
     private Tag getTag(Long tagId) throws TagNotFoundException {

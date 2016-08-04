@@ -1,8 +1,10 @@
 package com.nearsoft.questions.service.impl;
 
-import java.util.List;
-
-import com.nearsoft.questions.domain.*;
+import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.ItemStatus;
+import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.RuleQuestionTransaction;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
@@ -11,6 +13,8 @@ import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
+import com.nearsoft.questions.service.impl.deliverer.QuestionVotedNotifierServiceImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,7 +50,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService,
-        NotificationService notificationService) {
+                               NotificationService notificationService) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
         this.ruleService = ruleService;
@@ -75,12 +80,13 @@ public class QuestionServiceImpl implements QuestionService {
         if (question != null && ruleService.isValidUserPermission(RuleName.VOTED_DOWN_QUESTION, currentUser)) {
             question.setVotesDown(question.getVotesDown() + 1);
             questionRepository.save(question);
-            ruleService.savePointsForQuestion(question, RuleName.VOTED_DOWN_QUESTION);
-        }
-        else {
+
+            savePointsForQuestion(question, RuleName.VOTED_DOWN_QUESTION);
+        } else {
             log.warn("Question " + questionId + " not found when voting down");
         }
     }
+
 
     @Override
     public void upVote(Long questionId, User currentUser) {
@@ -88,11 +94,23 @@ public class QuestionServiceImpl implements QuestionService {
         if (question != null && ruleService.isValidUserPermission(RuleName.VOTED_UP_QUESTION, currentUser)) {
             question.setVotesUp(question.getVotesUp() + 1);
             questionRepository.save(question);
-            ruleService.savePointsForQuestion(question, RuleName.VOTED_UP_QUESTION);
-        }
-        else {
+
+            savePointsForQuestion(question, RuleName.VOTED_UP_QUESTION);
+        } else {
             log.warn("Question " + questionId + " not found when voting up");
         }
+    }
+
+    private void savePointsForQuestion(Question question, RuleName ruleName) {
+        RuleQuestionTransaction ruleQuestionTransaction = ruleService.savePointsForQuestion(question, ruleName);
+        Map<String, String> notificationSettings = new HashMap<>();
+
+        notificationSettings.put(QuestionVotedNotifierServiceImpl.QUESTION_ID_PARAM, "" + question.getId());
+        notificationSettings.put(QuestionVotedNotifierServiceImpl.POINTS_PARAM, "" + ruleQuestionTransaction.getPoints());
+
+        NotificationDelivererService delivererService = notificationService.getDelivererInstance(QuestionVotedNotifierServiceImpl.class);
+
+        delivererService.sendNotification(notificationSettings);
     }
 
     @Override
@@ -174,7 +192,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private void validateQuestionStatus(Question questionRegister) {
-        if (questionRegister.getStatus() == ItemStatus.CLOSED){
+        if (questionRegister.getStatus() == ItemStatus.CLOSED) {
             throw new IllegalStateException("The question cannot be modified if it is closed");
         }
     }

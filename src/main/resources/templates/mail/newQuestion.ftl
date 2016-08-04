@@ -1,5 +1,7 @@
 Hi ${userName!},
 
-A question was created/modified tagged with ${tagList!} . Check it out!
+You may be interested in this question:
 
-${description!}
+${questionTitle!}
+
+It is tagged with <i>${tagsList!}</i> . Check it out!

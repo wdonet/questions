@@ -1,8 +1,5 @@
 package com.nearsoft.questions.service.impl;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.Rule;
@@ -14,10 +11,15 @@ import com.nearsoft.questions.repository.RuleAnswerTransactionRepository;
 import com.nearsoft.questions.repository.RuleQuestionTransactionRepository;
 import com.nearsoft.questions.repository.RuleRepository;
 import com.nearsoft.questions.service.RuleService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RuleServiceImpl implements RuleService {
@@ -30,7 +32,7 @@ public class RuleServiceImpl implements RuleService {
 
     @Autowired
     public RuleServiceImpl(RuleRepository ruleRepository, RuleQuestionTransactionRepository ruleQuestionTransactionRepository,
-        RuleAnswerTransactionRepository ruleAnswerTransactionRepository) {
+                           RuleAnswerTransactionRepository ruleAnswerTransactionRepository) {
         this.ruleRepository = ruleRepository;
         this.ruleQuestionTransactionRepository = ruleQuestionTransactionRepository;
         this.ruleAnswerTransactionRepository = ruleAnswerTransactionRepository;
@@ -59,7 +61,7 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public void savePointsForQuestion(Question question, RuleName ruleName) {
+    public RuleQuestionTransaction savePointsForQuestion(Question question, RuleName ruleName) {
         int points = ruleRepository.findFirstByRuleName(ruleName).getPoints();
         RuleQuestionTransaction ruleQuestionTransaction = new RuleQuestionTransaction();
         ruleQuestionTransaction.setCreatedAt(ZonedDateTime.now());
@@ -67,10 +69,12 @@ public class RuleServiceImpl implements RuleService {
         ruleQuestionTransaction.setQuestionId(question.getId());
         ruleQuestionTransaction.setRuleName(ruleName);
         ruleQuestionTransactionRepository.save(ruleQuestionTransaction);
+
+        return ruleQuestionTransaction;
     }
 
     @Override
-    public void savePointsForAnswer(Answer answer, RuleName ruleName) {
+    public RuleAnswerTransaction savePointsForAnswer(Answer answer, RuleName ruleName) {
         int points = ruleRepository.findFirstByRuleName(ruleName).getPoints();
         RuleAnswerTransaction transaction = new RuleAnswerTransaction();
         transaction.setPoints(points);
@@ -78,6 +82,8 @@ public class RuleServiceImpl implements RuleService {
         transaction.setAnswerId(answer.getId());
         transaction.setCreatedAt(ZonedDateTime.now());
         ruleAnswerTransactionRepository.save(transaction);
+
+        return transaction;
     }
 
 }

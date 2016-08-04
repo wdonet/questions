@@ -1,6 +1,10 @@
 package com.nearsoft.questions.service.impl;
 
-import com.nearsoft.questions.domain.*;
+import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.ItemStatus;
+import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.RuleAnswerTransaction;
+import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.error.AnswerNotFoundException;
 import com.nearsoft.questions.error.OperationDeniedException;
@@ -9,7 +13,10 @@ import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.RuleService;
-import com.nearsoft.questions.service.impl.deliverer.NewQuestionNotifierServiceImpl;
+import com.nearsoft.questions.service.impl.deliverer.AcceptedAnswerNotifierServiceImpl;
+import com.nearsoft.questions.service.impl.deliverer.AnswerVotedNotifierServiceImpl;
+import com.nearsoft.questions.service.impl.deliverer.NewAnswerNotifierServiceImpl;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +35,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     private RuleService ruleService;
 
-    NotificationService notificationService;
+    private NotificationService notificationService;
 
     @Autowired
     public AnswerServiceImpl(AnswerRepository answerRepository, RuleService ruleService, NotificationService notificationService) {
@@ -41,17 +48,15 @@ public class AnswerServiceImpl implements AnswerService {
     public Answer save(Answer answer) {
         Answer savedAnswer = answerRepository.save(answer);
 
-        Question question = answer.getQuestion();
-
-        NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewQuestionNotifierServiceImpl.class);
+        NotificationDelivererService delivererService = notificationService.getDelivererInstance(NewAnswerNotifierServiceImpl.class);
         Map<String, String> notificationSettings = new HashMap<>();
 
-        notificationSettings.put(NewQuestionNotifierServiceImpl.QUESTION_ID_PARAM, "" + question.getId());
-        notificationSettings.put(NewQuestionNotifierServiceImpl.DESCRIPTION_PARAM, "New answer:" + answer.getDescription());
+        notificationSettings.put(NewAnswerNotifierServiceImpl.ANSWER_ID_PARAM, "" + answer.getId());
 
         delivererService.sendNotification(notificationSettings);
 
         ruleService.savePointsForAnswer(answer, RuleName.NEW_ANSWER);
+
         return savedAnswer;
     }
 
@@ -61,8 +66,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Answer get(final Long id){
-    	return answerRepository.findOne(id);
+    public Answer get(final Long id) {
+        return answerRepository.findOne(id);
     }
 
     @Override
@@ -71,9 +76,9 @@ public class AnswerServiceImpl implements AnswerService {
         if (answer != null && ruleService.isValidUserPermission(RuleName.VOTED_DOWN_ANSWER, currentUser)) {
             answer.setVotesDown(answer.getVotesDown() + 1);
             answerRepository.save(answer);
-            ruleService.savePointsForAnswer(answer, RuleName.VOTED_DOWN_ANSWER);
-        }
-        else {
+
+            savePointsForAnswer(answer, RuleName.VOTED_DOWN_ANSWER);
+        } else {
             log.warn("Answer " + answerId + " not found when voting down");
         }
     }
@@ -84,15 +89,28 @@ public class AnswerServiceImpl implements AnswerService {
         if (answer != null && ruleService.isValidUserPermission(RuleName.VOTED_UP_ANSWER, currentUser)) {
             answer.setVotesUp(answer.getVotesUp() + 1);
             answerRepository.save(answer);
-            ruleService.savePointsForAnswer(answer, RuleName.VOTED_UP_ANSWER);
-        }
-        else {
+
+            savePointsForAnswer(answer, RuleName.VOTED_UP_ANSWER);
+
+        } else {
             log.warn("Answer " + answerId + " not found when voting up");
         }
     }
 
+    private void savePointsForAnswer(Answer answer, RuleName ruleName) {
+        RuleAnswerTransaction ruleAnswerTransaction = ruleService.savePointsForAnswer(answer, ruleName);
+
+        NotificationDelivererService delivererService = notificationService.getDelivererInstance(AnswerVotedNotifierServiceImpl.class);
+        Map<String, String> notificationSettings = new HashMap<>();
+
+        notificationSettings.put(AnswerVotedNotifierServiceImpl.ANSWER_ID_PARAM, "" + answer.getId());
+        notificationSettings.put(AnswerVotedNotifierServiceImpl.POINTS_PARAM, "" + ruleAnswerTransaction.getPoints());
+
+        delivererService.sendNotification(notificationSettings);
+    }
+
     @Override
-    public void markAsAccepted(Long answerId, User user){
+    public void markAsAccepted(Long answerId, User user) {
         Answer answer = answerRepository.findOne(answerId);
         if (answer == null) {
             log.error("Answer not found");
@@ -115,12 +133,20 @@ public class AnswerServiceImpl implements AnswerService {
 
             answer.setStatus(ItemStatus.ACCEPTED);
             answerRepository.save(answer);
+
+            NotificationDelivererService delivererService = notificationService.getDelivererInstance(AcceptedAnswerNotifierServiceImpl.class);
+            Map<String, String> notificationSettings = new HashMap<>();
+
+            notificationSettings.put(AcceptedAnswerNotifierServiceImpl.ANSWER_ID_PARAM, "" + answerId);
+
+            delivererService.sendNotification(notificationSettings);
+
             ruleService.savePointsForAnswer(answer, RuleName.ACCEPTED_ANSWER);
         }
     }
 
     private boolean questionHasAnyAcceptedAnswer(Question question) {
         return CollectionUtils.isNotEmpty(question.getAnswers()) &&
-            question.getAnswers().stream().filter(answer -> answer.getStatus().equals(ItemStatus.ACCEPTED)).count() > 0;
+                question.getAnswers().stream().filter(answer -> answer.getStatus().equals(ItemStatus.ACCEPTED)).count() > 0;
     }
 }
