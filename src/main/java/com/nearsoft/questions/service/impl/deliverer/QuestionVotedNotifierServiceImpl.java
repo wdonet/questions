@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +35,14 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
     @Value("${com.nsquestions.notification.question-voted-down.subject:Question voted down}")
     private String subjectQuestionVotedDown;
 
+    @Value("${com.nsquestions.notification.len-start-of-question:15}")
+    private int lenStartOfQuestion;
+
     public static final String POINTS_PARAM = "com.nsquestions.notification.voted.points";
+
+    private static final int LEN_ELLIPSIS = 3;
+
+    private static final String ELLIPSIS = "...";
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -55,10 +63,13 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
         int points = parameterReader.getInteger(parametersMap, POINTS_PARAM);
-        String description = points > 0 ? subjectQuestionVotedUp : subjectQuestionVotedDown;
-        String subject = description;
         Question question = questionRepository.findOne(parameterReader.getLong(parametersMap, QUESTION_ID_PARAM));
+        String questionText = question.getTitle();
+        String startOfQuestion = questionText.length() > lenStartOfQuestion ? questionText.substring(0, lenStartOfQuestion - LEN_ELLIPSIS) + ELLIPSIS : questionText;
+        String description = points > 0 ? subjectQuestionVotedUp : subjectQuestionVotedDown;
         NotificationType notificationType = points > 0 ? NotificationType.QUESTION_VOTED_UP : NotificationType.QUESTION_VOTED_DOWN;
+
+        description = MessageFormat.format(description, startOfQuestion);
 
         User user = question.getUser();
 
@@ -84,7 +95,7 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         notificationRepository.save(notification);
 
         try {
-            mailSenderService.sendEmail(notificationType, subject, templateParams, user.getEmail());
+            mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
         } catch (MessagingException e) {
             log.error("Can't deliver notification by email", e);
         }

@@ -1,36 +1,49 @@
 package com.nearsoft.questions.service.impl.deliverer;
 
-import com.nearsoft.questions.domain.*;
+import com.nearsoft.questions.domain.Notification;
+import com.nearsoft.questions.domain.NotificationType;
+import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.Tag;
+import com.nearsoft.questions.domain.TagSubscription;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.TagsSubscriptionRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
-import com.nearsoft.questions.service.TagsSubscriptionService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import java.time.LocalDateTime;
+import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
+import javax.mail.MessagingException;
+
+/**
+ * This class uses MessageFormat to format the subject of the notification.
+ *
+ * The dynamic parameters are set in the following order:
+ *
+ * {0} = Tags list
+ */
 @Service
 public class NewQuestionNotifierServiceImpl implements NotificationDelivererService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private static final String QUESTION_TITLE = "questionTitle";
+    private static final String USER_NAME_QUESTION = "userNameQuestion";
+    private static final String TAGS_LIST = "tagsList";
+    private static final String USER_NAME = "userName";
 
     public static final String QUESTION_ID_PARAM = "com.nsquestions.question.id";
 
-    private static final String NEW_QUESTION_MSG = "NEW QUESTION: ";
-
-    public static final String DESCRIPTION_PARAM ="com.nsquestions.question.description";
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -42,77 +55,60 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
     private TagsSubscriptionRepository tagsSubscriptionRepository;
 
     @Autowired
-    private TagsSubscriptionService tagsSubscriptionService;
-
-    @Autowired
     private MailSenderService mailSenderService;
 
     @Autowired
     ParameterReader parameterReader;
 
-    @Value("${com.nsquestions.notification.newquestion.subject:New question}")
+    @Value("${com.nsquestions.notification.newquestion.subject:'Question tagged for {0}'}")
     private String subject;
 
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
+
         Question question = questionRepository.findOne(parameterReader.getLong(parametersMap, QUESTION_ID_PARAM));
 
         List<Tag> tags = question.getTags();
+        QuestionNotifierTagsByUserConsumer notifierTagsByUser = new QuestionNotifierTagsByUserConsumer(question, this);
 
-        List<User> tagSubscriptions = tagsSubscriptionService.findByTagsIsIn(tags);
+        try (Stream<TagSubscription> stream = tagsSubscriptionRepository.findByTagIsInOrderByUserAsc(tags)) {
+            stream.forEach(notifierTagsByUser);
+        }
+
+        notifierTagsByUser.sendRemainingNotifications();
+    }
+
+    public void sendNotification(Question question, String tagsList, User user) {
+
+        if (tagsList.length() == 0 || user == null) {
+            return;
+        }
 
         Map<String, String> templateParams = new HashMap<>();
 
-        String tagList = buildTagsListParam(tags);
+        templateParams.put(QUESTION_TITLE, question.getTitle());
+        templateParams.put(USER_NAME_QUESTION, question.getUser().getFirstName());
+        templateParams.put(TAGS_LIST, tagsList);
+        templateParams.put(USER_NAME, user.getFirstName());
 
-        String description;
+        Notification notification = new Notification();
 
-        templateParams.put("tagList", tagList);
-        if(parametersMap.containsKey(DESCRIPTION_PARAM)){
-            description = parametersMap.get(DESCRIPTION_PARAM);
-        }else {
-            description = NEW_QUESTION_MSG + question.getDescription();
+        String description = MessageFormat.format(subject, tagsList);
+
+        notification.setDescription(description);
+        notification.setType(NotificationType.NEW_QUESTION);
+        notification.setUser(user);
+        notification.setUiNotified(false);
+        notification.setEmailDelivered(false);
+        notification.setQuestion(question);
+
+        notificationRepository.save(notification);
+
+        try {
+            mailSenderService.sendEmail(NotificationType.NEW_QUESTION, description, templateParams, user.getEmail());
+        } catch (MessagingException e) {
+            log.error("Can't deliver notification by email", e);
         }
-
-        templateParams.put("description", description);
-
-        for (User user : tagSubscriptions) {
-            Notification notification = new Notification();
-
-            notification.setDescription(description);
-            notification.setType(NotificationType.ADD);
-            notification.setUser(user);
-            notification.setUiNotified(false);
-            notification.setEmailDelivered(false);
-            notification.setQuestion(question);
-
-            templateParams.put("userName", user.getFirstName());
-
-            notificationRepository.save(notification);
-
-            try {
-                mailSenderService.sendEmail(NotificationType.ADD, subject, templateParams, user.getEmail());
-            } catch (MessagingException e) {
-                log.error("Can't deliver notification by email", e);
-            }
-        }
-
-
     }
 
-    private String buildTagsListParam(List<Tag> tags) {
-        StringBuilder tagsList = new StringBuilder();
-
-        tagsList.append("[");
-        for (Tag tag : tags) {
-            if (tagsList.length() > 1) {
-                tagsList.append(",");
-            }
-            tagsList.append(tag.getName());
-        }
-        tagsList.append("]");
-
-        return tagsList.toString();
-
-    }
 }

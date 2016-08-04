@@ -18,7 +18,7 @@ public class InboxController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String inboxHome(Model model, @AuthenticationPrincipal UserDetails activeUser) {
-        model.addAttribute("notifications", notificationRepository.findByUser(activeUser.getUser()));
+        model.addAttribute("notifications", notificationRepository.findByUserOrderByIdDesc(activeUser.getUser()));
         return "inbox";
     }
 

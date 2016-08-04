@@ -35,7 +35,7 @@
         <ul>
             <#list notifications as notification>
                 <#switch notification.type>
-                    <#case "ADD">
+                    <#case "NEW_QUESTION">
                         <#assign icon = "fa fa-tags added-tag">
                         <#assign details = "Question added">
                         <#assign detailsClass = "added-tag">
@@ -45,11 +45,15 @@
                         <#assign details = "Question improved">
                         <#assign detailsClass = "improvement">
                         <#break>
-                    <#case "CLOSE">
+                    <#case "ANSWER_ACCEPTED">
                         <#assign icon = "fa fa-ban close-improvement">
                         <#assign details = "Question closed due to improvement">
                         <#assign detailsClass = "close-improvement">
                         <#break>
+                    <#default>
+                        <#assign icon = "fa fa-arrow-circle-up improvement">
+                        <#assign details = "Question improved">
+                        <#assign detailsClass = "improvement">
                 </#switch>
                 <li class="notifications-li">
                     <a class="notification-remove-anchor-style" href="/question/${notification.question.id}">

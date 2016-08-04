@@ -3,13 +3,12 @@ package com.nearsoft.questions.repository;
 import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.TagSubscription;
 import com.nearsoft.questions.domain.auth.User;
-import com.nearsoft.questions.service.TagsSubscriptionService;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface TagsSubscriptionRepository extends JpaRepository<TagSubscription, Long> {
 
@@ -21,5 +20,5 @@ public interface TagsSubscriptionRepository extends JpaRepository<TagSubscriptio
     @Query(value = "SELECT u FROM TagSubscription s JOIN s.tag t JOIN s.user u WHERE s.tag IN ?1")
     List<User> findByTagsIsIn(List<Tag> tags);
 
-    //List<TagSubscription> findByTags(List<Tag> tags);
+    Stream<TagSubscription> findByTagIsInOrderByUserAsc(List<Tag> tags);
 }

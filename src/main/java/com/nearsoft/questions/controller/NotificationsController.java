@@ -4,12 +4,17 @@ package com.nearsoft.questions.controller;
 import com.nearsoft.questions.domain.Notification;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.NotificationRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,9 +24,6 @@ public class NotificationsController extends BaseController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-//    @Inject
-//    private NotificationService notificationService;
-
     @Autowired
     private NotificationRepository repository;
 
@@ -29,8 +31,9 @@ public class NotificationsController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/notifications")
     @ResponseBody
     public List<Notification> getAll(Model model, @AuthenticationPrincipal UserDetails activeUser) {
-        model.addAttribute("notifications", repository.findByUser(activeUser.getUser()));
-        return repository.findByUser(activeUser.getUser());
+        List<Notification> notifications = repository.findByUserOrderByIdDesc(activeUser.getUser());
+        model.addAttribute("notifications", notifications);
+        return notifications;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/notifications/{id}")
@@ -47,7 +50,7 @@ public class NotificationsController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/notifications/read")
     public void readAll(@AuthenticationPrincipal UserDetails activeUser) {
-        List<Notification> notifications = repository.findByUser(activeUser.getUser());
+        List<Notification> notifications = repository.findByUserOrderByIdDesc(activeUser.getUser());
         notifications.forEach(notification -> notification.setUiNotified(true));
     }
 

@@ -5,7 +5,7 @@ public enum NotificationType {
 
 
     IMPROVEMENT("mail/improvement.ftl"),
-    ADD("mail/newQuestion.ftl"),
+    NEW_QUESTION("mail/newQuestion.ftl"),
     CLOSE("mail/close.ftl"),
     ADD_ANSWER("mail/newAnswer.ftl"),
     QUESTION_VOTED_UP("mail/questionVotedUp.ftl"),
