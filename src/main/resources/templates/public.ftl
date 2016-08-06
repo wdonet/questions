@@ -3,21 +3,20 @@
 
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/general.css">
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/general.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/home.css"/>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'/>
+
     <script src="https://use.fontawesome.com/4eda52b947.js"></script>
 </head>
 
 <body class="body-home">
-    <header>
-        <#if !user??>
-            <#include "login.ftl">
-        <#else>
-            <#include "header.ftl">
-        </#if>
-    </header>
+<#if !user??>
+    <#include "login.ftl">
+<#else>
+    <#include "header.ftl">
+</#if>
     <h1 class="title public">All the <span>wisdom</span> of your project <span>onboarding</span> in one place</h1>
     <section class="section-how">
         <div class="how-it-works">
