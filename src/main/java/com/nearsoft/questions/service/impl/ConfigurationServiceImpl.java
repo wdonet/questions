@@ -18,6 +18,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
+    public String getString(String name) {
+        Configuration config = configurationRepository.findByName(name);
+        if (config == null) {
+            return null;
+        }
+        return config.getValue();
+    }
+
+    @Override
     public String getString(String name, String defaultValue) {
         Configuration config = configurationRepository.findByName(name);
         if (config == null) {

@@ -32,9 +32,8 @@ public class SocialConfig implements SocialConfigurer {
     @Autowired
     private UserRepository userRepository;
 
-
     @Autowired
-    private Environment environment;
+    private AccountConnectionSignUpService accountConnectionSignUpService;
 
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
@@ -58,7 +57,7 @@ public class SocialConfig implements SocialConfigurer {
 
         log.info("Setting implicit signing up");
 
-        repository.setConnectionSignUp(new AccountConnectionSignUpService(userRepository, environment));
+        repository.setConnectionSignUp(accountConnectionSignUpService);
         return repository;
     }
 

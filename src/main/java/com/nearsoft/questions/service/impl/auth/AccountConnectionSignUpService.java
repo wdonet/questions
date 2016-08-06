@@ -5,23 +5,27 @@ import java.util.List;
 import com.nearsoft.questions.domain.auth.SocialMediaService;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.UserRepository;
+import com.nearsoft.questions.service.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UserProfile;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AccountConnectionSignUpService implements ConnectionSignUp {
 
     private final Logger log = LoggerFactory.getLogger(AccountConnectionSignUpService.class);
 
     private final UserRepository userRepository;
-    private final Environment environment;
+    private ConfigurationService configurationService;
 
-    public AccountConnectionSignUpService(UserRepository userRepository, Environment environment) {
+    @Autowired
+    public AccountConnectionSignUpService(UserRepository userRepository, ConfigurationService configurationService) {
         this.userRepository = userRepository;
-        this.environment = environment;
+        this.configurationService = configurationService;
     }
 
     public String execute(Connection<?> connection) {
@@ -48,7 +52,7 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
     }
 
     private boolean checkDomain(String domain) {
-        String domains = environment.getProperty("spring.social.google.domains");
+        String domains = configurationService.getString("open_for_domains");
 
         if (domains != null) {
             List<String> allowedDomains = Arrays.asList(domains.split(","));
