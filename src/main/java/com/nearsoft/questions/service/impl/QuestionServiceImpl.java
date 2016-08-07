@@ -8,6 +8,7 @@ import com.nearsoft.questions.domain.RuleQuestionTransaction;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
+import com.nearsoft.questions.service.ConfigurationService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 import com.nearsoft.questions.service.NotificationService;
 import com.nearsoft.questions.service.QuestionService;
@@ -18,10 +19,8 @@ import com.nearsoft.questions.service.impl.deliverer.QuestionVotedNotifierServic
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -35,25 +34,27 @@ import java.util.Map;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
+    private static final int PAGE_SIZE = 20;
+
     private final QuestionRepository questionRepository;
 
     private final QuestionSearchRepository questionSearchRepository;
 
     private RuleService ruleService;
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private ConfigurationService configurationService;
 
-    @Value("${questions.onlyOneAnswer}")
-    private Boolean onlyOneAnswer;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private NotificationService notificationService;
 
     @Autowired
     public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService,
-                               NotificationService notificationService) {
+        ConfigurationService configurationService, NotificationService notificationService) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
         this.ruleService = ruleService;
+        this.configurationService = configurationService;
         this.notificationService = notificationService;
     }
 
@@ -137,17 +138,16 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findOne(id);
     }
 
-    @Override
-    public boolean isOnlyOneAnswer() {
-        return onlyOneAnswer;
-    }
-
     private void adjustNumberOfAnswers(Question one) {
-        if (onlyOneAnswer) {
+        if (configurationService.getBoolean("show_only_one_answer", false)) {
             Answer firstAnswer = one.getAnswers().stream().findFirst().get();
             one.getAnswers().clear();
             one.getAnswers().add(firstAnswer);
         }
+    }
+
+    private PageRequest sortedByCreatedAtDesc(int validPageSize, int validPageNumber) {
+        return new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "createdAt");
     }
 
     @Override
@@ -155,8 +155,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = questionRepository.countByAnswersIsNull();
         int validPageNumber = getValidPageNumber(uiPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
-        return questionRepository.findByAnswersIsNull(pageable);
+        return questionRepository.findByAnswersIsNull(sortedByCreatedAtDesc(validPageSize, validPageNumber));
     }
 
     @Override
@@ -164,8 +163,7 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = questionRepository.count();
         int validPageNumber = getValidPageNumber(uiPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
-        return questionRepository.findAll(pageable);
+        return questionRepository.findAll(sortedByCreatedAtDesc(validPageSize, validPageNumber));
     }
 
     @Override
@@ -173,8 +171,15 @@ public class QuestionServiceImpl implements QuestionService {
         int validPageSize = getValidPageSize(pageSize);
         long totalRows = questionRepository.count();
         int validPageNumber = getValidPageNumber(uiPageNumber, validPageSize, totalRows);
-        Pageable pageable = new PageRequest(validPageNumber, validPageSize, Sort.Direction.DESC, "id");
-        return questionRepository.findByTagsId(tagId, pageable);
+        return questionRepository.findByTagsId(tagId, sortedByCreatedAtDesc(validPageSize, validPageNumber));
+    }
+
+    @Override
+    public Page<Question> getNewestByCreator(String email, int uiPageNumber, int pageSize) {
+        int validPageSize = getValidPageSize(pageSize);
+        long totalRows = questionRepository.countByUserEmail(email);
+        int validPageNumber = getValidPageNumber(uiPageNumber, validPageSize, totalRows);
+        return questionRepository.findByUserEmail(email, sortedByCreatedAtDesc(validPageSize, validPageNumber));
     }
 
     private int getValidPageSize(int pageSize) {

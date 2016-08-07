@@ -18,8 +18,12 @@
     margin-left: 5px;
 }
 
-.owner span {
+.owner a {
     color: #FF5E00;
+    text-decoration: none;
+}
+.owner a:hover {
+    text-decoration: underline;
 }
 
 .showquestions .search-container,

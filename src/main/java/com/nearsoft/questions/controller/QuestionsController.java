@@ -15,7 +15,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,9 +45,6 @@ public class QuestionsController extends BaseController {
 
     @Autowired
     private RuleService ruleService;
-
-    @Value("${questions.onlyOneAnswer}")
-    private Boolean onlyOneAnswer;
 
     @RequestMapping(value = "/{id}/voteDown", method = RequestMethod.POST)
     public String voteDown(@PathVariable("id") Long questionId, RedirectAttributes redirectAttributes,
@@ -134,7 +130,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute("questionList", questionService.getUnanswered(page, pageSize).getContent());
         model.addAttribute(TITLE, "Unanswered Questions");
         model.addAttribute(PAGE_NAME, "unanswered");
-        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));
         return SHOW_QUESTIONS;
     }
 
@@ -145,7 +141,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute(questionService.getNewest(page, pageSize).getContent());
         model.addAttribute(TITLE, "Newest Questions");
         model.addAttribute(PAGE_NAME, "newest");
-        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));
         return SHOW_QUESTIONS;
     }
 
@@ -164,7 +160,19 @@ public class QuestionsController extends BaseController {
             model.addAttribute(TITLE, "");
         }
         model.addAttribute(PAGE_NAME, "tagged");
-        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));
+        return SHOW_QUESTIONS;
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String getNewestByUser(Model model, @RequestParam String email,
+                                 @RequestParam(required = false, defaultValue = "1") Integer page,
+                                 @RequestParam(required = false, defaultValue = "0") Integer pageSize) {
+        List<Question> questionList = questionService.getNewestByCreator(email, page, pageSize).getContent();
+        model.addAttribute(questionList);
+        model.addAttribute(TITLE, "Questions by " + email);
+        model.addAttribute(PAGE_NAME, "email");
+        model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));
         return SHOW_QUESTIONS;
     }
 
@@ -180,7 +188,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute("userId", user.getId());
         model.addAttribute("userPermissions", user.getPermissions());
         model.addAttribute(question);
-        model.addAttribute(ONLY_ONE_ANSWER, onlyOneAnswer);
+        model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));
         return "showOneQuestion";
     }
 

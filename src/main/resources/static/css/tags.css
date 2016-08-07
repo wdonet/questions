@@ -9,6 +9,10 @@ span.tags a {
     text-decoration: none;
 }
 
+span.tags a:hover {
+    text-decoration: underline;
+}
+
 .tags-cont {
     display: inline-block;
     width: 100%;

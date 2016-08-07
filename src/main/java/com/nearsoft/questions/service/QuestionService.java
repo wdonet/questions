@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 
 public interface QuestionService {
 
-    int PAGE_SIZE = 20;
-
     void save(Question question);
 
     void downVote(Long questionId, User user);
@@ -25,8 +23,8 @@ public interface QuestionService {
 
     Page<Question> getNewestByTag(long tagId, int uiPageNumber, int pageSize);
 
-    boolean isOnlyOneAnswer();
+    Page<Question> getNewestByCreator(String email, int uiPageNumber, int pageSize);
 
-    public void update(Question question);
+    void update(Question question);
 
 }

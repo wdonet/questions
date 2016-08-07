@@ -10,11 +10,11 @@
                 <div class="tags-cont">
                     <div class="tag-icon">
                         <i class="fa fa-tags"></i>
-                        Categories:
+                        Tags:
                     </div>
                     <#list question.tags as tag>
                         <span class="tags">
-                            <a href="/question/tag/${tag.id?c}">${tag.name}</a>
+                            <a href="/question/tag/${tag.id?c}">${tag.name}<#if tag?has_next >,</#if></a>
                         </span>
                     <#else>
                         <span class="tags">No tags</span>
@@ -26,7 +26,11 @@
                     <div class="owner">
                         <i class="fa fa-user"></i>Asked By
                         <img src="${question.user.photoUri!"/img/user-research-uxteam.jpg"}">
-                        <span> ${(question.user.fullName)!""}</span>
+                        <span> <a href="/question/user?email=${question.user.email}">${(question.user.fullName)!""}</a></span>
+                    </div>
+                    <div class="date">
+                        <i class="fa fa-clock-o"></i>
+                        <label class="date-text">${(question.createdAt)!""}</label>
                     </div>
                 </div>
             </li>

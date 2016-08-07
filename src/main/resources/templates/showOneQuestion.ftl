@@ -40,19 +40,22 @@
         <div class="question-title">${question.title}</div>
         <div id="edit-title-input-div"> <input name="title" form="editQuestionForm" type="text" id="questionTitleInput"></div>
         <div id="questionInfo">
-            <div class="tag-icon"><i class="fa fa-tags"></i>Categories:</div>
+            <div class="tag-icon"><i class="fa fa-tags"></i>Tags:</div>
         <#if question.tags?size gt 0 >
             <div id="tag-div" class="tag-div">
                 <#list question.tags as tag>
-                <span class="tags">${tag.name}<#if tag?has_next >,</#if></span>
+                <span class="tags">
+                    <a href="/question/tag/${tag.id?c}">${tag.name}<#if tag?has_next >,</#if></a>
+                </span>
                 </#list>
             </div>
         <#else>
             <span>No tags</span>
         </#if>
-            <div class="owner" id="owner"><i class="fa fa-user"></i>Asked By
+            <div class="owner" id="owner">
+                <i class="fa fa-user"></i>Asked By
                 <img src="${question.user.photoUri!"/img/user-research-uxteam.jpg"}">
-                <span>${(question.authorName)!""}</span>
+                <a href="/question/user?email=${question.user.email}">${(question.authorName)!""}</a>
             </div>
             <div class="date">
                 <i class="fa fa-clock-o"></i>
@@ -94,10 +97,13 @@
         <div class="all-comments-question">
         <#list question.comments as comment>
             <div id="qc-${comment.id}" class="comments-question-cont">
-                <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                <div class="owner">
+                    <i class="fa fa-user"></i>Commented By
+                    <a href="/question/user?email=${comment.user.email}">${(comment.user.fullName)!""}</a>
+                </div>
                 <div class="date">
                     <i class="fa fa-clock-o"></i>
-                    <label class="date-text">${(comment.createdAt)!""} </label>
+                    <label class="date-text">${(comment.createdAt)!""}</label>
                 </div>
                 <div class="comment-box-question">${(comment.description)!""}</div>
             </div>
@@ -117,9 +123,10 @@
     <#list question.answers as answer>
         <div id="a-${answer.id}" class="answers-cont">
             <div class="author-cont">
-                <div class="owner">Answered By
+                <div class="owner">
+                    <i class="fa fa-user"></i>Answered By
                     <img src="${answer.user.photoUri!"/img/user-research-uxteam.jpg"}">
-                    <span>${answer.authorName!""}</span>
+                    <span><a href="/question/user?email=${answer.user.email}">${answer.authorName!""}</a></span>
                 </div>
                 <div class="date">
                     <i class="fa fa-clock-o"></i>
@@ -165,10 +172,13 @@
             <div class="all-comments-answer">
             <#list answer.comments as comment>
                 <div id="ac-${comment.id}" class="comments-answer-cont">
-                    <div class="owner"><span>${(comment.user.fullName)!""}</span></div>
+                    <div class="owner">
+                        <i class="fa fa-user"></i>Commented By
+                        <a href="/question/user?email=${comment.user.email}">${(comment.user.fullName)!""}</a>
+                    </div>
                     <div class="date">
                         <i class="fa fa-clock-o"></i>
-                        <label class="date-text">${(comment.createdAt)!""} </label>
+                        <label class="date-text">${(comment.createdAt)!""}</label>
                     </div>
                     <div class="comment-box-question">${(comment.description)!""}</div>
                 </div>

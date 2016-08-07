@@ -2,6 +2,7 @@ package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
+import com.nearsoft.questions.service.ConfigurationService;
 import com.nearsoft.questions.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ public abstract class BaseController {
 
     @Autowired
     protected UserService userService;
+
+    @Autowired
+    protected ConfigurationService configurationService;
 
     protected User getUser(UserDetails details) {
         if (details == null || StringUtils.isBlank(details.getUsername())) {
