@@ -86,7 +86,7 @@ div.notifications-icon {
 .drop-content {
     background-color: #fff !important;
     font-size: 0.9em !important;
-    max-width: 250px;
+    max-width: 350px;
 }
 
 .drop-content ul {
@@ -428,7 +428,7 @@ button.search-submit {
 
 .unanswered-q {
     text-align: center;
-    padding: 55px 0 64px;
+    padding: 55px 0 0px;
     font-size: 26px;
     text-transform: uppercase;
     color: #4F5D73;
@@ -442,7 +442,7 @@ button.search-submit {
     width: 100px;
     background-color: #e4e4e4;
     display: block;
-    top: 62%;
+    top: 100%;
     height: 4px;
     left: 45%;
 }
@@ -1089,4 +1089,34 @@ a.val-neg {
     color: #F25D00;;
 }
 
+.action-for-notifications-bar{
+    background-color:#e4e4e4;
+    height: 1.4em;
+    padding-top: .5em;
+    padding-bottom: .3em;
+    margin-bottom: 0.8em;
+}
 
+.i-button{
+    padding: 0.3em;
+    margin: 0.1em;
+    cursor: pointer;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: solid transparent 1px;
+}
+
+.i-button:hover{
+    border-top: solid #ffffff 1px;
+    border-right: solid #ffffff 1px;
+    border-bottom: solid #000000 1px;
+    border-left: solid #000000 1px;
+}
+
+.i-button:active{
+    border-bottom: solid #ffffff 1px;
+    border-left: solid #ffffff 1px;
+    border-top: solid #000000 1px;
+    border-right: solid #000000 1px;
+}
