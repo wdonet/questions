@@ -106,11 +106,9 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
         userNotificationRepository.save(userNotification);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.ADD_ANSWER, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(NotificationType.ADD_ANSWER, description, templateParams, user.getEmail());
+
+
     }
 
     private void notifyInterestedUsersByTags(Question question, Answer answer) {
@@ -161,11 +159,9 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
         userNotificationRepository.save(userNotification);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+
+        mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, description, templateParams, user.getEmail());
+
     }
 
 

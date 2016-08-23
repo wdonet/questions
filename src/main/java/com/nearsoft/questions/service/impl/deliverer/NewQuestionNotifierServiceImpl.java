@@ -115,11 +115,8 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         userNotificationRepository.save(userNotification);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.NEW_QUESTION, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(NotificationType.NEW_QUESTION, description, templateParams, user.getEmail());
+
     }
 
 }

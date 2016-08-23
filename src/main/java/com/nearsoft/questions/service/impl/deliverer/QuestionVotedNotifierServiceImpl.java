@@ -94,6 +94,7 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         notification.setQuestion(question);
 
         notificationRepository.save(notification);
+        mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
 
         UserNotification userNotification = new UserNotification();
 
@@ -104,11 +105,5 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
 
         userNotificationRepository.save(userNotification);
 
-
-        try {
-            mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
     }
 }

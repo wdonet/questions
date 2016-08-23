@@ -85,11 +85,7 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
 
         templateParams.put("userName", user.getFirstName());
 
+        mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, subject, templateParams, user.getEmail());
 
-        try {
-            mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, subject, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
     }
 }

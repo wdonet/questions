@@ -107,10 +107,7 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
 
         userNotificationRepository.save(userNotification);
 
-        try {
-            mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
+
     }
 }
