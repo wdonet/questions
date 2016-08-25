@@ -36,9 +36,9 @@ public class NotificationsController extends BaseController {
         return notifications;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/notifications/{id}")
-    public void delete(@PathVariable Long id) {
-        repository.delete(id);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/notifications/{ids}")
+    public void delete(@PathVariable Long[] ids, @AuthenticationPrincipal UserDetails activeUser) {
+        repository.deleteByUserAndIdIsIn(activeUser.getUser(), ids);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/notifications/read/{id}")

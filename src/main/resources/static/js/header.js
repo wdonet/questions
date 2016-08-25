@@ -1,24 +1,47 @@
 $(function () {
 
     if (!$('.notifications-icon')[0]) {
-       return;
+        return;
     }
 
     var getDropContent = function (notificationsList) {
         var templateString = '<div class="notifications-header"><strong>Notifications</strong></div><ul>';
-
         notificationsList.forEach(function (notification) {
             var statusClass;
+            var typeText;
             switch (notification.type) {
                 case 'IMPROVEMENT':
                     statusClass = 'fa fa-arrow-circle-up improvement';
+                    typeText = '';
                     break;
                 case 'CLOSE':
                     statusClass = 'fa fa-ban close-improvement';
+                    typeText = '';
                     break;
-                case 'ADD':
+                case 'NEW_QUESTION':
+                    typeText = 'New question';
+                    break;
+                case "ANSWER_ACCEPTED":
+                    typeText = "Answer accepted";
+                    break;
+                case "QUESTION_VOTED_UP":
+                    typeText = "Question voted up";
+                    break;
+                case "QUESTION_VOTED_DOWN":
+                    typeText = "Question voted down";
+                    break;
+                case "ANSWER_VOTED_UP":
+                    typeText = "Answer voted up";
+                    break;
+                case "ANSWER_VOTED_DOWN":
+                    typeText = "Answer voted down";
+                    break;
+                case "ANSWER_FOR_TAGGED_QUESTION":
+                    typeText = "Answer for tagged question";
+                    break;
                 default:
                     statusClass = 'fa fa-tags added-tag';
+                    typeText = '';
                     break;
             }
             var notificationClass;
@@ -29,11 +52,14 @@ $(function () {
                 notification.description = notification.description.substring(0, 57) + '...';
             }
 
-            templateString += '<li data-notification-id="' + notification.id + '" data-question-id="' + notification.question.id + '" class="' +
-                notificationClass + '"><div><i class="' + statusClass + '"></i><strong>' +
-                notification.description + '</strong></div></li>';
+            templateString +=
+                '<li data-notification-id="' + notification.id + '" data-question-id="'
+                + notification.question.id + '" class="' +
+                notificationClass + '"><div><strong>' +
+                typeText + '</strong></div><div>' + notification.description + '</div></li>';
         });
-        templateString += '</ul><div class="show-more-notifications center-text"><a href="/inbox">Show more content ...</a></div>';
+        templateString +=
+            '</ul><div class="show-more-notifications center-text"><a href="/inbox">Show more content ...</a></div>';
 
         return templateString;
     };
@@ -49,9 +75,10 @@ $(function () {
         drop.once('open', function () {
             $('.drop-content').on('click', 'li', function () {
                 $.ajax({
-                    url: '/inbox/notifications/read/' + $(this).data('notification-id') + '/',
-                    type: 'POST'
-                }).done(function() {
+                           url: '/inbox/notifications/read/' + $(this).data('notification-id')
+                                + '/',
+                           type: 'POST'
+                       }).done(function () {
                     window.location = '/question/' + $(this).data('question-id');
                 }.bind(this));
             });
@@ -66,7 +93,7 @@ $(function () {
     };
 
     var showOrHideNotificationsAlert = function (notificationsList) {
-        var filteredViewedNotifications = notificationsList.filter(function(notification) {
+        var filteredViewedNotifications = notificationsList.filter(function (notification) {
             return notification.uiNotified;
         });
 
