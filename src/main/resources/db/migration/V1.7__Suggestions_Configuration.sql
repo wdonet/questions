@@ -1,0 +1,1 @@
+INSERT INTO configuration (config_name, description, value) VALUES ('max_number_autocomplete_suggestions', 'Defines the number of maximum suggestions to be displayed when a user is searching for a question', '10');
