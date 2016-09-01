@@ -3,9 +3,7 @@ package com.nearsoft.questions.controller.api;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
-import com.nearsoft.questions.service.QuestionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.nearsoft.questions.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,27 +21,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@RepositoryRestController
-public class QuestionApiController {
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+@RepositoryRestController
+@RequestMapping("/questions/")
+public class QuestionApiController {
+    private final ConfigurationService configurationService;
+    private final PagedResourcesAssembler<Question> assembler;
     private final QuestionSearchRepository searchRepository;
-    private final QuestionService questionService;
     private final QuestionRepository repository;
 
-    private PagedResourcesAssembler<Question> assembler;
-
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public QuestionApiController(QuestionSearchRepository searchRepository, QuestionService questionService, QuestionRepository repository,
-        PagedResourcesAssembler<Question> assembler) {
+    public QuestionApiController(ConfigurationService configurationService, QuestionSearchRepository searchRepository,
+            QuestionRepository repository, PagedResourcesAssembler<Question> assembler) {
+        this.configurationService = configurationService;
         this.searchRepository = searchRepository;
-        this.questionService = questionService;
         this.repository = repository;
         this.assembler = assembler;
     }
 
-    @RequestMapping(value = "/questions/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
     public HttpEntity<PagedResources<Resource<Question>>> search(@RequestParam String term, Pageable pageable) {
 
@@ -51,7 +52,7 @@ public class QuestionApiController {
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/questions/unanswered", method = RequestMethod.GET)
+    @RequestMapping(value = "/unanswered", method = RequestMethod.GET)
     @ResponseBody
     public HttpEntity<PagedResources<Resource<Question>>> unanswered(Pageable pageable) {
 
@@ -59,13 +60,41 @@ public class QuestionApiController {
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/questions/newest", method = RequestMethod.GET)
+    @RequestMapping(value = "/newest", method = RequestMethod.GET)
     @ResponseBody
     public HttpEntity<PagedResources<Resource<Question>>> newest(Pageable pageable) {
         Sort createdAtDescAndUserChoices = new Sort(Sort.Direction.DESC, "createdAt").and(pageable.getSort());
-        PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), createdAtDescAndUserChoices);
+        PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(),
+                createdAtDescAndUserChoices);
         Page<Question> results = repository.findAll(pageRequest);
         //TODO show only 1 answer
         return new ResponseEntity<>(assembler.toResource(results), HttpStatus.OK);
+    }
+
+    /**
+     * suggestions returns a map with a single element which key is the string "suggestions" and value is the list of
+     * question titles that partial match with the given string. The purpose of this method is to provide suggestions
+     * of existing questions when a user is searching answers. The number of suggestions is limited to by the config
+     * max_number_autocomplete_suggestions.
+     *
+     * @param term the string that will be used to search partial matches with question titles.
+     * @return a map with a single element which key is the string "suggestions" and value is the list of
+     * suggested question titles that partial match with the given string.
+     */
+    @RequestMapping(value = "/suggestions", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, List<String>> suggestions(@RequestParam String term) {
+        List<Question> questions = searchRepository.findByTitleLike(term);
+        questions = limitNumberOfSuggestions(questions);
+        List<String> suggestions = questions.stream().map(Question::getTitle).collect(Collectors.toList());
+        return Collections.singletonMap("suggestions", suggestions);
+    }
+
+    private List<Question> limitNumberOfSuggestions(List<Question> questions) {
+        int maxNumberOfSuggestions = configurationService.getInteger("max_number_autocomplete_suggestions", 10);
+        if (questions.size() > maxNumberOfSuggestions) {
+            questions = questions.subList(0, maxNumberOfSuggestions);
+        }
+        return questions;
     }
 }
