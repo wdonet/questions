@@ -4,9 +4,11 @@ import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Notification;
 import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.UserNotification;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.NotificationRepository;
+import com.nearsoft.questions.repository.UserNotificationRepository;
 import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
@@ -54,6 +56,9 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
     private NotificationRepository notificationRepository;
 
     @Autowired
+    private UserNotificationRepository userNotificationRepository;
+
+    @Autowired
     private MailSenderService mailSenderService;
 
     @Autowired
@@ -83,19 +88,24 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
         templateParams.put("votesUp", "" + answer.getVotesUp());
         templateParams.put("votesDown", "" + answer.getVotesDown());
         templateParams.put("reputation", "" + userRepository.getPointsForUserId(user.getId()));
+        templateParams.put("userName", user.getFirstName());
 
         Notification notification = new Notification();
 
         notification.setDescription(description);
         notification.setType(notificationType);
-        notification.setUser(user);
-        notification.setUiNotified(false);
-        notification.setEmailDelivered(false);
         notification.setQuestion(question);
 
-        templateParams.put("userName", user.getFirstName());
-
         notificationRepository.save(notification);
+
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setUser(user);
+        userNotification.setUiNotified(false);
+        userNotification.setEmailDelivered(false);
+        userNotification.setNotification(notification);
+
+        userNotificationRepository.save(userNotification);
 
         try {
             mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());

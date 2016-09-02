@@ -5,10 +5,12 @@ import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.TagSubscription;
+import com.nearsoft.questions.domain.UserNotification;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.TagsSubscriptionRepository;
+import com.nearsoft.questions.repository.UserNotificationRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
@@ -50,6 +52,9 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private UserNotificationRepository userNotificationRepository;
 
     @Autowired
     private TagsSubscriptionRepository tagsSubscriptionRepository;
@@ -97,12 +102,18 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         notification.setDescription(description);
         notification.setType(NotificationType.NEW_QUESTION);
-        notification.setUser(user);
-        notification.setUiNotified(false);
-        notification.setEmailDelivered(false);
         notification.setQuestion(question);
 
         notificationRepository.save(notification);
+
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setNotification(notification);
+        userNotification.setUser(user);
+        userNotification.setUiNotified(false);
+        userNotification.setEmailDelivered(false);
+
+        userNotificationRepository.save(userNotification);
 
         try {
             mailSenderService.sendEmail(NotificationType.NEW_QUESTION, description, templateParams, user.getEmail());

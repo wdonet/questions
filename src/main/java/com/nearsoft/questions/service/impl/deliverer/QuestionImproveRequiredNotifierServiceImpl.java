@@ -3,15 +3,16 @@ package com.nearsoft.questions.service.impl.deliverer;
 import com.nearsoft.questions.domain.Notification;
 import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.UserNotification;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
-import com.nearsoft.questions.service.MailSenderService;
+import com.nearsoft.questions.repository.UserNotificationRepository;
 import com.nearsoft.questions.service.NotificationDelivererService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 
@@ -28,6 +29,9 @@ public class QuestionImproveRequiredNotifierServiceImpl implements NotificationD
     private NotificationRepository notificationRepository;
 
     @Autowired
+    private UserNotificationRepository userNotificationRepository;
+
+    @Autowired
     ParameterReader parameterReader;
 
     @Override
@@ -41,9 +45,15 @@ public class QuestionImproveRequiredNotifierServiceImpl implements NotificationD
 
         notification.setDescription(messageToImprove);
         notification.setType(NotificationType.IMPROVEMENT);
-        notification.setUser(user);
 
         notificationRepository.save(notification);
+
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setUser(user);
+        userNotification.setNotification(notification);
+
+        userNotificationRepository.save(userNotification);
 
 
     }

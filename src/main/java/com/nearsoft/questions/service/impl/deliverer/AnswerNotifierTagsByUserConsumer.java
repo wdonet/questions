@@ -1,6 +1,7 @@
 package com.nearsoft.questions.service.impl.deliverer;
 
 import com.nearsoft.questions.domain.Answer;
+import com.nearsoft.questions.domain.Notification;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.TagSubscription;
 import com.nearsoft.questions.domain.auth.User;
@@ -14,11 +15,13 @@ public class AnswerNotifierTagsByUserConsumer implements Consumer<TagSubscriptio
     private Question question;
     private Answer answer;
     private NewAnswerNotifierServiceImpl newAnswerNotifierService;
+    private Notification notification;
 
-    public AnswerNotifierTagsByUserConsumer(Question question, Answer answer, NewAnswerNotifierServiceImpl newAnswerNotifierService) {
+    public AnswerNotifierTagsByUserConsumer(Question question, Answer answer, NewAnswerNotifierServiceImpl newAnswerNotifierService, Notification notification) {
         this.question = question;
         this.answer = answer;
         this.newAnswerNotifierService = newAnswerNotifierService;
+        this.notification = notification;
     }
 
     @Override
@@ -33,15 +36,15 @@ public class AnswerNotifierTagsByUserConsumer implements Consumer<TagSubscriptio
         if (user.equals(currentUser)) {
             appendTagName(user, tagsList, tagLabel);
         } else {
-            newAnswerNotifierService.sendNotification(question, answer, tagsList.toString(), currentUser);
+            newAnswerNotifierService.sendNotification(question, answer, tagsList.toString(), currentUser, notification);
             tagsList = new StringBuilder();
             currentUser = user;
             appendTagName(user, tagsList, tagLabel);
         }
     }
 
-    public void sendRemainingNotifications(){
-        newAnswerNotifierService.sendNotification(question, answer, tagsList.toString(), currentUser);
+    public void sendRemainingNotifications() {
+        newAnswerNotifierService.sendNotification(question, answer, tagsList.toString(), currentUser, notification);
     }
 
     private void appendTagName(User user, StringBuilder tagsList, String name) {

@@ -86,11 +86,17 @@
                 </#switch>
                 <li class="notifications-li">
                     <input type="checkbox" id="notification_${notification.id}" class="notification_checkbox" />
-                    <a class="notification-remove-anchor-style" href="/question/${notification.question.id}">
-                        <i class="${icon}"></i>
-                    ${notification.description}
-                        <span class="${detailsClass}">${details}</span>
-                    </a>
+                    <div class="content-notification">
+                        <div>
+                            <a class="notification-remove-anchor-style" href="/question/${notification.question.id}">
+                            <i class="${icon}"></i>${notification.description}
+                            <span class="${detailsClass}">${details}</span>
+                            </a>
+                        </div>
+                        <div>
+                            <label class="date-text">${notification.createdAt?string["dd/MM/yyyy HH:mm"]}</label>
+                        </div>
+                    </div>
                 </li>
             </#list>
         </ul>

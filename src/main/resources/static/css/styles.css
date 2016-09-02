@@ -146,7 +146,7 @@ div.notifications-icon.new-notification:after {
     border-bottom: 1px solid #e4e4e4;
     padding-bottom: 25px;
     margin-bottom: 25px;
-    width: 100%;
+    display: flex;
 }
 
 
@@ -230,7 +230,7 @@ div.notifications-icon.new-notification:after {
 }
 
 li.notifications-li i {
-    margin-right: 5px;
+    margin-right: 0.5em;
 }
 
 .menu li {
@@ -1119,4 +1119,11 @@ a.val-neg {
     border-left: solid #ffffff 1px;
     border-top: solid #000000 1px;
     border-right: solid #000000 1px;
+}
+
+.content-notification{
+    display:flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-left:0.5em;
 }
