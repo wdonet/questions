@@ -4,9 +4,11 @@ import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Notification;
 import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
+import com.nearsoft.questions.domain.UserNotification;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.NotificationRepository;
+import com.nearsoft.questions.repository.UserNotificationRepository;
 import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
@@ -39,6 +41,9 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
     private UserRepository userRepository;
 
     @Autowired
+    private UserNotificationRepository userNotificationRepository;
+
+    @Autowired
     private MailSenderService mailSenderService;
 
     @Autowired
@@ -65,14 +70,21 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
 
         notification.setDescription(description);
         notification.setType(NotificationType.ANSWER_ACCEPTED);
-        notification.setUser(user);
-        notification.setUiNotified(false);
-        notification.setEmailDelivered(false);
         notification.setQuestion(question);
+
+        notificationRepository.save(notification);
+
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setNotification(notification);
+        userNotification.setUser(user);
+        userNotification.setUiNotified(false);
+        userNotification.setEmailDelivered(false);
+
+        userNotificationRepository.save(userNotification);
 
         templateParams.put("userName", user.getFirstName());
 
-        notificationRepository.save(notification);
 
         try {
             mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, subject, templateParams, user.getEmail());

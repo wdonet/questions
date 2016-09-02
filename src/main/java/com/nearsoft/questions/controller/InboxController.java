@@ -1,7 +1,8 @@
 package com.nearsoft.questions.controller;
 
 import com.nearsoft.questions.domain.auth.UserDetails;
-import com.nearsoft.questions.repository.NotificationRepository;
+import com.nearsoft.questions.repository.NotificationViewElementRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class InboxController {
 
     @Autowired
-    private NotificationRepository notificationRepository;
+    private NotificationViewElementRepository notificationViewElementRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public String inboxHome(Model model, @AuthenticationPrincipal UserDetails activeUser) {
-        model.addAttribute("notifications", notificationRepository.findByUserOrderByIdDesc(activeUser.getUser()));
+        model.addAttribute("notifications", notificationViewElementRepository.getNotificationsForView(activeUser.getUser()));
         return "inbox";
     }
 

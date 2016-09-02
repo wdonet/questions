@@ -1,11 +1,29 @@
 package com.nearsoft.questions.domain;
 
-import com.nearsoft.questions.domain.auth.User;
+import org.hibernate.annotations.Type;
+import org.omg.CORBA.PUBLIC_MEMBER;
+import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity(name = "notification")
-public class Notification {
+public class Notification implements Serializable {
+
+    private static final Long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_seq")
@@ -14,21 +32,16 @@ public class Notification {
 
     private String description;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    private User user;
-
     @ManyToOne(targetEntity = Question.class, optional = false)
     private Question question;
-
-    @Column(name = "email_delivered")
-    private boolean emailDelivered;
-
-    @Column(name = "ui_notified")
-    private Boolean uiNotified;
 
     @Column(name = "notification_type")
     @Enumerated
     private NotificationType type;
+
+    @CreatedDate
+    @Column(updatable = false,insertable = false)
+    private Timestamp createdAt;
 
     public Long getId() {
         return id;
@@ -46,30 +59,6 @@ public class Notification {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public boolean isEmailDelivered() {
-        return emailDelivered;
-    }
-
-    public void setEmailDelivered(boolean emailDelivered) {
-        this.emailDelivered = emailDelivered;
-    }
-
-    public Boolean isUiNotified() {
-        return uiNotified;
-    }
-
-    public void setUiNotified(Boolean uiNotified) {
-        this.uiNotified = uiNotified;
-    }
-
     public NotificationType getType() {
         return type;
     }
@@ -84,5 +73,13 @@ public class Notification {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }

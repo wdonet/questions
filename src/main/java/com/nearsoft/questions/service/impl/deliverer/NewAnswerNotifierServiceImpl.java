@@ -6,10 +6,12 @@ import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.Tag;
 import com.nearsoft.questions.domain.TagSubscription;
+import com.nearsoft.questions.domain.UserNotification;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.repository.NotificationRepository;
 import com.nearsoft.questions.repository.TagsSubscriptionRepository;
+import com.nearsoft.questions.repository.UserNotificationRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
@@ -54,6 +56,9 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
     private NotificationRepository notificationRepository;
 
     @Autowired
+    private UserNotificationRepository userNotificationRepository;
+
+    @Autowired
     private TagsSubscriptionRepository tagsSubscriptionRepository;
 
     @Autowired
@@ -88,12 +93,18 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
         notification.setDescription(description);
         notification.setType(NotificationType.ADD_ANSWER);
-        notification.setUser(user);
-        notification.setUiNotified(false);
-        notification.setEmailDelivered(false);
         notification.setQuestion(question);
 
         notificationRepository.save(notification);
+
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setNotification(notification);
+        userNotification.setUser(user);
+        userNotification.setUiNotified(false);
+        userNotification.setEmailDelivered(false);
+
+        userNotificationRepository.save(userNotification);
 
         try {
             mailSenderService.sendEmail(NotificationType.ADD_ANSWER, description, templateParams, user.getEmail());
@@ -104,7 +115,18 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
     private void notifyInterestedUsersByTags(Question question, Answer answer) {
         List<Tag> tags = question.getTags();
-        AnswerNotifierTagsByUserConsumer notifierTagsByUser = new AnswerNotifierTagsByUserConsumer(question, answer, this);
+
+        Notification notification = new Notification();
+
+        String description = answerForTaggedQuestion;
+
+        notification.setDescription(description);
+        notification.setType(NotificationType.ANSWER_FOR_TAGGED_QUESTION);
+        notification.setQuestion(question);
+
+        notificationRepository.save(notification);
+
+        AnswerNotifierTagsByUserConsumer notifierTagsByUser = new AnswerNotifierTagsByUserConsumer(question, answer, this, notification);
 
         try (Stream<TagSubscription> stream = tagsSubscriptionRepository.findByTagIsInOrderByUserAsc(tags)) {
             stream.forEach(notifierTagsByUser);
@@ -113,7 +135,7 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         notifierTagsByUser.sendRemainingNotifications();
     }
 
-    public void sendNotification(Question question, Answer answer, String tagsList, User user) {
+    public void sendNotification(Question question, Answer answer, String tagsList, User user, Notification notification) {
 
         if (tagsList.length() == 0 || user == null) {
             return;
@@ -128,18 +150,16 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         templateParams.put(TAGS_LIST, tagsList);
         templateParams.put(USER_NAME, user.getFirstName());
 
-        Notification notification = new Notification();
+        UserNotification userNotification = new UserNotification();
 
         String description = answerForTaggedQuestion;
 
-        notification.setDescription(description);
-        notification.setType(NotificationType.ANSWER_FOR_TAGGED_QUESTION);
-        notification.setUser(user);
-        notification.setUiNotified(false);
-        notification.setEmailDelivered(false);
-        notification.setQuestion(question);
+        userNotification.setNotification(notification);
+        userNotification.setUser(user);
+        userNotification.setUiNotified(false);
+        userNotification.setEmailDelivered(false);
 
-        notificationRepository.save(notification);
+        userNotificationRepository.save(userNotification);
 
         try {
             mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, description, templateParams, user.getEmail());

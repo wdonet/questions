@@ -1,9 +1,12 @@
 package com.nearsoft.questions.controller;
 
 
-import com.nearsoft.questions.domain.Notification;
+import com.nearsoft.questions.domain.UserNotification;
+import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
-import com.nearsoft.questions.repository.NotificationRepository;
+import com.nearsoft.questions.domain.dto.NotificationViewElement;
+import com.nearsoft.questions.repository.NotificationViewElementRepository;
+import com.nearsoft.questions.repository.UserNotificationRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/inbox")
 public class NotificationsController extends BaseController {
@@ -25,33 +30,37 @@ public class NotificationsController extends BaseController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private NotificationRepository repository;
+    private UserNotificationRepository userNotificationRepository;
+
+    @Autowired
+    private NotificationViewElementRepository notificationViewElementRepository;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/notifications")
     @ResponseBody
-    public List<Notification> getAll(Model model, @AuthenticationPrincipal UserDetails activeUser) {
-        List<Notification> notifications = repository.findByUserOrderByIdDesc(activeUser.getUser());
+    public List<NotificationViewElement> getAll(Model model, @AuthenticationPrincipal UserDetails activeUser) {
+        List<NotificationViewElement> notifications = notificationViewElementRepository.getNotificationsForView(activeUser.getUser());
         model.addAttribute("notifications", notifications);
         return notifications;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/notifications/{ids}")
     public void delete(@PathVariable Long[] ids, @AuthenticationPrincipal UserDetails activeUser) {
-        repository.deleteByUserAndIdIsIn(activeUser.getUser(), ids);
+        userNotificationRepository.deleteByUserAndIdIsIn(activeUser.getUser(), ids);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/notifications/read/{id}")
-    public void read(@PathVariable Long id) {
-        Notification notification = repository.findOne(id);
-        notification.setUiNotified(Boolean.TRUE);
-        repository.save(notification);
+    @Transactional
+    public void read(@PathVariable Long id, @AuthenticationPrincipal UserDetails activeUser) {
+        User user = activeUser.getUser();
+
+        userNotificationRepository.markAsRead(id, user);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/notifications/read")
+    @Transactional
     public void readAll(@AuthenticationPrincipal UserDetails activeUser) {
-        List<Notification> notifications = repository.findByUserOrderByIdDesc(activeUser.getUser());
-        notifications.forEach(notification -> notification.setUiNotified(true));
+        userNotificationRepository.markAllAsRead(activeUser.getUser());
     }
 
 }
