@@ -12,6 +12,7 @@ import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,22 +88,7 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         templateParams.put("reputation", "" + userRepository.getPointsForUserId(user.getId()));
         templateParams.put("userName", user.getFirstName());
 
-        Notification notification = new Notification();
-
-        notification.setDescription(description);
-        notification.setType(notificationType);
-        notification.setQuestion(question);
-
-        notificationRepository.save(notification);
-
-        UserNotification userNotification = new UserNotification();
-
-        userNotification.setUser(user);
-        userNotification.setUiNotified(false);
-        userNotification.setEmailDelivered(false);
-        userNotification.setNotification(notification);
-
-        userNotificationRepository.save(userNotification);
+        persistNotification(question, notificationType, user);
 
 
         try {
@@ -110,5 +96,27 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         } catch (MessagingException e) {
             log.error("Can't deliver notification by email", e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void persistNotification(Question question, NotificationType notificationType, User user) {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("text", question.getTitle());
+        jsonObject.put("questionId", question.getId());
+
+        Notification notification = new Notification();
+
+        notification.setDescription(jsonObject.toJSONString());
+        notification.setType(notificationType);
+
+        notificationRepository.save(notification);
+
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setUser(user);
+        userNotification.setNotification(notification);
+
+        userNotificationRepository.save(userNotification);
     }
 }

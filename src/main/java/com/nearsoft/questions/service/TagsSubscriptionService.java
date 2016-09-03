@@ -23,5 +23,4 @@ public interface TagsSubscriptionService {
 
     List<User> findByTagsIsIn(List<Tag> tags);
 
-    Stream<TagSubscription> findByTagIsInOrderByUserAsc(List<Tag> tags);
 }

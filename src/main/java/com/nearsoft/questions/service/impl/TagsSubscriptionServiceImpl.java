@@ -97,9 +97,6 @@ public class TagsSubscriptionServiceImpl implements TagsSubscriptionService {
         return tagsSubscriptionRepository.findByTagsIsIn(tags);
     }
 
-    public Stream<TagSubscription> findByTagIsInOrderByUserAsc(List<Tag> tags){
-        return tagsSubscriptionRepository.findByTagIsInOrderByUserAsc(tags);
-    }
 
     private Tag getTag(Long tagId) throws TagNotFoundException {
         Tag tag = tagRepository.findOne(tagId);

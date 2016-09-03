@@ -1,7 +1,6 @@
 package com.nearsoft.questions.controller;
 
 
-import com.nearsoft.questions.domain.UserNotification;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.domain.dto.NotificationViewElement;

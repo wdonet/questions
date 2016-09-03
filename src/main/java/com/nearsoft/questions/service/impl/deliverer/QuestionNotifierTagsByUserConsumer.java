@@ -1,22 +1,30 @@
 package com.nearsoft.questions.service.impl.deliverer;
 
+import com.nearsoft.questions.domain.Notification;
+import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.TagSubscription;
 import com.nearsoft.questions.domain.auth.User;
 
+import org.json.simple.JSONObject;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
-public class QuestionNotifierTagsByUserConsumer implements Consumer<TagSubscription> {
+class QuestionNotifierTagsByUserConsumer implements Consumer<TagSubscription> {
 
-
-    private User currentUser;
-    private StringBuilder tagsList = new StringBuilder();
     private Question question;
     private NewQuestionNotifierServiceImpl newQuestionNotifierService;
+    private String currentTag;
+    private Set<Long> usersNotified;
+    private Notification notification;
 
-    public QuestionNotifierTagsByUserConsumer(Question question, NewQuestionNotifierServiceImpl newQuestionNotifierService) {
+    QuestionNotifierTagsByUserConsumer(Question question, NewQuestionNotifierServiceImpl newQuestionNotifierService) {
         this.question = question;
         this.newQuestionNotifierService = newQuestionNotifierService;
+        usersNotified = new HashSet<>();
+        usersNotified.add(question.getUser().getId());
     }
 
     @Override
@@ -24,35 +32,29 @@ public class QuestionNotifierTagsByUserConsumer implements Consumer<TagSubscript
         User user = tagSubscription.getUser();
         String tagLabel = tagSubscription.getTag().getName();
 
-        if (currentUser == null) {
-            currentUser = user;
+        if (!tagLabel.equals(currentTag)) {
+            currentTag = tagLabel;
+            prepareNotification();
         }
 
-        if (user.equals(currentUser)) {
-            appendTagName(user, tagsList, tagLabel);
-        } else {
-            newQuestionNotifierService.sendNotification(question, tagsList.toString(), currentUser);
-            tagsList = new StringBuilder();
-            currentUser = user;
-            appendTagName(user, tagsList, tagLabel);
+        if (!usersNotified.contains(user.getId())) {
+            usersNotified.add(user.getId());
+            newQuestionNotifierService.sendNotification(question, notification, user, currentTag);
         }
     }
 
-    public void sendRemainingNotifications() {
-        newQuestionNotifierService.sendNotification(question, tagsList.toString(), currentUser);
-    }
+    @SuppressWarnings("unchecked")
+    private void prepareNotification() {
+        notification = new Notification();
 
-    private void appendTagName(User user, StringBuilder tagsList, String name) {
+        JSONObject jsonObject = new JSONObject();
 
-        if (user.getId().equals(question.getUser().getId())) {
-            //Omit notification for the user who creates the question
-            return;
-        }
+        jsonObject.put("text", question.getTitle());
+        jsonObject.put("questionId", question.getId());
+        jsonObject.put("tag", currentTag);
 
-        if (tagsList.length() > 0) {
-            tagsList.append(",");
-        } else {
-            tagsList.append(name);
-        }
+        notification.setDescription(jsonObject.toJSONString());
+        notification.setType(NotificationType.NEW_QUESTION);
+
     }
 }
