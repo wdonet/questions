@@ -32,12 +32,15 @@ import javax.mail.MessagingException;
 public class NewAnswerNotifierServiceImpl implements NotificationDelivererService {
 
     private static final String QUESTION_TITLE = "questionTitle";
+    private static final String QUESTION_ID = "questionId";
     private static final String USER_NAME_QUESTION = "userNameQuestion";
     private static final String ANSWER_TEXT = "answerText";
+    private static final String ANSWER_ID = "answerId";
     private static final String USER_NAME_ANSWER = "userNameAnswer";
     private static final String DESCRIPTION = "description";
     private static final String USER_NAME = "userName";
     private static final String TAGS_LIST = "tagsList";
+    private static final String APPLICATION_PATH = "applicationSitePath";
 
     public static final String ANSWER_ID_PARAM = "com.nsquestions.answer.id";
 
@@ -48,6 +51,9 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
     @Value("${com.nsquestions.notification.you-got-an-answer:'You got an answer'}")
     private String youGotAnAnswerMsg;
+
+    @Value("${application.site}")
+    private String applicationSitePath;
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -88,7 +94,9 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         templateParams.put(ANSWER_TEXT, answer.getDescription());
         templateParams.put(USER_NAME_ANSWER, answer.getUser().getFirstName());
         templateParams.put(USER_NAME, user.getFirstName());
-
+        templateParams.put(ANSWER_ID, answer.getId().toString());
+        templateParams.put(QUESTION_ID, question.getId().toString());
+        templateParams.put(APPLICATION_PATH, applicationSitePath);
         Notification notification = new Notification();
 
         notification.setDescription(description);
