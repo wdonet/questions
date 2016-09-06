@@ -13,9 +13,11 @@ import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -28,8 +30,6 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     public static final String ANSWER_ID_PARAM = "com.nsquestions.answer.id";
-
-    public static final String DESCRIPTION_PARAM = "Accepted answer";
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -47,13 +47,13 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
     private MailSenderService mailSenderService;
 
     @Autowired
-    ParameterReader parameterReader;
+    private ParameterReader parameterReader;
 
+    @Value("${com.nsquestions.notification.answer-accepted-subjet:'Answer accepted'}")
+    private String answerAcceptedSubject;
 
     @Override
     public void sendNotification(Map<String, String> parametersMap) {
-        String description = DESCRIPTION_PARAM;
-        String subject = DESCRIPTION_PARAM;
         Answer answer = answerRepository.findOne(parameterReader.getLong(parametersMap, ANSWER_ID_PARAM));
         Question question = answer.getQuestion();
 
@@ -61,16 +61,32 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
 
         Map<String, String> templateParams = new HashMap<>();
 
-        templateParams.put("description", description);
         templateParams.put("questionTitle", question.getTitle());
         templateParams.put("answerText", answer.getDescription());
         templateParams.put("reputation", "" + userRepository.getPointsForUserId(user.getId()));
+        templateParams.put("userName", user.getFirstName());
 
+        persistNotification(question, answer, user);
+
+        try {
+            mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, answerAcceptedSubject, templateParams, user.getEmail());
+        } catch (MessagingException e) {
+            log.error("Can't deliver notification by email", e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void persistNotification(Question question, Answer answer, User user) {
         Notification notification = new Notification();
 
-        notification.setDescription(description);
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("text", answer.getDescription());
+        jsonObject.put("questionId", question.getId());
+        jsonObject.put("answerId", answer.getId());
+
+        notification.setDescription(jsonObject.toJSONString());
         notification.setType(NotificationType.ANSWER_ACCEPTED);
-        notification.setQuestion(question);
 
         notificationRepository.save(notification);
 
@@ -78,18 +94,7 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
 
         userNotification.setNotification(notification);
         userNotification.setUser(user);
-        userNotification.setUiNotified(false);
-        userNotification.setEmailDelivered(false);
 
         userNotificationRepository.save(userNotification);
-
-        templateParams.put("userName", user.getFirstName());
-
-
-        try {
-            mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, subject, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
     }
 }

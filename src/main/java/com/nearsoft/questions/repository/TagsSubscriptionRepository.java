@@ -20,5 +20,5 @@ public interface TagsSubscriptionRepository extends JpaRepository<TagSubscriptio
     @Query(value = "SELECT u FROM TagSubscription s JOIN s.tag t JOIN s.user u WHERE s.tag IN ?1")
     List<User> findByTagsIsIn(List<Tag> tags);
 
-    Stream<TagSubscription> findByTagIsInOrderByUserAsc(List<Tag> tags);
+    Stream<TagSubscription> findByTagIsInOrderByTagAsc(List<Tag> tags);
 }

@@ -15,12 +15,14 @@ import com.nearsoft.questions.repository.UserNotificationRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,6 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
     private static final String USER_NAME_QUESTION = "userNameQuestion";
     private static final String ANSWER_TEXT = "answerText";
     private static final String USER_NAME_ANSWER = "userNameAnswer";
-    private static final String DESCRIPTION = "description";
     private static final String USER_NAME = "userName";
     private static final String TAGS_LIST = "tagsList";
 
@@ -78,22 +79,36 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
     }
 
     private void notifyQuestionOwner(Question question, Answer answer) {
-        String description = youGotAnAnswerMsg;
         User user = question.getUser();
 
         Map<String, String> templateParams = new HashMap<>();
 
-        templateParams.put(DESCRIPTION, description);
         templateParams.put(QUESTION_TITLE, question.getTitle());
         templateParams.put(ANSWER_TEXT, answer.getDescription());
         templateParams.put(USER_NAME_ANSWER, answer.getUser().getFirstName());
         templateParams.put(USER_NAME, user.getFirstName());
 
+        persistNotification(question, answer, user);
+
+        try {
+            mailSenderService.sendEmail(NotificationType.ADD_ANSWER, youGotAnAnswerMsg, templateParams, user.getEmail());
+        } catch (MessagingException e) {
+            log.error("Can't deliver notification by email", e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void persistNotification(Question question, Answer answer, User user) {
         Notification notification = new Notification();
 
-        notification.setDescription(description);
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("text", answer.getDescription());
+        jsonObject.put("questionId", question.getId());
+        jsonObject.put("answerId", answer.getId());
+
+        notification.setDescription(jsonObject.toJSONString());
         notification.setType(NotificationType.ADD_ANSWER);
-        notification.setQuestion(question);
 
         notificationRepository.save(notification);
 
@@ -101,44 +116,24 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
         userNotification.setNotification(notification);
         userNotification.setUser(user);
-        userNotification.setUiNotified(false);
-        userNotification.setEmailDelivered(false);
 
         userNotificationRepository.save(userNotification);
-
-        try {
-            mailSenderService.sendEmail(NotificationType.ADD_ANSWER, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
     }
 
     private void notifyInterestedUsersByTags(Question question, Answer answer) {
         List<Tag> tags = question.getTags();
 
-        Notification notification = new Notification();
+        AnswerNotifierTagsByUserConsumer notifierTagsByUser = new AnswerNotifierTagsByUserConsumer(question, answer, this);
 
-        String description = answerForTaggedQuestion;
-
-        notification.setDescription(description);
-        notification.setType(NotificationType.ANSWER_FOR_TAGGED_QUESTION);
-        notification.setQuestion(question);
-
-        notificationRepository.save(notification);
-
-        AnswerNotifierTagsByUserConsumer notifierTagsByUser = new AnswerNotifierTagsByUserConsumer(question, answer, this, notification);
-
-        try (Stream<TagSubscription> stream = tagsSubscriptionRepository.findByTagIsInOrderByUserAsc(tags)) {
+        try (Stream<TagSubscription> stream = tagsSubscriptionRepository.findByTagIsInOrderByTagAsc(tags)) {
             stream.forEach(notifierTagsByUser);
         }
-
-        notifierTagsByUser.sendRemainingNotifications();
     }
 
-    public void sendNotification(Question question, Answer answer, String tagsList, User user, Notification notification) {
+    public void sendNotification(Question question, Answer answer, String tag, User user, Notification notification) {
 
-        if (tagsList.length() == 0 || user == null) {
-            return;
+        if (notification.getId() == null) {
+            notificationRepository.save(notification);
         }
 
         Map<String, String> templateParams = new HashMap<>();
@@ -147,25 +142,27 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         templateParams.put(USER_NAME_QUESTION, question.getUser().getFirstName());
         templateParams.put(ANSWER_TEXT, answer.getDescription());
         templateParams.put(USER_NAME_ANSWER, answer.getUser().getFirstName());
-        templateParams.put(TAGS_LIST, tagsList);
+        templateParams.put(TAGS_LIST, tag);
         templateParams.put(USER_NAME, user.getFirstName());
 
-        UserNotification userNotification = new UserNotification();
+        persistUserNotification(notification, user);
 
-        String description = answerForTaggedQuestion;
-
-        userNotification.setNotification(notification);
-        userNotification.setUser(user);
-        userNotification.setUiNotified(false);
-        userNotification.setEmailDelivered(false);
-
-        userNotificationRepository.save(userNotification);
+        String mailSubject = MessageFormat.format(answerForTaggedQuestion, tag);
 
         try {
-            mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, description, templateParams, user.getEmail());
+            mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, mailSubject, templateParams, user.getEmail());
         } catch (MessagingException e) {
             log.error("Can't deliver notification by email", e);
         }
+    }
+
+    private void persistUserNotification(Notification notification, User user) {
+        UserNotification userNotification = new UserNotification();
+
+        userNotification.setNotification(notification);
+        userNotification.setUser(user);
+
+        userNotificationRepository.save(userNotification);
     }
 
 

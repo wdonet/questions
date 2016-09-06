@@ -17,7 +17,7 @@ public class NotificationViewElementRepository {
     @Autowired
     private EntityManager entityManager;
 
-
+    @SuppressWarnings("unchecked")
     public List<NotificationViewElement> getNotificationsForView(User user) {
         String queryString = "SELECT new com.nearsoft.questions.domain.dto.NotificationViewElement(n, un)" +
                 " FROM com.nearsoft.questions.domain.UserNotification un " +

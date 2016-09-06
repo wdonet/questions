@@ -25,7 +25,8 @@ body {
 }*/
 
 header {
-    width: 100% margin : 0 auto;
+    width: 100%
+    margin: 0 auto;
     height: 115px;
     background-color: #595B67;
 }
@@ -79,6 +80,10 @@ div.notifications-icon {
     background-color: #E3EEF5;
 }
 
+.notifications-header {
+    text-transform: uppercase;
+}
+
 .drop-content .notifications-header {
     border-bottom: 1px #CACACA solid;
 }
@@ -86,7 +91,7 @@ div.notifications-icon {
 .drop-content {
     background-color: #fff !important;
     font-size: 0.9em !important;
-    max-width: 350px;
+    /*max-width: 350px;*/
 }
 
 .drop-content ul {
@@ -97,7 +102,7 @@ div.notifications-icon {
 .drop-content:before {
     border-bottom-color: #fff !important;
     border-width: 9px !important;
-    left: 52.5% !important;
+    left: 50.9% !important;
 }
 
 .drop-content li {
@@ -122,23 +127,25 @@ div.notifications-icon {
 }
 
 .show-more-notifications {
-    padding-top: 5px;
+    padding-top: 6px;
+    text-transform: uppercase;
+    font-size: 0.7em;
 }
 
 div.notifications-icon:after {
     content: '';
-    position: absolute;
-    height: 8px;
-    width: 8px;
+    position: relative;
+    height: 10px;
+    width: 10px;
     background-color: #F25D00;
     border-radius: 100%;
-    right: 85px;
-    top: 44px;
     display: none;
+    left: -0.5em;
+    top: -0.5em;
 }
 
 div.notifications-icon.new-notification:after {
-    display:block;
+    display: inline-block;
 }
 
 .notifications-li {
@@ -148,7 +155,6 @@ div.notifications-icon.new-notification:after {
     margin-bottom: 25px;
     display: flex;
 }
-
 
 .notification-remove-anchor-style:link,
 .notification-remove-anchor-style:hover,
@@ -164,7 +170,7 @@ div.notifications-icon.new-notification:after {
 }
 
 .accepted-answer {
-    background-color: #F2F7FF  !important;
+    background-color: #F2F7FF !important;
     border: 1px solid #BAD4E0 !important;
 }
 
@@ -1000,8 +1006,7 @@ input[type="textarea"] {
     border: 1px solid #8ed9f6;
 }
 
-
-.search-container{
+.search-container {
     border-bottom: 1px solid #e4e4e4;
     padding-bottom: 52px;
     background-color: #595B67;
@@ -1076,7 +1081,6 @@ a.val-neg {
     color: #F55363;
 }
 
-
 .center-text {
     text-align: center;
 }
@@ -1089,15 +1093,15 @@ a.val-neg {
     color: #F25D00;;
 }
 
-.action-for-notifications-bar{
-    background-color:#e4e4e4;
+.action-for-notifications-bar {
+    background-color: #e4e4e4;
     height: 1.4em;
     padding-top: .5em;
     padding-bottom: .3em;
     margin-bottom: 0.8em;
 }
 
-.i-button{
+.i-button {
     padding: 0.3em;
     margin: 0.1em;
     cursor: pointer;
@@ -1107,23 +1111,27 @@ a.val-neg {
     border: solid transparent 1px;
 }
 
-.i-button:hover{
+.i-button:hover {
     border-top: solid #ffffff 1px;
     border-right: solid #ffffff 1px;
     border-bottom: solid #000000 1px;
     border-left: solid #000000 1px;
 }
 
-.i-button:active{
+.i-button:active {
     border-bottom: solid #ffffff 1px;
     border-left: solid #ffffff 1px;
     border-top: solid #000000 1px;
     border-right: solid #000000 1px;
 }
 
-.content-notification{
-    display:flex;
+.content-notification {
+    display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-left:0.5em;
+    margin-left: 0.5em;
+}
+
+.notification-container {
+    width: 22.5em;
 }
