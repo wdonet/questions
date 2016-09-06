@@ -34,11 +34,14 @@ import javax.mail.MessagingException;
 public class NewAnswerNotifierServiceImpl implements NotificationDelivererService {
 
     private static final String QUESTION_TITLE = "questionTitle";
+    private static final String QUESTION_ID = "questionId";
     private static final String USER_NAME_QUESTION = "userNameQuestion";
     private static final String ANSWER_TEXT = "answerText";
+    private static final String ANSWER_ID = "answerId";
     private static final String USER_NAME_ANSWER = "userNameAnswer";
     private static final String USER_NAME = "userName";
     private static final String TAGS_LIST = "tagsList";
+    private static final String APPLICATION_PATH = "applicationSitePath";
 
     public static final String ANSWER_ID_PARAM = "com.nsquestions.answer.id";
 
@@ -49,6 +52,9 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
     @Value("${com.nsquestions.notification.you-got-an-answer:'You got an answer'}")
     private String youGotAnAnswerMsg;
+
+    @Value("${application.site}")
+    private String applicationSitePath;
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -78,6 +84,7 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         notifyInterestedUsersByTags(question, answer);
     }
 
+
     private void notifyQuestionOwner(Question question, Answer answer) {
         User user = question.getUser();
 
@@ -87,14 +94,13 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         templateParams.put(ANSWER_TEXT, answer.getDescription());
         templateParams.put(USER_NAME_ANSWER, answer.getUser().getFirstName());
         templateParams.put(USER_NAME, user.getFirstName());
-
+        templateParams.put(ANSWER_ID, answer.getId().toString());
+        templateParams.put(QUESTION_ID, question.getId().toString());
+        templateParams.put(APPLICATION_PATH, applicationSitePath);
         persistNotification(question, answer, user);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.ADD_ANSWER, youGotAnAnswerMsg, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(NotificationType.ADD_ANSWER, youGotAnAnswerMsg, templateParams, user.getEmail());
+
     }
 
     @SuppressWarnings("unchecked")
@@ -118,6 +124,7 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
         userNotification.setUser(user);
 
         userNotificationRepository.save(userNotification);
+
     }
 
     private void notifyInterestedUsersByTags(Question question, Answer answer) {
@@ -149,11 +156,8 @@ public class NewAnswerNotifierServiceImpl implements NotificationDelivererServic
 
         String mailSubject = MessageFormat.format(answerForTaggedQuestion, tag);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, mailSubject, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(NotificationType.ANSWER_FOR_TAGGED_QUESTION, mailSubject, templateParams, user.getEmail());
+
     }
 
     private void persistUserNotification(Notification notification, User user) {

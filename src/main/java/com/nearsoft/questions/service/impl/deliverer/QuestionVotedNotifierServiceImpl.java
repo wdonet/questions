@@ -89,13 +89,8 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         templateParams.put("userName", user.getFirstName());
 
         persistNotification(question, notificationType, user);
+        mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
 
-
-        try {
-            mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -118,5 +113,6 @@ public class QuestionVotedNotifierServiceImpl implements NotificationDelivererSe
         userNotification.setNotification(notification);
 
         userNotificationRepository.save(userNotification);
+
     }
 }

@@ -98,11 +98,8 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
 
         String mailSubject = MessageFormat.format(subject, tag);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.NEW_QUESTION, mailSubject, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(NotificationType.NEW_QUESTION, mailSubject, templateParams, user.getEmail());
+
     }
 
     private void persistUserNotification(Notification notification, User user) {
@@ -112,6 +109,7 @@ public class NewQuestionNotifierServiceImpl implements NotificationDelivererServ
         userNotification.setUser(user);
 
         userNotificationRepository.save(userNotification);
+
     }
 
 }

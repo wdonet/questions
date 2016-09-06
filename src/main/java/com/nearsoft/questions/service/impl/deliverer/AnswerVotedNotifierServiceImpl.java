@@ -83,11 +83,8 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
 
         persistNotification(question, answer, notificationType, user);
 
-        try {
-            mailSenderService.sendEmail(notificationType, subject, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(notificationType, subject, templateParams, user.getEmail());
+
     }
 
     @SuppressWarnings("unchecked")

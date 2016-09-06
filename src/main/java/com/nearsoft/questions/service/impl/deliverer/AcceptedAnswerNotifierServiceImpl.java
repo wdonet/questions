@@ -68,11 +68,8 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
 
         persistNotification(question, answer, user);
 
-        try {
-            mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, answerAcceptedSubject, templateParams, user.getEmail());
-        } catch (MessagingException e) {
-            log.error("Can't deliver notification by email", e);
-        }
+        mailSenderService.sendEmail(NotificationType.ANSWER_ACCEPTED, answerAcceptedSubject, templateParams, user.getEmail());
+
     }
 
     @SuppressWarnings("unchecked")
@@ -96,5 +93,7 @@ public class AcceptedAnswerNotifierServiceImpl implements NotificationDelivererS
         userNotification.setUser(user);
 
         userNotificationRepository.save(userNotification);
+
+
     }
 }
