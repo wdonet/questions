@@ -13,13 +13,13 @@ import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.MailSenderService;
 import com.nearsoft.questions.service.NotificationDelivererService;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,10 +41,6 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
     private int lenStartOfAnswer;
 
     public static final String POINTS_PARAM = "com.nsquestions.notification.voted.points";
-
-    private static final int LEN_ELLIPSIS = 3;
-
-    private static final String ELLIPSIS = "...";
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -69,11 +65,7 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
     public void sendNotification(Map<String, String> parametersMap) {
         int points = parameterReader.getInteger(parametersMap, POINTS_PARAM);
         Answer answer = answerRepository.findOne(parameterReader.getLong(parametersMap, ANSWER_ID_PARAM));
-        String description = points > 0 ? subjectAnswerVotedUp : subjectAnswerVotedDown;
-        String answerText = answer.getDescription();
-        String startOfQuestion = answerText.length() > lenStartOfAnswer ? answerText.substring(0, lenStartOfAnswer - LEN_ELLIPSIS) + ELLIPSIS : answerText;
-
-        description = MessageFormat.format(description, startOfQuestion);
+        String subject = points > 0 ? subjectAnswerVotedUp : subjectAnswerVotedDown;
 
         NotificationType notificationType = points > 0 ? NotificationType.ANSWER_VOTED_UP : NotificationType.ANSWER_VOTED_DOWN;
         Question question = answer.getQuestion();
@@ -82,7 +74,6 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
 
         Map<String, String> templateParams = new HashMap<>();
 
-        templateParams.put("description", description);
         templateParams.put("questionTitle", question.getTitle());
         templateParams.put("answerText", answer.getDescription());
         templateParams.put("votesUp", "" + answer.getVotesUp());
@@ -90,24 +81,33 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
         templateParams.put("reputation", "" + userRepository.getPointsForUserId(user.getId()));
         templateParams.put("userName", user.getFirstName());
 
+        persistNotification(question, answer, notificationType, user);
+
+        mailSenderService.sendEmail(notificationType, subject, templateParams, user.getEmail());
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void persistNotification(Question question, Answer answer, NotificationType notificationType, User user) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("text", answer.getDescription());
+        jsonObject.put("questionId", question.getId());
+        jsonObject.put("answerId", answer.getId());
+
         Notification notification = new Notification();
 
-        notification.setDescription(description);
+        notification.setDescription(jsonObject.toJSONString());
         notification.setType(notificationType);
-        notification.setQuestion(question);
 
         notificationRepository.save(notification);
 
         UserNotification userNotification = new UserNotification();
 
         userNotification.setUser(user);
-        userNotification.setUiNotified(false);
-        userNotification.setEmailDelivered(false);
         userNotification.setNotification(notification);
 
         userNotificationRepository.save(userNotification);
-
-        mailSenderService.sendEmail(notificationType, description, templateParams, user.getEmail());
-
     }
 }

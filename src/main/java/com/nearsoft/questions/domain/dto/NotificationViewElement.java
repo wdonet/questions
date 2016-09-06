@@ -6,6 +6,8 @@ import com.nearsoft.questions.domain.NotificationType;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.UserNotification;
 
+import org.json.simple.JSONObject;
+
 import java.sql.Timestamp;
 
 
@@ -13,7 +15,6 @@ public class NotificationViewElement {
 
     private Long id;
     private String description;
-    private Question question;
     private Boolean uiNotified;
     private NotificationType type;
     private Timestamp createdAt;
@@ -22,7 +23,6 @@ public class NotificationViewElement {
     public NotificationViewElement(Notification notification, UserNotification userNotification) {
         this.id = userNotification.getId();
         this.description = notification.getDescription();
-        this.question = notification.getQuestion();
         this.uiNotified = userNotification.getUiNotified();
         this.type = notification.getType();
         this.createdAt = notification.getCreatedAt();
@@ -58,14 +58,6 @@ public class NotificationViewElement {
 
     public void setType(NotificationType type) {
         this.type = type;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
     }
 
     public Timestamp getCreatedAt() {

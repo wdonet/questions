@@ -1,3 +1,5 @@
+var MAX_LENGTH_TEXT_NOTIFICATION = 60;
+
 $(function () {
 
     if (!$('.notifications-icon')[0]) {
@@ -9,6 +11,7 @@ $(function () {
         notificationsList.forEach(function (notification) {
             var statusClass;
             var typeText;
+            var description = $.parseJSON(notification.description);
             switch (notification.type) {
                 case 'IMPROVEMENT':
                     statusClass = 'fa fa-arrow-circle-up improvement';
@@ -17,6 +20,9 @@ $(function () {
                 case 'CLOSE':
                     statusClass = 'fa fa-ban close-improvement';
                     typeText = '';
+                    break;
+                case 'ADD_ANSWER':
+                    typeText = 'Got an answer';
                     break;
                 case 'NEW_QUESTION':
                     typeText = 'New question';
@@ -48,18 +54,22 @@ $(function () {
             if (!notification.uiNotified) {
                 notificationClass = ' notification-unseen';
             }
-            if (notification.description.length >= 57) {
-                notification.description = notification.description.substring(0, 57) + '...';
+            if (description.text.length >= MAX_LENGTH_TEXT_NOTIFICATION) {
+                description.text = description.text.substring(0, MAX_LENGTH_TEXT_NOTIFICATION - 3) + '...';
             }
 
             templateString +=
-                '<li data-notification-id="' + notification.id + '" data-question-id="'
-                + notification.question.id + '" class="' +
-                notificationClass + '"><div><strong>' +
-                typeText + '</strong></div><div>' + notification.description + '</div></li>';
+                '<li data-notification-id="' + notification.id +
+                '" data-question-id="' + description.questionId +
+                (description.answerId ? '" data-answer-id="' + description.answerId : "") +
+                '" class="' + notificationClass +
+                '">'
+                + '<div><strong>' + typeText + '</strong></div>'
+                + '<div>' + description.text + '</div>'
+                + '</li>';
         });
         templateString +=
-            '</ul><div class="show-more-notifications center-text"><a href="/inbox">Show more content ...</a></div>';
+            '</ul><div class="show-more-notifications center-text"><a href="/inbox">show all notifications</a></div>';
 
         return templateString;
     };
@@ -79,7 +89,8 @@ $(function () {
                                 + '/',
                            type: 'POST'
                        }).done(function () {
-                    window.location = '/question/' + $(this).data('question-id');
+                    window.location = '/question/' + $(this).data('question-id') +
+                                      ($(this).data('answer-id') ? "#a-" + $(this).data('answer-id') : "");
                 }.bind(this));
             });
         });

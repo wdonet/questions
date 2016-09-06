@@ -32,9 +32,6 @@ public class Notification implements Serializable {
 
     private String description;
 
-    @ManyToOne(targetEntity = Question.class, optional = false)
-    private Question question;
-
     @Column(name = "notification_type")
     @Enumerated
     private NotificationType type;
@@ -65,14 +62,6 @@ public class Notification implements Serializable {
 
     public void setType(NotificationType type) {
         this.type = type;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
     }
 
     public Timestamp getCreatedAt() {

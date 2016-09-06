@@ -38,11 +38,17 @@
         </div>
         <ul>
             <#list notifications as notification>
+                <#assign description = notification.description?eval>
                 <#switch notification.type>
                     <#case "NEW_QUESTION">
                         <#assign icon = "fa fa-tags added-tag">
                         <#assign details = "Question added">
                         <#assign detailsClass = "added-tag">
+                        <#break>
+                    <#case "ADD_ANSWER">
+                        <#assign icon = "fa fa-lightbulb-o improvement">
+                        <#assign details = "Got an answer">
+                        <#assign detailsClass = "improvement">
                         <#break>
                     <#case "IMPROVEMENT">
                         <#assign icon = "fa fa-arrow-circle-up improvement">
@@ -88,8 +94,8 @@
                     <input type="checkbox" id="notification_${notification.id}" class="notification_checkbox" />
                     <div class="content-notification">
                         <div>
-                            <a class="notification-remove-anchor-style" href="/question/${notification.question.id}">
-                            <i class="${icon}"></i>${notification.description}
+                            <a class="notification-remove-anchor-style" href="/question/${description.questionId}${description.answerId???then("#a-" + description.answerId, "")}">
+                            <i class="${icon}"></i>${description.text}
                             <span class="${detailsClass}">${details}</span>
                             </a>
                         </div>

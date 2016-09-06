@@ -29,10 +29,10 @@ public class UserNotification implements Serializable {
     private User user;
 
     @Column(name = "email_delivered")
-    private Boolean emailDelivered;
+    private Boolean emailDelivered = Boolean.FALSE;
 
     @Column(name = "ui_notified")
-    private Boolean uiNotified;
+    private Boolean uiNotified = Boolean.FALSE;
 
     public Long getId() {
         return id;
