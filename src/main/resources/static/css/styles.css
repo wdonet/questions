@@ -1162,6 +1162,7 @@ a.val-neg {
 #user-activity {
     display: flex;
     justify-content: space-around;
+    margin-top: 2em;
 }
 
 #user-activity section {

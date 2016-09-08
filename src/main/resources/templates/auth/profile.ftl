@@ -62,6 +62,8 @@
 
     </section>
 
+    <hr/>
+
     <div id="user-activity">
 
         <section id="question">
