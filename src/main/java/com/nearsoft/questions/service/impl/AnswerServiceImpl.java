@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -97,6 +98,10 @@ public class AnswerServiceImpl implements AnswerService {
         }
     }
 
+    public List<Answer> findByUser(User user){
+        return answerRepository.findByUser(user);
+    }
+
     private void savePointsForAnswer(Answer answer, RuleName ruleName) {
         RuleAnswerTransaction ruleAnswerTransaction = ruleService.savePointsForAnswer(answer, ruleName);
 
@@ -144,6 +149,8 @@ public class AnswerServiceImpl implements AnswerService {
             ruleService.savePointsForAnswer(answer, RuleName.ACCEPTED_ANSWER);
         }
     }
+
+
 
     private boolean questionHasAnyAcceptedAnswer(Question question) {
         return CollectionUtils.isNotEmpty(question.getAnswers()) &&

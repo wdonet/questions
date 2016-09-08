@@ -35,4 +35,5 @@ public interface QuestionRepository extends PagingAndSortingRepository<Question,
     @Override
     @RestResource(exported = false)
     void delete(Question entity);
+
 }

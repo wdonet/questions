@@ -11,4 +11,9 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    void updateFirstName(String firstName, User user);
+
+    void updateLastName(String lastName, User user);
+
+    void updateLocation(String location, User user);
 }
