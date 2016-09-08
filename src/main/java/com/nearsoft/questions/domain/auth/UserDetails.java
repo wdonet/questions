@@ -11,8 +11,6 @@ import java.util.Set;
 public class UserDetails extends SocialUser {
 
     private Long id;
-    private String firstName;
-    private String lastName;
     private Role role;
     private SocialMediaService socialSignInProvider;
     private String imageUrl;
@@ -27,11 +25,11 @@ public class UserDetails extends SocialUser {
     }
 
     public String getFirstName() {
-        return firstName;
+        return user.getFirstName();
     }
 
     public String getLastName() {
-        return lastName;
+        return user.getLastName();
     }
 
     public Role getRole() {
@@ -47,7 +45,7 @@ public class UserDetails extends SocialUser {
     }
     
     public String getFullName() {
-        return firstName + " " + lastName;
+        return getFirstName() + " " + getLastName();
     }
 
 
@@ -120,8 +118,6 @@ public class UserDetails extends SocialUser {
             UserDetails details = new UserDetails(username, authorities);
 
             details.id = id;
-            details.firstName = firstName;
-            details.lastName = lastName;
             details.role = role;
             details.socialSignInProvider = socialSignInProvider;
             details.imageUrl = imageUrl;
@@ -134,7 +130,7 @@ public class UserDetails extends SocialUser {
     @Override
     public String toString() {
         return "UserDetails {" +
-                "Name ='" + firstName + ' ' + lastName + '\'' +
+                "Name ='" + getFirstName() + ' ' + getLastName() + '\'' +
                 ", email='" + getUsername() + '\'' +
                 ", role=" + role +
                 '}';

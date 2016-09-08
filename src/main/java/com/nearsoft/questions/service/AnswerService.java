@@ -3,6 +3,8 @@ package com.nearsoft.questions.service;
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.auth.User;
 
+import java.util.List;
+
 public interface AnswerService {
 
     Answer save(Answer answer);
@@ -16,4 +18,6 @@ public interface AnswerService {
     void markAsAccepted(Long answerId, User user);
 
     Answer get(final Long id);
+
+    List<Answer> findByUser(User user);
 }

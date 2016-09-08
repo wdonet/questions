@@ -37,9 +37,6 @@ public class AnswerVotedNotifierServiceImpl implements NotificationDelivererServ
     @Value("${com.nsquestions.notification.answer-voted-down.subject:Answer voted down}")
     private String subjectAnswerVotedDown;
 
-    @Value("${com.nsquestions.notification.len-start-of-answer:15}")
-    private int lenStartOfAnswer;
-
     public static final String POINTS_PARAM = "com.nsquestions.notification.voted.points";
 
     @Autowired

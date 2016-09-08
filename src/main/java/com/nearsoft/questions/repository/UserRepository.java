@@ -1,6 +1,8 @@
 package com.nearsoft.questions.repository;
 
 import com.nearsoft.questions.domain.auth.User;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -38,4 +40,16 @@ public interface UserRepository extends CrudRepository<User, Long> {
         "WHERE q.user_id = ?1 \n" +
         ") total_points ")
     Integer getPointsForUserId(Long userId);
+
+    @Modifying
+    @Query("UPDATE com.nearsoft.questions.domain.auth.User u SET u.firstName = ?1 WHERE u.id = ?2")
+    int updateFirstName(String firstName, Long id);
+
+    @Modifying
+    @Query("UPDATE com.nearsoft.questions.domain.auth.User u SET u.lastName = ?1 WHERE u.id = ?2")
+    int updateLastName(String lastName, Long id);
+
+    @Modifying
+    @Query("UPDATE com.nearsoft.questions.domain.auth.User u SET u.location = ?1 WHERE u.id = ?2")
+    int updateLocation(String location, Long id);
 }

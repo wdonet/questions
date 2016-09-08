@@ -5,6 +5,7 @@ import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.UserRepository;
 import com.nearsoft.questions.service.RuleService;
 import com.nearsoft.questions.service.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,21 @@ public class UserServiceImpl implements UserService {
         user.setReputation(userRepository.getPointsForUserId(user.getId()));
         user.setPermissions(ruleService.getUserPermissions(user.getReputation()));
         return user;
+    }
+
+    @Override
+    public void updateFirstName(String firstName, User user) {
+        userRepository.updateFirstName(firstName, user.getId());
+    }
+
+    @Override
+    public void updateLastName(String lastName, User user) {
+        userRepository.updateLastName(lastName, user.getId());
+    }
+
+    @Override
+    public void updateLocation(String location, User user) {
+        userRepository.updateLocation(location, user.getId());
     }
 
 }

@@ -1135,3 +1135,46 @@ a.val-neg {
 .notification-container {
     width: 22.5em;
 }
+
+.profile-data {
+    display: flex;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.profile-data .profile-picture {
+    display: flex;
+    align-items: center;
+}
+
+.profile-data input[type="text"] {
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 1em;
+    background-color: white;
+}
+
+.profile-info-rows div {
+    margin-bottom: 0.3em;
+}
+
+#user-activity {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2em;
+}
+
+#user-activity section {
+    width: 47%;
+}
+
+#user-activity .list {
+    margin-top: 0.5em;
+    border: solid black 1px;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    min-height: 5em;
+}
