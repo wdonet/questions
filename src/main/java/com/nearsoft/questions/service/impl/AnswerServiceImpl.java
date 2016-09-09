@@ -86,7 +86,7 @@ public class AnswerServiceImpl implements AnswerService {
                 log.warn("Answer " + answerId + " not found when voting down");
             }
         } else {
-            log.warn("Trying to vote up owned answer: " + answerId + " [" + answerOwner.getEmail() + "] vs [" + currentUser.getEmail() + "]");
+            log.warn("Trying to vote down owned answer: " + answerId + " [" + answerOwner.getEmail() + "] vs [" + currentUser.getEmail() + "]");
         }
     }
 
