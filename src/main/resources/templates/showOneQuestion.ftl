@@ -61,23 +61,26 @@
                 <i class="fa fa-clock-o"></i>
                 <label class="date-text">${(question.createdAt)!""}</label>
             </div>
-            <div class="validation-cont">
-                <#if userPermissions?seq_contains("VOTED_UP_QUESTION")>
-                    <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">
-                        <button class="val-pos fa fa-arrow-up" type="submit"></button>
-                        <div class="votes">${question.votesUp}</div>
-                    </form>
+
+            <#if userId != question.user.id>
+                <div class="validation-cont">
+                    <#if userPermissions?seq_contains("VOTED_UP_QUESTION")>
+                        <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">
+                            <button class="val-pos fa fa-arrow-up" type="submit"></button>
+                            <div class="votes">${question.votesUp}</div>
+                        </form>
+                    </#if>
+                    <#if userPermissions?seq_contains("EDIT_OTHER_QUESTIONS")>
+                        <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
+                            <button class="val-neg fa fa-arrow-down" type="submit"></button>
+                            <div class="votes">${question.votesDown}</div>
+                        </form>
+                    </#if>
+                <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER") && isNotClosed>
+                    <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
                 </#if>
-                <#if userPermissions?seq_contains("EDIT_OTHER_QUESTIONS")>
-                    <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
-                        <button class="val-neg fa fa-arrow-down" type="submit"></button>
-                        <div class="votes">${question.votesDown}</div>
-                    </form>
-                </#if>
-            <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER") && isNotClosed>
-                <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
+                </div>
             </#if>
-            </div>
         </div>
         <input name="id" type="hidden" form="editQuestionForm" value="${question.id?c}">
     <#if question.description?? && question.description?length &gt; 0>
@@ -132,6 +135,7 @@
                     <i class="fa fa-clock-o"></i>
                     <label class="date-text">${(answer.createdAt)!""}</label>
                 </div>
+                <#if userId != answer.user.id>
                 <div class="validation-cont">
         <#if userPermissions?seq_contains("VOTED_UP_ANSWER")>
                     <form action="/question/${question.id?c}/answer/${answer.id?c}/voteUp" method="post" class="validation-positive">
@@ -158,6 +162,7 @@
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
         </#if>
                 </div>
+                </#if>
             </div>
             <div class="answers" id="answer-description-div-${answer?counter}">${answer.description}</div>
             <div id="edit-answer-form-div-${answer?counter}" class="edit-answer-form-div">
