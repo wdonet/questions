@@ -1,4 +1,48 @@
 var MAX_LENGTH_TEXT_NOTIFICATION = 60;
+var DEFAULT_ICON = " notification-unseen";
+
+var notification_styles = {
+    "NEW_QUESTION": {
+        "iconClass": "fa fa-tags added-tag",
+        "typeText": "Question added"
+    },
+    "ADD_ANSWER": {
+        "iconClass": "fa fa-lightbulb-o improvement",
+        "typeText": "Got an answer"
+    },
+    "IMPROVEMENT": {
+        "iconClass": "fa fa-arrow-circle-up improvement",
+        "typeText": "Question improved",
+    },
+    "ANSWER_ACCEPTED": {
+        "iconClass": "fa fa-ban improvement",
+        "typeText": "Answer accepted"
+    },
+    "QUESTION_VOTED_UP": {
+        "iconClass": "fa fa-thumbs-o-up improvement",
+        "typeText": "Question voted up"
+    },
+    "QUESTION_VOTED_DOWN": {
+        "iconClass": "fa fa-thumbs-o-down close-improvement",
+        "typeText": "Question voted down"
+    },
+    "ANSWER_VOTED_UP": {
+        "iconClass": "fa fa-thumbs-up improvement",
+        "typeText": "Answer voted up"
+    },
+    "ANSWER_VOTED_DOWN": {
+        "iconClass": "fa fa-thumbs-down close-improvement",
+        "typeText": "Answer voted down"
+    },
+    "ANSWER_FOR_TAGGED_QUESTION": {
+        "iconClass": "fa fa-lightbulb-o added-tag",
+        "typeText": "Answer for tagged question"
+    },
+    "CLOSE": {
+        "iconClass": "fa fa-ban close-improvement",
+        "typeText": ""
+    }
+};
 
 $(function () {
 
@@ -9,53 +53,21 @@ $(function () {
     var getDropContent = function (notificationsList) {
         var templateString = '<div class="notifications-header"><strong>Notifications</strong></div><ul>';
         notificationsList.forEach(function (notification) {
-            var statusClass;
+            var iconClass;
             var typeText;
+            var notificationClass = !notification.uiNotified ? " notification-unseen" : "";
             var description = $.parseJSON(notification.description);
-            switch (notification.type) {
-                case 'IMPROVEMENT':
-                    statusClass = 'fa fa-arrow-circle-up improvement';
-                    typeText = '';
-                    break;
-                case 'CLOSE':
-                    statusClass = 'fa fa-ban close-improvement';
-                    typeText = '';
-                    break;
-                case 'ADD_ANSWER':
-                    typeText = 'Got an answer';
-                    break;
-                case 'NEW_QUESTION':
-                    typeText = 'New question';
-                    break;
-                case "ANSWER_ACCEPTED":
-                    typeText = "Answer accepted";
-                    break;
-                case "QUESTION_VOTED_UP":
-                    typeText = "Question voted up";
-                    break;
-                case "QUESTION_VOTED_DOWN":
-                    typeText = "Question voted down";
-                    break;
-                case "ANSWER_VOTED_UP":
-                    typeText = "Answer voted up";
-                    break;
-                case "ANSWER_VOTED_DOWN":
-                    typeText = "Answer voted down";
-                    break;
-                case "ANSWER_FOR_TAGGED_QUESTION":
-                    typeText = "Answer for tagged question";
-                    break;
-                default:
-                    statusClass = 'fa fa-tags added-tag';
-                    typeText = '';
-                    break;
+            if (notification_styles[notification.type]) {
+                iconClass = notification_styles[notification.type].iconClass;
+                typeText = notification_styles[notification.type].typeText;
+            } else {
+                iconClass = DEFAULT_ICON;
+                typeText = '';
             }
-            var notificationClass;
-            if (!notification.uiNotified) {
-                notificationClass = ' notification-unseen';
-            }
+
             if (description.text.length >= MAX_LENGTH_TEXT_NOTIFICATION) {
-                description.text = description.text.substring(0, MAX_LENGTH_TEXT_NOTIFICATION - 3) + '...';
+                description.text =
+                    description.text.substring(0, MAX_LENGTH_TEXT_NOTIFICATION - 3) + '...';
             }
 
             templateString +=
@@ -64,7 +76,7 @@ $(function () {
                 (description.answerId ? '" data-answer-id="' + description.answerId : "") +
                 '" class="' + notificationClass +
                 '">'
-                + '<div><strong>' + typeText + '</strong></div>'
+                + '<div><i class="' + iconClass + '"></i><strong>' + typeText + '</strong></div>'
                 + '<div>' + description.text + '</div>'
                 + '</li>';
         });
@@ -90,7 +102,8 @@ $(function () {
                            type: 'POST'
                        }).done(function () {
                     window.location = '/question/' + $(this).data('question-id') +
-                                      ($(this).data('answer-id') ? "#a-" + $(this).data('answer-id') : "");
+                                      ($(this).data('answer-id') ? "#a-" + $(this).data('answer-id')
+                                          : "");
                 }.bind(this));
             });
         });
