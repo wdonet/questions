@@ -57,8 +57,6 @@ public class UserDetails extends SocialUser {
 
         private Long id;
         private String username;
-        private String firstName;
-        private String lastName;
         private Role role;
         private User user;
         private SocialMediaService socialSignInProvider;
@@ -69,18 +67,8 @@ public class UserDetails extends SocialUser {
             this.authorities = new HashSet<>();
         }
 
-        public Builder firstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
         public Builder id(Long id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder lastName(String lastName) {
-            this.lastName = lastName;
             return this;
         }
 
