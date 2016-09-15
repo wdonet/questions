@@ -58,7 +58,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         }
         Integer value;
         try {
-            value = new Integer(config.getValue());
+            value = Integer.valueOf(config.getValue());
         } catch (NumberFormatException e) {
             return defaultValue;
         }
