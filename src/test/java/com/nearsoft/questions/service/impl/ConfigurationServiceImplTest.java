@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 
 public class ConfigurationServiceImplTest {
     @Test
-    public void shouldReturn() {
+    public void testGetIntegerReturnsIntegerValue() {
         ConfigurationRepository repositoryStub = mock(ConfigurationRepository.class);
         Configuration configurationStub = mock(Configuration.class);
         when(configurationStub.getValue()).thenReturn("12345");
