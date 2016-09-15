@@ -1,5 +1,21 @@
 package com.nearsoft.questions.domain;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.auth.User;
@@ -10,12 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.util.StringUtils;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Document(indexName = "nsquestions", type = "question")
