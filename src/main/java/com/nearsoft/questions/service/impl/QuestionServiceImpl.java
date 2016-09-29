@@ -50,7 +50,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService,
-        ConfigurationService configurationService, NotificationService notificationService) {
+                               ConfigurationService configurationService, NotificationService notificationService) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
         this.ruleService = ruleService;
@@ -78,13 +78,24 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void downVote(Long questionId, User currentUser) {
         Question question = get(questionId);
-        if (question != null && ruleService.isValidUserPermission(RuleName.VOTED_DOWN_QUESTION, currentUser)) {
+
+        if (question == null) {
+            log.warn("Question " + questionId + " not found when voting down");
+            return;
+        }
+
+        User questionOwner = question.getUser();
+
+        if (questionOwner.getId().equals(currentUser.getId())) {
+            log.warn("Trying to vote down owned question: " + questionId + " [" + questionOwner.getEmail() + "] vs [" + currentUser.getEmail() + "]");
+            return;
+        }
+
+        if (ruleService.isValidUserPermission(RuleName.VOTED_DOWN_QUESTION, currentUser)) {
             question.setVotesDown(question.getVotesDown() + 1);
             questionRepository.save(question);
 
             savePointsForQuestion(question, RuleName.VOTED_DOWN_QUESTION);
-        } else {
-            log.warn("Question " + questionId + " not found when voting down");
         }
     }
 
@@ -92,13 +103,23 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void upVote(Long questionId, User currentUser) {
         Question question = get(questionId);
-        if (question != null && ruleService.isValidUserPermission(RuleName.VOTED_UP_QUESTION, currentUser)) {
+
+        if (question == null) {
+            log.warn("Question " + questionId + " not found when voting up");
+            return;
+        }
+
+        User questionOwner = question.getUser();
+
+        if (questionOwner.getId().equals(currentUser.getId())) {
+            log.warn("Trying to vote up owned question: " + questionId + " [" + questionOwner.getEmail() + "] vs [" + currentUser.getEmail() + "]");
+            return;
+        }
+        if (ruleService.isValidUserPermission(RuleName.VOTED_UP_QUESTION, currentUser)) {
             question.setVotesUp(question.getVotesUp() + 1);
             questionRepository.save(question);
 
             savePointsForQuestion(question, RuleName.VOTED_UP_QUESTION);
-        } else {
-            log.warn("Question " + questionId + " not found when voting up");
         }
     }
 
