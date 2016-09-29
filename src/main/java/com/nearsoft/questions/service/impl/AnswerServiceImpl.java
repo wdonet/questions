@@ -74,39 +74,48 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void downVote(Long answerId, User currentUser) {
         Answer answer = get(answerId);
+
+        if (answer == null) {
+            log.warn("Answer " + answerId + " not found when voting down");
+            return;
+        }
+
         User answerOwner = answer.getUser();
 
-        if (!answerOwner.getId().equals(currentUser.getId())) {
-            if (answer != null && ruleService.isValidUserPermission(RuleName.VOTED_DOWN_ANSWER, currentUser)) {
-                answer.setVotesDown(answer.getVotesDown() + 1);
-                answerRepository.save(answer);
-
-                savePointsForAnswer(answer, RuleName.VOTED_DOWN_ANSWER);
-            } else {
-                log.warn("Answer " + answerId + " not found when voting down");
-            }
-        } else {
+        if (answerOwner.getId().equals(currentUser.getId())) {
             log.warn("Trying to vote down owned answer: " + answerId + " [" + answerOwner.getEmail() + "] vs [" + currentUser.getEmail() + "]");
+            return;
+        }
+
+        if (ruleService.isValidUserPermission(RuleName.VOTED_DOWN_ANSWER, currentUser)) {
+            answer.setVotesDown(answer.getVotesDown() + 1);
+            answerRepository.save(answer);
+
+            savePointsForAnswer(answer, RuleName.VOTED_DOWN_ANSWER);
         }
     }
 
     @Override
     public void upVote(Long answerId, User currentUser) {
         Answer answer = get(answerId);
+
+        if (answer == null) {
+            log.warn("Answer " + answerId + " not found when voting up");
+            return;
+        }
+
         User answerOwner = answer.getUser();
 
-        if (!answerOwner.getId().equals(currentUser.getId())) {
-            if (answer != null && ruleService.isValidUserPermission(RuleName.VOTED_UP_ANSWER, currentUser)) {
-                answer.setVotesUp(answer.getVotesUp() + 1);
-                answerRepository.save(answer);
-
-                savePointsForAnswer(answer, RuleName.VOTED_UP_ANSWER);
-
-            } else {
-                log.warn("Answer " + answerId + " not found when voting up");
-            }
-        } else {
+        if (answerOwner.getId().equals(currentUser.getId())) {
             log.warn("Trying to vote up owned answer: " + answerId + " [" + answerOwner.getEmail() + "] vs [" + currentUser.getEmail() + "]");
+            return;
+        }
+
+        if (ruleService.isValidUserPermission(RuleName.VOTED_UP_ANSWER, currentUser)) {
+            answer.setVotesUp(answer.getVotesUp() + 1);
+            answerRepository.save(answer);
+
+            savePointsForAnswer(answer, RuleName.VOTED_UP_ANSWER);
         }
     }
 
