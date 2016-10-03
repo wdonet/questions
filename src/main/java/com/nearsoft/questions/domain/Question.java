@@ -99,7 +99,7 @@ public class Question extends AbstractAuditableEntity implements Serializable {
                 log.warn(String.format("Unable to add tags [%s] when building questions for user %s", requestedTagNames, user));
             }
             if (this.tags.size() > 1 && this.tags.contains(NO_TAG)) {
-                this.tags.removeIf(tag -> NO_TAG.equals(tag));
+                this.tags.removeIf(NO_TAG::equals);
             }
         }
     }

@@ -34,8 +34,6 @@ public class SimpleSocialUsersDetailService implements SocialUserDetailsService 
         }
 
         return new UserDetails.Builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
                 .username(user.getEmail())
                 .socialSignInProvider(user.getSignInProvider())
                 .role(user.getRole())

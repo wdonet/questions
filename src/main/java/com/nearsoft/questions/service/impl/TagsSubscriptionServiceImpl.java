@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Service
 public class TagsSubscriptionServiceImpl implements TagsSubscriptionService {
@@ -64,9 +63,7 @@ public class TagsSubscriptionServiceImpl implements TagsSubscriptionService {
 
     @Override
     public List<Tag> findTagsByUser(User user) {
-        List<Tag> ownedTags = tagsSubscriptionRepository.findByUser(user);
-
-        return ownedTags;
+        return tagsSubscriptionRepository.findByUser(user);
     }
 
     @Override

@@ -27,8 +27,6 @@ public class NotificationViewElementRepository {
         javax.persistence.Query query = entityManager.createQuery(queryString);
         query.setParameter("user", user);
 
-        List<NotificationViewElement> notifications = query.getResultList();
-
-        return notifications;
+        return query.getResultList();
     }
 }

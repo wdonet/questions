@@ -9,7 +9,7 @@ public interface AnswerService {
 
     Answer save(Answer answer);
 
-    public void update(Answer answer);
+    void update(Answer answer);
 
     void downVote(Long answerId, User user);
 
