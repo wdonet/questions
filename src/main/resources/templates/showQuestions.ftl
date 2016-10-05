@@ -27,7 +27,11 @@
         <script src="/js/search.js"></script>
     </head>
     <body class="showquestions ${pageName}">
-        <#include "header.ftl">
+        <#if !user??>
+            <#include "login.ftl">
+        <#else>
+            <#include "header.ftl">
+        </#if>
         <#include "searchBox.ftl">
         <#include "suggestions.ftl">
         <script src="/js/header.js"></script>

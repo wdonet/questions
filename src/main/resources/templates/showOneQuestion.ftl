@@ -32,7 +32,11 @@
     <script src="/js/showOneQuestion.js"></script>
 </head>
 <body class="question">
-<#include "header.ftl">
+<#if !user??>
+    <#include "login.ftl">
+<#else>
+    <#include "header.ftl">
+</#if>
 <#include "searchBox.ftl">
 <div class="suggestion-wrapper">
     <a onclick="window.history.back()" class="back-btn">« BACK </a>
