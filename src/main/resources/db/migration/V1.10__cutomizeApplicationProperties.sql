@@ -1,0 +1,1 @@
+INSERT INTO configuration (config_name, description, value) VALUES ('index_page', 'The page to show at the beginning', '/question/order/unanswered');

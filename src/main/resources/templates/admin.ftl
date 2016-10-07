@@ -33,8 +33,10 @@
 </head>
 <body>
 <#include "header.ftl">
-XDdDDDDD
 <script src="/js/header.js"></script>
+<div class="suggestion-wrapper">
+    XD
+</div>
 </body>
 
 </html>
