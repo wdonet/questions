@@ -1,8 +1,10 @@
 package com.nearsoft.questions.controller;
 
+import com.nearsoft.questions.domain.config.ConfigurationEnum;
 import com.nearsoft.questions.service.ConfigurationService;
 import com.nearsoft.questions.service.StorageService;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,11 @@ import java.io.IOException;
 public class AdminController {
 
     @Autowired
-    ConfigurationService configurationService;
+    StorageService storageService;
 
     @Autowired
-    StorageService storageService;
+    ConfigurationService configurationService;
+
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
@@ -37,4 +40,12 @@ public class AdminController {
         }
         return "redirect:/admin/index";
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateProperties(@RequestParam @NotEmpty String indexPage) {
+        configurationService.updateConfiguration(ConfigurationEnum.INDEX_PAGE, indexPage);
+
+        return "redirect:/admin/index";
+    }
+
 }

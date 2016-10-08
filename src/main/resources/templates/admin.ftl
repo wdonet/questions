@@ -35,6 +35,7 @@
 <#include "header.ftl">
 <script src="/js/header.js"></script>
 <div class="suggestion-wrapper">
+    <h3>Logo</h3>
     <section class="form-cont-config">
 
         <div class="profile-data">
@@ -58,21 +59,21 @@
         </div>
 
     </section>
-
+    <h3>Properties</h3>
     <section class="form-cont-ask">
-
-        <div class="profile-data">
-            <div class="profile-picture">
-
-            </div>
-            <div class="profile-info-rows">
-                <div>
-                    <input type="text" id="image" name="imagen" value=""
-                           placeholder="imagen">
-                </div>
-            </div>
-        </div>
-
+        <form method="post" action="/admin/update">
+            <table>
+                <tr>
+                    <td>Página de Inicio:</td>
+                    <td><input type="text" name="indexPage" placeholder="Página de Inicio"/></td>
+                </tr>
+                <tr>
+                    <td>Mensaje de inicio:</td>
+                    <td><input type="text" name="mensaje" placeholder="Mensaje"/></td>
+                </tr>
+            </table>
+            <button value="Enviar"></button>
+        </form>
     </section>
 
 
