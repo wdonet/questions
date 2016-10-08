@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ConfigurationServiceImpl implements ConfigurationService {
 
@@ -83,5 +85,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         Configuration configuration = configurationRepository.findByName(configurationEnum.getConfigName());
         configuration.setValue(newValue);
         configurationRepository.save(configuration);
+    }
+
+    @Override
+    public List<Configuration> findAll() {
+        return configurationRepository.findAll();
     }
 }

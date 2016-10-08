@@ -21,6 +21,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(QuestionsApplication.class)
 @Transactional
@@ -36,6 +38,12 @@ public class ConfigurationServiceImplTest {
         configurationService.updateConfiguration(ConfigurationEnum.INDEX_PAGE, "/hola.index");
         Assert.assertEquals(configurationService.getString(ConfigurationEnum.INDEX_PAGE.getConfigName()), "/hola.index");
         System.err.println(configurationService.getString(ConfigurationEnum.INDEX_PAGE.getConfigName()));
+    }
+
+    @Test
+    public void findAllTest() {
+        List<Configuration> all = configurationService.findAll();
+        Assert.assertFalse(all.isEmpty());
     }
 
     @Test

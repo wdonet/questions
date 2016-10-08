@@ -63,20 +63,33 @@
     <section class="form-cont-ask">
         <form method="post" action="/admin/update">
             <table>
+
+            <#list listConfiguration as configuration>
                 <tr>
-                    <td>Página de Inicio:</td>
-                    <td><input type="text" name="indexPage" , value="${indexPage}"
-                               placeholder="Página de Inicio"/></td>
+                    <td>${configuration.name}</td>
+                    <td><input id="${configuration.name}" type="text" name="configurationName"
+                               value="${configuration.value!}"
+                               placeholder="${configuration.name}"/></td>
+                    <td width="36%">
+                        <div style="width: 70%; margin-left: 17%">${configuration.description}</div>
+                    </td>
+
+                    <td width="10%">
+                        <div>
+                            <input id="button-${configuration.name}" type="button" value="Change"
+                                   class="updateConfiguration"/>
+                        </div>
+                    </td>
+                    <td width="10%">
+                        <div id="message-${configuration.name}" style="display: none"
+                             class="messages"
+                             align="center">updated
+                        </div>
+                    </td>
                 </tr>
-                <tr>
-                    <td>Mensaje de inicio:</td>
-                    <td><input type="text" name="indexHeader" value="${indexHeader}"
-                               placeholder="Mensaje"/></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Enviar"></input></td>
-                    <td></td>
-                </tr>
+            </#list>
+
+
             </table>
 
         </form>
@@ -84,6 +97,27 @@
 
 
 </div>
+<script>
+
+    $(".updateConfiguration").click(function () {
+        var idConfiguration = this.id.split("-")[1];
+        var value = $("#" + idConfiguration).val();
+
+        $.ajax({
+                   "type": "get",
+                   "url": "/admin/updateConfiguration",
+                   "error": function (data) {
+                       $("#message-" + idConfiguration).fadeIn("slow", function () {
+                           $("#message-" + idConfiguration).fadeOut(5000);
+                       });
+                   },
+                   "data": {configurationName: idConfiguration, value: value}
+
+               });
+
+    });
+
+</script>
 </body>
 
 </html>
