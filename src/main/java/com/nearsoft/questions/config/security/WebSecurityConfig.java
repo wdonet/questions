@@ -1,6 +1,5 @@
 package com.nearsoft.questions.config.security;
 
-import com.nearsoft.questions.domain.config.ConfigurationEnum;
 import com.nearsoft.questions.service.ConfigurationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SpringSocialConfigurer getSpringSocialConfigurer() throws Exception {
         SpringSocialConfigurer configurer = new SpringSocialConfigurer();
         configurer.signupUrl("/");
-        configurer.postLoginUrl(configurationService.getString(ConfigurationEnum.INDEX_PAGE.getConfigName()));
+        configurer.postLoginUrl("/customizedHome");
         return configurer;
     }
 

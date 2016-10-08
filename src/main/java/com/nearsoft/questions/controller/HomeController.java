@@ -30,6 +30,11 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping(value = "/customizedHome", method = RequestMethod.GET)
+    public String customizedHome() {
+        return configurationService.getString(ConfigurationEnum.INDEX_PAGE.getConfigName());
+    }
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search() {
         log.info("-- search view --");
