@@ -7,6 +7,7 @@ import com.nearsoft.questions.service.StorageService;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,10 @@ public class AdminController {
 
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model) {
+
+        model.addAttribute("indexPage", configurationService.getString(ConfigurationEnum.INDEX_PAGE.getConfigName()));
+        model.addAttribute("indexHeader", configurationService.getString(ConfigurationEnum.INDEX_HEADER.getConfigName()));
         return "admin";
     }
 
@@ -42,9 +46,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateProperties(@RequestParam @NotEmpty String indexPage) {
+    public String updateProperties(@RequestParam @NotEmpty String indexPage, @RequestParam @NotEmpty String indexHeader) {
         configurationService.updateConfiguration(ConfigurationEnum.INDEX_PAGE, indexPage);
-
+        configurationService.updateConfiguration(ConfigurationEnum.INDEX_HEADER, indexHeader);
         return "redirect:/admin/index";
     }
 

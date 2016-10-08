@@ -51,7 +51,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="submit" value="subir"/></td>
+                            <td><input type="submit" value="Enviar"></input></td>
                         </tr>
                     </table>
                 </form>
@@ -65,14 +65,20 @@
             <table>
                 <tr>
                     <td>Página de Inicio:</td>
-                    <td><input type="text" name="indexPage" placeholder="Página de Inicio"/></td>
+                    <td><input type="text" name="indexPage" , value="${indexPage}"
+                               placeholder="Página de Inicio"/></td>
                 </tr>
                 <tr>
                     <td>Mensaje de inicio:</td>
-                    <td><input type="text" name="mensaje" placeholder="Mensaje"/></td>
+                    <td><input type="text" name="indexHeader" value="${indexHeader}"
+                               placeholder="Mensaje"/></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Enviar"></input></td>
+                    <td></td>
                 </tr>
             </table>
-            <button value="Enviar"></button>
+
         </form>
     </section>
 
