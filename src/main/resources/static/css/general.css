@@ -75,7 +75,13 @@ header,
 .profile-profile-photo {
     border-radius: 100%;
     vertical-align: middle;
-    height: 75px;
+    height: 15px;
+    margin: 0px 37px;
+}
+
+.logo-config {
+    vertical-align: middle;
+    height: 45px;
     margin: 0px 20px;
 }
 

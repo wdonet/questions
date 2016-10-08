@@ -16,6 +16,15 @@ section.form-cont-ask form {
     box-shadow: 0 0 5px #CACACA;
 }
 
+section.form-cont-config form {
+    width: 781px;
+    background-color: #fff;
+    margin: 30px auto 0;
+    border-radius: 3px;
+    padding: 30px 50px;
+    box-shadow: 0 0 5px #CACACA;
+}
+
 section.form-cont-ask h1 {
     color: #65758C;
     font-size: 20px;
