@@ -61,7 +61,7 @@ public class AdminController {
     @RequestMapping(value = "/updateConfiguration", method = RequestMethod.GET)
     @ResponseStatus(code = HttpStatus.FOUND)
     @ResponseBody
-    public void updateConfiguration(@RequestParam @NotEmpty String configurationName, @RequestParam @NotEmpty String value) {
+    public void updateConfiguration(@RequestParam String configurationName, @RequestParam String value) {
 
         Optional<ConfigurationEnum> configurationEnum = Stream.of(ConfigurationEnum.values()).filter(configuration ->
                 configuration.getConfigName().equals(configurationName)
