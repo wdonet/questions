@@ -1,5 +1,10 @@
 package com.nearsoft.questions.service.impl.auth;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.auth.Role;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.repository.UserRepository;
@@ -42,8 +47,20 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String email) {
         final User user = userRepository.findByEmail(email);
         user.setReputation(userRepository.getPointsForUserId(user.getId()));
-        user.setPermissions(ruleService.getUserPermissions(user.getReputation()));
+        user.setPermissions(buildUserPermissions(user));
         return user;
+    }
+
+    private List<RuleName> buildUserPermissions(User user) {
+        List<RuleName> userPermissions;
+        if (Role.ROLE_ADMIN == user.getRole()) {
+            userPermissions = new ArrayList<>();
+            Collections.addAll(userPermissions, RuleName.values());
+        }
+        else {
+            userPermissions = ruleService.getUserPermissions(user.getReputation());
+        }
+        return userPermissions;
     }
 
     @Override

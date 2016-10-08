@@ -4,6 +4,7 @@ import com.nearsoft.questions.controller.form.QuestionForm;
 import com.nearsoft.questions.domain.ItemStatus;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.RuleName;
+import com.nearsoft.questions.domain.auth.Role;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.OperationDeniedException;
@@ -15,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +70,35 @@ public class QuestionsController extends BaseController {
             return "redirect:/question/{id}";
         }
         return "redirect:/search";
+    }
+
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+    @Secured({"ROLE_ADMIN"})
+    public String deleteQuestion(@PathVariable("id") Long questionId, @AuthenticationPrincipal UserDetails details) {
+        User user = details.getUser();
+        if (user != null && Role.ROLE_ADMIN != user.getRole()) {
+            log.error("Impossible to delete Question " + questionId);
+            throw new OperationDeniedException();
+        }
+        log.debug("Trying to delete Question " + questionId);
+        answerService.safeDeleteAnswersOfQuestion(questionId);
+        questionService.safeDeleteQuestion(questionId);
+        return "redirect:/question/order/newest";
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @RequestMapping(value = "/{id}/answer/{answerId}/delete", method = RequestMethod.POST)
+    public String deleteAnswer(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId, RedirectAttributes redirectAttributes,
+        @AuthenticationPrincipal UserDetails details) {
+        User user = details.getUser();
+        if (user != null && Role.ROLE_ADMIN != user.getRole()) {
+            log.error("Impossible to delete Answer " + answerId);
+            throw new OperationDeniedException();
+        }
+        log.debug(String.format("Trying to delete Answer %d of Question %d", answerId, questionId));
+        answerService.safeDeleteAnswer(answerId);
+        redirectAttributes.addAttribute("id", questionId);
+        return "redirect:/question/{id}";
     }
 
     @RequestMapping(value = "/{id}/answer/{answerId}/voteDown", method = RequestMethod.POST)
@@ -186,6 +217,7 @@ public class QuestionsController extends BaseController {
         model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
         model.addAttribute("userId", user.getId());
+        model.addAttribute("isAdmin", Role.ROLE_ADMIN == user.getRole());
         model.addAttribute("userPermissions", user.getPermissions());
         model.addAttribute(question);
         model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));

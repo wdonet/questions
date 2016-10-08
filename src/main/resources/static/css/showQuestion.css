@@ -239,6 +239,7 @@ ul.suggestions-cont li:first-child {
 
 .edit-question-div{
     float: right;
+    padding-left: 10px;
 }
 
 .edit-btn{

@@ -86,4 +86,22 @@ public class RuleServiceImpl implements RuleService {
         return transaction;
     }
 
+    /**
+     * This should only be used when ADMIN is sure of all the consequences. Look at AnswerServiceImpl # safeDeleteAnswersOfQuestion().
+     * @param ids answer ids used to delete transactions
+     */
+    @Override
+    public void deleteTransactionsByAnswerIds(List<Long> ids) {
+        ruleAnswerTransactionRepository.deleteByAnswerIdIn(ids);
+    }
+
+    /**
+     * This should only be used when ADMIN is sure of all the consequences. Look at AnswerServiceImpl # safeDeleteAnswersOfQuestion().
+     * @param questionId question id used to delete transactions
+     */
+    @Override
+    public void deleteTransactionsByQuestionId(Long questionId) {
+        ruleQuestionTransactionRepository.deleteByQuestionIdIn(questionId);
+    }
+
 }

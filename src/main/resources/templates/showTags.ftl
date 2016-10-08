@@ -27,7 +27,8 @@
     <body>
     <#include "header.ftl">
         <div class="suggestion-wrapper">
-            <h1 class="unanswered-questions-title"><img src="/img/tag-icon.png"> Tags</h1>
+            <h1 class="tags-title1"><img src="/img/tag-icon.png"> Tags</h1>
+            <h2 class="tags-title2">Select tags from which you want to receive notifications.</h2>
             <div class="tags-cont">
                 <div>
                 <#list userTagList as userTag>

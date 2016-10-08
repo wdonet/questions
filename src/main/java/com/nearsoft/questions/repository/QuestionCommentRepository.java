@@ -6,4 +6,5 @@ import com.nearsoft.questions.domain.QuestionComment;
 
 public interface QuestionCommentRepository extends CrudRepository<QuestionComment, Long> {
 
+    void deleteByQuestionId(Long questionId);
 }

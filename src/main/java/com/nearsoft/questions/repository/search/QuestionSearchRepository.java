@@ -23,4 +23,5 @@ public interface QuestionSearchRepository extends ElasticsearchRepository<Questi
      */
     List<Question> findByTitleLike(String title);
 
+
 }

@@ -1,6 +1,7 @@
 .validation-cont,
 .validation-positive,
 .validation-negative,
+button.del-trash,
 button.val-pos,
 button.val-neg,
 a.val-pos,
@@ -14,12 +15,16 @@ a.val-neg,
     padding-right: 20px;
 }
 
+.del-trash,
 .validation-positive {
-    margin-right: 10px;
+    margin-left: 5px;
+    display: inline-block;
 }
 
+button.del-trash,
 button.val-pos,
 button.val-neg,
+a.del-trash,
 a.val-pos,
 a.val-neg {
     background-color: #2DD660;
@@ -27,6 +32,12 @@ a.val-neg {
     border-radius: 3px;
     color: #fff;
     padding: 7px 10px;
+}
+
+button.del-trash,
+a.del-trash {
+    background-color: #524d50;
+    padding-left: 10px;
 }
 
 button.val-neg,

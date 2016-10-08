@@ -18,4 +18,8 @@ public interface RuleService {
 
     RuleAnswerTransaction savePointsForAnswer(Answer answer, RuleName ruleName);
 
+    void deleteTransactionsByAnswerIds(List<Long> ids);
+
+    void deleteTransactionsByQuestionId(Long questionId);
+
 }

@@ -62,7 +62,7 @@
                 <label class="date-text">${(question.createdAt)!""}</label>
             </div>
 
-            <#if userId != question.user.id>
+            <#if userId != question.user.id || isAdmin>
                 <div class="validation-cont">
                     <#if userPermissions?seq_contains("VOTED_UP_QUESTION")>
                         <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">
@@ -70,14 +70,20 @@
                             <div class="votes">${question.votesUp}</div>
                         </form>
                     </#if>
-                    <#if userPermissions?seq_contains("EDIT_OTHER_QUESTIONS")>
+                    <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER")>
                         <form action="/question/${question.id?c}/voteDown" method="post" class="validation-negative">
                             <button class="val-neg fa fa-arrow-down" type="submit"></button>
                             <div class="votes">${question.votesDown}</div>
                         </form>
                     </#if>
-                <#if userPermissions?seq_contains("VOTED_DOWN_ANSWER") && isNotClosed>
+                <#if userPermissions?seq_contains("EDIT_OTHER_QUESTIONS") && isNotClosed>
                     <div class="edit-question-div"><button class="edit-btn" id="edit-question-btn" type="submit">Edit</button></div>
+                </#if>
+                <#if userPermissions?seq_contains("DELETE_QUESTION") && isNotClosed>
+                    <form action="/question/${question.id?c}/delete" method="post" class="del-trash"
+                            onsubmit="return confirm('Do you agree on deleting this Question ?');">
+                        <button class="del-trash fa fa-trash" type="submit"></button>
+                    </form>
                 </#if>
                 </div>
             </#if>
@@ -162,6 +168,12 @@
                     <button class="edit-btn answer" id="edit-answer-btn-${answer?counter}" value="${answer?counter}">Edit</button>
         </#if>
                 </div>
+                </#if>
+                <#if userPermissions?seq_contains("DELETE_ANSWER") && isNotClosed>
+                    <form action="/question/${question.id?c}/answer/${answer.id?c}/delete" method="post" class="del-trash"
+                            onsubmit="return confirm('Do you agree on deleting this Answer ?');">
+                        <button class="del-trash fa fa-trash" type="submit"></button>
+                    </form>
                 </#if>
             </div>
             <div class="answers" id="answer-description-div-${answer?counter}">${answer.description}</div>

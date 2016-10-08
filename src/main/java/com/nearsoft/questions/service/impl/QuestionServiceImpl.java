@@ -6,6 +6,7 @@ import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.RuleQuestionTransaction;
 import com.nearsoft.questions.domain.auth.User;
+import com.nearsoft.questions.repository.QuestionCommentRepository;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
 import com.nearsoft.questions.service.ConfigurationService;
@@ -42,6 +43,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     private RuleService ruleService;
 
+    private QuestionCommentRepository questionCommentRepository;
+
     private ConfigurationService configurationService;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -50,10 +53,11 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     public QuestionServiceImpl(QuestionRepository questionRepository, QuestionSearchRepository questionSearchRepository, RuleService ruleService,
-                               ConfigurationService configurationService, NotificationService notificationService) {
+        QuestionCommentRepository questionCommentRepository, ConfigurationService configurationService, NotificationService notificationService) {
         this.questionRepository = questionRepository;
         this.questionSearchRepository = questionSearchRepository;
         this.ruleService = ruleService;
+        this.questionCommentRepository = questionCommentRepository;
         this.configurationService = configurationService;
         this.notificationService = notificationService;
     }
@@ -146,6 +150,25 @@ public class QuestionServiceImpl implements QuestionService {
         questionSearchRepository.save(question);
         log.info("Question updated: {}" + question);
 
+    }
+
+    /**
+     * This should only be used when ADMIN is sure of all the consequences. Elements to be deleted are:
+     *  1. Rule Question Transactions (reputation related)
+     *  2. Comments for Question
+     *  3. Question in Elastic Repository
+     *  4. Question in DB Repository
+     *  Please keep this updated in the order the elements are deleted
+     * @param questionId identifier of the question
+     */
+    @Transactional
+    @Override
+    public void safeDeleteQuestion(Long questionId) {
+        ruleService.deleteTransactionsByQuestionId(questionId);
+        questionCommentRepository.deleteByQuestionId(questionId);
+        questionSearchRepository.delete(questionId);
+        questionRepository.deleteTagRelations(questionId);
+        questionRepository.delete(questionId);
     }
 
     private void addUserToNewTags(Question question) {

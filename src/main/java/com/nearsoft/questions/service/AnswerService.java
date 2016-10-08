@@ -20,4 +20,8 @@ public interface AnswerService {
     Answer get(final Long id);
 
     List<Answer> findByUser(User user);
+
+    void safeDeleteAnswersOfQuestion(Long questionId);
+
+    void safeDeleteAnswer(Long answerId);
 }

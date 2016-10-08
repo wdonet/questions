@@ -20,12 +20,20 @@ span.tags a:hover {
     margin-top: 15px;
 }
 
-.unanswered-questions-title {
-    font-size: 25px;
+.tags-title1,
+.tags-title2 {
     color: #595B67;
-    font-weight: 700;
     background-color: #fff;
     padding: 20px;
+}
+.tags-title1 {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.tags-title2 {
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .tag-icon {

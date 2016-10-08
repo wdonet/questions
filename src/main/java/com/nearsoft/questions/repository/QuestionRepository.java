@@ -3,10 +3,12 @@ package com.nearsoft.questions.repository;
 import com.nearsoft.questions.domain.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,4 +38,8 @@ public interface QuestionRepository extends PagingAndSortingRepository<Question,
     @RestResource(exported = false)
     void delete(Question entity);
 
+    @Modifying
+    @Transactional(readOnly = false)
+    @Query(value = "DELETE FROM question_tags WHERE question_id = ?1",  nativeQuery = true)
+    void deleteTagRelations(Long questionId);
 }

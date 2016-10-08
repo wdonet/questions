@@ -8,6 +8,7 @@ import com.nearsoft.questions.domain.RuleName;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.error.AnswerNotFoundException;
 import com.nearsoft.questions.error.OperationDeniedException;
+import com.nearsoft.questions.repository.AnswerCommentRepository;
 import com.nearsoft.questions.repository.AnswerRepository;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.NotificationDelivererService;
@@ -22,7 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +37,16 @@ public class AnswerServiceImpl implements AnswerService {
 
     private AnswerRepository answerRepository;
 
+    private AnswerCommentRepository answerCommentRepository;
+
     private RuleService ruleService;
 
     private NotificationService notificationService;
 
     @Autowired
-    public AnswerServiceImpl(AnswerRepository answerRepository, RuleService ruleService, NotificationService notificationService) {
+    public AnswerServiceImpl(AnswerRepository answerRepository, AnswerCommentRepository answerCommentRepository, RuleService ruleService, NotificationService notificationService) {
         this.answerRepository = answerRepository;
+        this.answerCommentRepository = answerCommentRepository;
         this.ruleService = ruleService;
         this.notificationService = notificationService;
     }
@@ -121,6 +127,40 @@ public class AnswerServiceImpl implements AnswerService {
 
     public List<Answer> findByUser(User user) {
         return answerRepository.findByUser(user);
+    }
+
+    /**
+     * This should only be used when ADMIN is sure of all the consequences. Elements to be deleted are:
+     *  1. Rule Answer Transactions (reputation related)
+     *  2. Comments on each Answer of the question
+     *  3. All answers for the specified question
+     *  Please keep this updated in the order the elements are deleted
+     * @param questionId identifier of the question
+     */
+    @Transactional
+    @Override
+    public void safeDeleteAnswersOfQuestion(Long questionId) {
+        List<Long> ids = answerRepository.getAnswerIdsByQuestionId(questionId);
+        ruleService.deleteTransactionsByAnswerIds(ids);
+        answerCommentRepository.deleteByAnswerIdIn(ids);
+        answerRepository.deleteByIdIn(ids);
+    }
+
+    /**
+     * This should only be used when ADMIN is sure of all the consequences. Elements to be deleted are:
+     *  1. Rule Answer Transactions (reputation related)
+     *  2. Comments for Answer
+     *  3. Answer
+     *  Please keep this updated in the order the elements are deleted
+     * @param answerId identifier of the answer
+     */
+    @Transactional
+    @Override
+    public void safeDeleteAnswer(Long answerId) {
+        List<Long> ids = Collections.singletonList(answerId);
+        ruleService.deleteTransactionsByAnswerIds(ids);
+        answerCommentRepository.deleteByAnswerIdIn(ids);
+        answerRepository.delete(answerId);
     }
 
     private void savePointsForAnswer(Answer answer, RuleName ruleName) {

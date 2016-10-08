@@ -27,4 +27,5 @@ public interface QuestionService {
 
     void update(Question question);
 
+    void safeDeleteQuestion(Long questionId);
 }

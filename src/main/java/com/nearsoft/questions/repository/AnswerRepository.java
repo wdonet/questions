@@ -3,6 +3,7 @@ package com.nearsoft.questions.repository;
 import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.auth.User;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,8 @@ public interface AnswerRepository extends CrudRepository<Answer, Long> {
     @RestResource(exported = false)
     List<Answer> findByUser(User user);
 
+    void deleteByIdIn(List<Long> ids);
+
+    @Query("select a.id from Answer a where a.question.id = ?1")
+    List<Long> getAnswerIdsByQuestionId(Long questionId);
 }
