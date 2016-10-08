@@ -19,7 +19,11 @@
                 <li>
                     <div class="notifications-icon"><i class="fa fa-bell"></i></div>
                 </li>
-                <li><a class="config-icon" href="/admin/index"><i class="fa fa-cog"></i></a></li>
+            <#if user.isAdmin()>
+                <li>
+                    <a href="/admin"><i class="config-icon fa fa-cog"></i></a>
+                </li>
+            </#if>
                 <li><a href="/profile" class="user-info">${(user.fullName)!""}</a></li>
             </ul>
         </nav>

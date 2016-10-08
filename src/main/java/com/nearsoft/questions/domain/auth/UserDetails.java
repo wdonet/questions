@@ -36,6 +36,10 @@ public class UserDetails extends SocialUser {
         return role;
     }
 
+    public boolean isAdmin() {
+        return Role.ROLE_ADMIN == getRole();
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }

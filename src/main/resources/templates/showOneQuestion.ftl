@@ -62,7 +62,7 @@
                 <label class="date-text">${(question.createdAt)!""}</label>
             </div>
 
-            <#if userId != question.user.id || isAdmin>
+            <#if userId != question.user.id || user.isAdmin()>
                 <div class="validation-cont">
                     <#if userPermissions?seq_contains("VOTED_UP_QUESTION")>
                         <form action="/question/${question.id?c}/voteUp" method="post" class="validation-positive">

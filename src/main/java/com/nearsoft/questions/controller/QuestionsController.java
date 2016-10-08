@@ -217,7 +217,6 @@ public class QuestionsController extends BaseController {
         model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
         model.addAttribute("isAlreadyAccepted", question.getStatus() == ItemStatus.ACCEPTED);
         model.addAttribute("userId", user.getId());
-        model.addAttribute("isAdmin", Role.ROLE_ADMIN == user.getRole());
         model.addAttribute("userPermissions", user.getPermissions());
         model.addAttribute(question);
         model.addAttribute(ONLY_ONE_ANSWER, configurationService.getBoolean("show_only_one_answer", false));

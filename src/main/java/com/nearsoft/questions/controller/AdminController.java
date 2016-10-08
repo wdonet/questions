@@ -32,7 +32,7 @@ public class AdminController {
     ConfigurationService configurationService;
 
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
 
         model.addAttribute("indexPage", configurationService.getString(ConfigurationEnum.INDEX_PAGE.getConfigName()));
@@ -48,14 +48,14 @@ public class AdminController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/admin/index";
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateProperties(@RequestParam @NotEmpty String indexPage, @RequestParam @NotEmpty String indexHeader) {
         configurationService.updateConfiguration(ConfigurationEnum.INDEX_PAGE, indexPage);
         configurationService.updateConfiguration(ConfigurationEnum.INDEX_HEADER, indexHeader);
-        return "redirect:/admin/index";
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "/updateConfiguration", method = RequestMethod.GET)
