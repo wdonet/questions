@@ -4,7 +4,7 @@ body {
 }
 
 body {
-    background-color:#fff;
+    background-color: #fff;
     font-family: 'PT Sans', sans-serif;
 }
 
@@ -75,7 +75,13 @@ header,
 .profile-profile-photo {
     border-radius: 100%;
     vertical-align: middle;
-    height: 75px;
+    height: 15px;
+    margin: 0px 37px;
+}
+
+.logo-config {
+    vertical-align: middle;
+    height: 45px;
     margin: 0px 20px;
 }
 
@@ -106,6 +112,10 @@ li,
 a.user-info,
 .notifications-icon {
     color: #fff;
+}
+
+.config-icon {
+    color: white;
 }
 
 #go_signin {
@@ -269,7 +279,7 @@ a.notifications-icon:after,
     color: #4F5D73;
 }
 
-.search-container{
+.search-container {
     font-size: 17px;
     display: block;
     margin: 30px auto 0;

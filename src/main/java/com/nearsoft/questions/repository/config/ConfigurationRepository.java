@@ -1,12 +1,13 @@
 package com.nearsoft.questions.repository.config;
 
 import com.nearsoft.questions.domain.config.Configuration;
-import org.springframework.data.repository.CrudRepository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConfigurationRepository extends CrudRepository<Configuration, Long>{
+public interface ConfigurationRepository extends JpaRepository<Configuration, Long> {
 
     Configuration findByName(String name);
 

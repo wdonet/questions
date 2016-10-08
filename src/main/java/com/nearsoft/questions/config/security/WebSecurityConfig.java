@@ -1,5 +1,8 @@
 package com.nearsoft.questions.config.security;
 
+import com.nearsoft.questions.service.ConfigurationService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -17,6 +20,9 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    ConfigurationService configurationService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -47,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SpringSocialConfigurer getSpringSocialConfigurer() throws Exception {
         SpringSocialConfigurer configurer = new SpringSocialConfigurer();
         configurer.signupUrl("/");
-        configurer.postLoginUrl("/question/order/unanswered");
+        configurer.postLoginUrl("/customizedHome");
         return configurer;
     }
 

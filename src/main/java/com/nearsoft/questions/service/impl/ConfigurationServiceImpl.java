@@ -1,11 +1,16 @@
 package com.nearsoft.questions.service.impl;
 
 import com.nearsoft.questions.domain.config.Configuration;
+import com.nearsoft.questions.domain.config.ConfigurationEnum;
 import com.nearsoft.questions.repository.config.ConfigurationRepository;
 import com.nearsoft.questions.service.ConfigurationService;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ConfigurationServiceImpl implements ConfigurationService {
@@ -72,5 +77,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             return defaultValue;
         }
         return BooleanUtils.toBoolean(config.getValue());
+    }
+
+    @Override
+    @Transactional
+    public void updateConfiguration(ConfigurationEnum configurationEnum, String newValue) {
+        Configuration configuration = configurationRepository.findByName(configurationEnum.getConfigName());
+        configuration.setValue(newValue);
+        configurationRepository.save(configuration);
+    }
+
+    @Override
+    public List<Configuration> findAll() {
+        return configurationRepository.findAll();
     }
 }
