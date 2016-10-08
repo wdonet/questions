@@ -17,7 +17,7 @@
 <#else>
     <#include "header.ftl">
 </#if>
-    <h1 class="title public">All the <span>wisdom</span> of your project <span>onboarding</span> in one place</h1>
+    <h1 class="title public">${headerText}</h1>
     <section class="section-how">
         <div class="how-it-works">
             <h2 class="how-title">How It Works</h2>
