@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RepositoryRestController
+@RequestMapping("/api/tag/")
 public class TagApiController {
 
     private QuestionRepository questionRepository;

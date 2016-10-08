@@ -1,6 +1,5 @@
 package com.nearsoft.questions.controller.api;
 
-import com.nearsoft.questions.domain.Answer;
 import com.nearsoft.questions.domain.Question;
 import com.nearsoft.questions.repository.QuestionRepository;
 import com.nearsoft.questions.repository.search.QuestionSearchRepository;
@@ -28,7 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RepositoryRestController
-@RequestMapping("/api/questions/")
+@RequestMapping("/api/question/")
 public class QuestionApiController {
     private final ConfigurationService configurationService;
     private final PagedResourcesAssembler<Question> assembler;
@@ -97,10 +96,5 @@ public class QuestionApiController {
             questions = questions.subList(0, maxNumberOfSuggestions);
         }
         return questions;
-    }
-
-    @RequestMapping(value ="/dummy", method = RequestMethod.GET)
-    public @ResponseBody Answer dummy(){
-        return new Answer();
     }
 }
