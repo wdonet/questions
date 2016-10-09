@@ -19,7 +19,7 @@
                 <li>
                     <div class="notifications-icon"><i class="fa fa-bell"></i></div>
                 </li>
-            <#if user.isAdmin()>
+            <#if (user?has_content && user.isAdmin())>
                 <li>
                     <a href="/admin"><i class="config-icon fa fa-cog"></i></a>
                 </li>

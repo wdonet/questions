@@ -8,6 +8,7 @@ import com.nearsoft.questions.domain.auth.Role;
 import com.nearsoft.questions.domain.auth.User;
 import com.nearsoft.questions.domain.auth.UserDetails;
 import com.nearsoft.questions.error.OperationDeniedException;
+import com.nearsoft.questions.error.QuestionNotFoundException;
 import com.nearsoft.questions.service.AnswerService;
 import com.nearsoft.questions.service.QuestionService;
 import com.nearsoft.questions.service.RuleService;
@@ -212,6 +213,9 @@ public class QuestionsController extends BaseController {
         log.info("question with id " + id);
 
         Question question = questionService.get(id);
+        if (question == null) {
+            throw new QuestionNotFoundException(id);
+        }
         User user = getUser(details);
         model.addAttribute("isQuestionOwner", user.getId().equals(question.getUser().getId()));
         model.addAttribute("isNotClosed", question.getStatus() != ItemStatus.CLOSED);
