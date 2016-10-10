@@ -31,19 +31,21 @@
             <h2 class="tags-title2">Select tags from which you want to receive notifications.</h2>
             <div class="tags-cont">
                 <div>
-                <#list userTagList as userTag>
-                    <span class="tags">
-                    <#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
-                        <input class="tag-checkbox" value="${userTag.tag.id}" type="checkbox"
-                         <#if userTag.subscribed>checked</#if>>
-                    </#if>
-                         <a href="/question/tag/${userTag.tag.id}">
-                         ${userTag.tag.name}</a>
+                <#if userTagList?has_content>
+                    <#list userTagList as userTag>
+                        <span class="tags">
+                            <#if userPermissions?seq_contains("TAG_SUBSCRIPTION")>
+                                <input class="tag-checkbox" value="${userTag.tag.id}" type="checkbox"
+                                    <#if userTag.subscribed>checked</#if>>
+                            </#if>
+                            <a href="/question/tag/${userTag.tag.id}">
+                            ${userTag.tag.name}</a>
 
-                    </span>
+                        </span>
+                    </#list>
                 <#else>
                     <span class="tags">No tags</span>
-                </#list>
+                </#if>
                 </div>
             </div>
         </div>
