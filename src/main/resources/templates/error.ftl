@@ -28,6 +28,7 @@
             <p>${(stackTrace)!''}</p>
         </div>
         <br/><a href="/search">Go Home</a>
+        <#include "footer.ftl">
         <script src="/js/header.js"></script>
     </body>
 

@@ -318,3 +318,22 @@ h1.title.public span {
 .unanswered .unlinked {
     color: white;
 }
+
+footer{
+    background-color:#595b67;
+    height:1em;
+    padding-top:0.2em;
+    padding-bottom:0.5em;
+    text-align:center;
+    color:white;
+    position:fixed;
+    bottom:0;
+    width: 100%;
+    z-index:1000;
+    font-size: 0.8em;
+}
+
+footer i{
+    color:white;
+    padding-right:1em;
+}

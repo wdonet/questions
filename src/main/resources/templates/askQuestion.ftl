@@ -40,6 +40,7 @@
         <input class="submit-ask" type="submit" value="Submit">
     </form>
 </section>
+<#include "footer.ftl">
 <script src="/js/header.js"></script>
 </body>
 

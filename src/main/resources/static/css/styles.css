@@ -1170,11 +1170,39 @@ a.val-neg {
 }
 
 #user-activity .list {
-    margin-top: 0.5em;
-    border: solid black 1px;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    min-height: 5em;
+}
+
+
+section#question,section#answers{
+    border:1px solid #595b67;
     -webkit-border-radius: 0.5em;
     -moz-border-radius: 0.5em;
     border-radius: 0.5em;
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    min-height: 5em;
+
+}
+
+.profile-section-title{
+    padding:0.4em 1em;
+    background-color:#e4e4e4;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+.profile-picture img{
+    width:4em;
+    height:4em;
+}
+
+#user-activity .list a{
+    color:black;
+}
+
+#user-activity .list a:visited{
+    color:black;
+}
+
+#user-activity .list a:link{
+    color:black;
 }

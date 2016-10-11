@@ -50,5 +50,6 @@
             </div>
         </div>
     <script src="/js/header.js"></script>
+    <#include "footer.ftl">
     </body>
 </html>

@@ -37,6 +37,7 @@
         <p class="nuuk-tip to-hide-when-searching">Quick Tip On How to Search: ( Ex.-  Cómo hacer una declaración de impuestos? ).</p>
     </div>
     <#include "suggestions.ftl">
+    <#include "footer.ftl">
 </body>
 
 
