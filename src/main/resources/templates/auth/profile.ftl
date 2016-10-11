@@ -67,7 +67,7 @@
     <div id="user-activity">
 
         <section id="question">
-            <div><@spring.message "auth.profile.myquestions"/></div>
+            <div class="profile-section-title"><@spring.message "auth.profile.myquestions"/></div>
             <div class="list">
             <#list questions as question>
                 <div class="question-item">
@@ -79,7 +79,7 @@
             </div>
         </section>
         <section id="answers">
-            <div><@spring.message "auth.profile.myanswers"/></div>
+            <div class="profile-section-title"><@spring.message "auth.profile.myanswers"/></div>
             <div class="list">
             <#list answers as answer>
                 <div class="answer-item">
@@ -92,6 +92,7 @@
         </section>
     </div>
 </div>
+<#include "../footer.ftl">
 <script src="/js/header.js"></script>
 <script src="/js/profile.js"></script>
 </body>

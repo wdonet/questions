@@ -221,7 +221,9 @@
         </form>
     </#if>
     </div>
+</div>
 <#include "suggestions.ftl">
+<#include "footer.ftl">
     <script src="/js/header.js"></script>
 </body>
 

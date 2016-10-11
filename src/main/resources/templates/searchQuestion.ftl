@@ -32,6 +32,8 @@
             <ul class="suggestions-cont">
             </ul>
         </div>
+    <#include "footer.ftl">
         <script src="/js/header.js"></script>
+
     </body>
 </html>

@@ -112,6 +112,7 @@
     </#if>
     </div>
 </div>
+<#include "footer.ftl">
 <script src="/js/header.js"></script>
 </body>
 </html>
